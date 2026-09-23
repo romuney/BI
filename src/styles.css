@@ -165,11 +165,11 @@ b { font-weight: 700; }
 
 /* ---------- 4 · карта ---------- */
 .map { display: grid; gap: 14px; margin-top: 26px; width: 1090px; }
-.lvl { --c: var(--l1); display: grid; grid-template-columns: 210px 1fr; gap: 18px; align-items: stretch; padding: 14px 16px; border-radius: 22px; border: 1px solid var(--line); background: rgba(255, 255, 255, .025); cursor: pointer; transition: background .5s, border-color .5s, opacity .5s, transform .6s var(--ease), box-shadow .5s; }
+.lvl { --c: var(--l1); display: grid; grid-template-columns: 236px 1fr; gap: 16px; align-items: stretch; padding: 14px 16px; border-radius: 22px; border: 1px solid var(--line); background: rgba(255, 255, 255, .025); cursor: pointer; transition: background .5s, border-color .5s, opacity .5s, transform .6s var(--ease), box-shadow .5s; }
 .lvl[data-lv="2"] { --c: var(--l2); } .lvl[data-lv="3"] { --c: var(--l3); } .lvl[data-lv="4"] { --c: var(--l4); }
 .lvl-h { display: flex; flex-direction: column; justify-content: center; padding-left: 16px; border-left: 4px solid var(--c); }
 .lvl-n { font: 700 16px var(--fm); color: var(--c); letter-spacing: .15em; }
-.lvl-t { font: 600 25px/1.15 var(--fd); margin-top: 4px; }
+.lvl-t { font: 600 21px/1.15 var(--fd); margin-top: 4px; }
 .lvl-h small { font-size: 15px; color: var(--mute); margin-top: 6px; }
 .tools { display: flex; gap: 12px; }
 .tool { flex: 1; min-width: 0; padding: 12px 16px; border-radius: 16px; background: rgba(255, 255, 255, .04); display: flex; flex-direction: column; gap: 5px; }
@@ -181,7 +181,7 @@ b { font-weight: 700; }
 .st-build { color: var(--l4); } .st-our { color: var(--l3); }
 .map.focus .lvl { opacity: .28; transform: scale(.985); }
 .map.focus .lvl.hl { opacity: 1; transform: scale(1.012) translateX(10px); border-color: color-mix(in srgb, var(--c) 60%, transparent); background: color-mix(in srgb, var(--c) 9%, transparent); box-shadow: 0 0 60px -12px color-mix(in srgb, var(--c) 50%, transparent); }
-.map-foot { position: absolute; right: 120px; bottom: 112px; font: 500 17px var(--fm); color: var(--mute); letter-spacing: .08em; }
+.map-foot { position: absolute; right: 120px; bottom: 62px; font: 500 17px var(--fm); color: var(--mute); letter-spacing: .08em; }
 .map-foot::before { content: '📌 '; }
 
 /* ---------- разделители ---------- */
@@ -546,3 +546,43 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .pr-list li.skip { opacity: .35; }
 .slide.leaving .r { opacity: 1; }
 #s9 .honest { position: absolute; left: 120px; right: 120px; bottom: 110px; max-width: none; }
+
+/* ---------- правки v2 ---------- */
+.lab-sub { display: block; margin-top: 8px; font: 15px/1.5 var(--fm); color: var(--mute); }
+.lead-sm { font-size: 25px; max-width: 1500px; margin-top: 14px; }
+.ctx { display: grid; grid-template-columns: 500px 640px 1fr; align-items: center; margin-top: 30px; height: 336px; }
+.ctx-src { display: grid; gap: 12px; }
+.src-i { display: flex; gap: 16px; align-items: center; height: 72px; padding: 0 20px; border-radius: 18px; background: rgba(255, 255, 255, .045); border: 1px solid var(--line); }
+.src-i > span { font-size: 28px; }
+.src-i b { display: block; font: 600 21px var(--fd); }
+.src-i small { font-size: 16px; color: var(--mute); }
+.ctx-flow { width: 640px; height: 336px; overflow: visible; }
+.ctx-flow path { fill: none; stroke: url(#cfg); stroke-width: 2.5; stroke-dasharray: 8 8; animation: dash 1.2s linear infinite; }
+.ctx-flow circle { fill: #c4b5fd; filter: drop-shadow(0 0 8px #a78bfa); }
+@keyframes dash { to { stroke-dashoffset: -32; } }
+.ctx-agent { position: relative; padding: 34px 30px; border-radius: 26px; text-align: center; background: color-mix(in srgb, var(--l2) 14%, rgba(8, 8, 24, .7)); border: 1px solid color-mix(in srgb, var(--l2) 60%, transparent); box-shadow: 0 0 80px -10px color-mix(in srgb, var(--l2) 70%, transparent); }
+.ctx-agent b { display: block; font: 700 28px var(--fd); }
+.ctx-agent small { display: block; margin-top: 10px; font-size: 18px; color: var(--ink2); }
+.ctx-note { display: block; margin-top: 14px; font: 600 14px var(--fm); letter-spacing: .12em; text-transform: uppercase; color: var(--l4); background: none; -webkit-text-fill-color: currentColor; }
+.ctx-pulse { position: absolute; inset: -2px; border-radius: inherit; border: 2px solid var(--l2); animation: pulseRing 2.2s ease-out infinite; pointer-events: none; }
+@keyframes pulseRing { from { opacity: .8; transform: scale(1); } to { opacity: 0; transform: scale(1.12); } }
+.ex { position: absolute; left: 120px; right: 120px; bottom: 90px; display: grid; grid-template-columns: 1fr 1.6fr; gap: 24px; }
+.ex .prompt { padding: 20px 26px; }
+.ex pre.mono { font-size: 18px; line-height: 1.65; }
+.pw { display: grid; grid-template-columns: 560px 1fr; gap: 30px; margin-top: 36px; }
+.pw-k { font: 700 15px var(--fm); text-transform: uppercase; letter-spacing: .15em; color: var(--lc); margin-bottom: 4px; display: flex; align-items: center; gap: 14px; }
+.pw-tag { padding: 4px 10px; border-radius: 99px; border: 1px solid var(--l4); color: var(--l4); font-size: 12px; letter-spacing: .1em; }
+.pw-road { padding: 26px 30px; border-radius: 26px; background: rgba(255, 255, 255, .035); border: 1px solid var(--line); display: grid; gap: 18px; align-content: start; }
+.pflow { display: flex; align-items: stretch; gap: 12px; }
+.pflow > i { align-self: center; font-style: normal; font-size: 28px; color: var(--lc); }
+.pf { flex: 1; display: flex; flex-direction: column; gap: 6px; padding: 18px; border-radius: 18px; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); }
+.pf b { font: 600 20px/1.2 var(--fd); margin-top: 6px; }
+.pf small { font-size: 16px; color: var(--mute); line-height: 1.35; }
+.pf .num { width: 36px; height: 36px; font-size: 16px; border-radius: 10px; }
+.pf-hot { border-color: color-mix(in srgb, var(--lc) 60%, transparent); background: color-mix(in srgb, var(--lc) 12%, transparent); box-shadow: 0 0 50px -14px var(--lc); }
+.pw-src { font: 14px var(--fm); color: var(--dim); }
+#s8 .q { margin-top: 26px; }
+.byok-call { padding: 20px 24px; border-radius: 20px; font-size: 21px; line-height: 1.4; color: var(--ink2); background: color-mix(in srgb, var(--l3) 11%, transparent); border: 1px solid color-mix(in srgb, var(--l3) 50%, transparent); }
+.byok-call b { color: var(--ink); }
+.byok-call .chips { margin-top: 12px; }
+.byok-call .chips span { font-size: 15px; padding: 6px 12px; }

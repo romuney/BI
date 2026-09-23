@@ -53,6 +53,7 @@ layout(location=5) in vec3 aRnd;
 uniform mat4 uP, uV, uM;
 uniform float uT, uSpan, uTime, uTurb, uKick, uSize, uScale, uBright;
 uniform vec3 uMouse;
+uniform vec4 uLens; // x, y, радиус, сила — автономная «лупа»
 out vec3 vC; out float vA;
 float ease(float t){ return t<.5 ? 4.*t*t*t : 1.-pow(-2.*t+2.,3.)*.5; }
 vec3 flow(vec3 p, float t){
@@ -67,17 +68,24 @@ void main(){
   float bump = sin(3.14159265*lt);
   vec3 f = flow(p*.55, uTime*.6);
   p += f*(bump*uTurb*(.6+aRnd.x*1.3) + uKick*(.25+aRnd.y));
-  p += .022*vec3(sin(uTime*.9+aRnd.x*40.), sin(uTime*.8+aRnd.y*40.), sin(uTime*.7+aRnd.z*40.));
+  p += .035*vec3(sin(uTime*.9+aRnd.x*40.), sin(uTime*.8+aRnd.y*40.), sin(uTime*.7+aRnd.z*40.));
   vec4 w = uM*vec4(p,1.);
   vec2 d = w.xy - uMouse.xy; float dl = length(d);
   float m = uMouse.z * smoothstep(1.5, 0., dl);
   w.xy += (d/(dl+1e-4))*m*.85; w.z += m*.9;
+  // лупа: плавно ездит по рисунку и увеличивает частицы под собой
+  vec2 dq = w.xy - uLens.xy; float lf = uLens.w * smoothstep(uLens.z, 0., length(dq));
+  w.xy += dq*lf*.5; w.z += lf*1.2;
+  // бегущая световая волна по всей сцене
+  float wv = sin(w.x*.55 + w.y*.3 - uTime*1.2);
+  float band = smoothstep(.6, 1., wv);
+  w.z += wv*.06;
   vec4 v = uV*w;
   gl_Position = uP*v;
-  float sz = uSize*(.5+aRnd.z)*(1.+bump*.7);
+  float sz = uSize*(.5+aRnd.z)*(1.+bump*.7)*(1.+lf*1.7+band*.25);
   gl_PointSize = clamp(sz*uScale/(-v.z), 1., 64.);
   float tw = .72+.28*sin(uTime*(1.4+aRnd.y*2.2)+aRnd.x*50.);
-  vC = mix(aCF, aCT, e)*(1.+bump*.9+m*1.6);
+  vC = mix(aCF, aCT, e)*(1.+bump*.9+m*1.6+lf*1.4+band*.45);
   vA = uBright*tw;
 }`;
   const FS = `#version 300 es
@@ -102,6 +110,7 @@ void main(){
   const tgt = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0 };
   let spin = 0, sway = 0, baseRy = 0;
   const mouse = { x: 0, y: 0, str: 0, on: false };
+  const lens = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0, str: 0, next: 0 };
   const cam = { ax: 0, ay: 0, tx: 0, ty: 0 };
   let running = false;
 
@@ -130,7 +139,7 @@ void main(){
       gl.linkProgram(prog);
       if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     } catch (e) { console.warn('[PX] shader error', e); return false; }
-    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse']
+    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse', 'uLens']
       .forEach(n => U[n] = gl.getUniformLocation(prog, n));
 
     // стартовое облако: широкая сфера
@@ -214,7 +223,7 @@ void main(){
     gl.bindBuffer(gl.ARRAY_BUFFER, bufs.cf); gl.bufferData(gl.ARRAY_BUFFER, cfrom, gl.DYNAMIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, bufs.ct); gl.bufferData(gl.ARRAY_BUFFER, cto, gl.DYNAMIC_DRAW);
     gl.bindBuffer(gl.ARRAY_BUFFER, bufs.d); gl.bufferData(gl.ARRAY_BUFFER, delay, gl.DYNAMIC_DRAW);
-    T = 0; dur = o.dur ?? 2.4; turb = o.turb ?? 1;
+    T = 0; dur = o.dur ?? 2.4; turb = o.turb ?? 1; lens.next = 0;
   }
 
   const DEF = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0, spin: 0, sway: 0 };
@@ -237,6 +246,27 @@ void main(){
   function setMouse(sx, sy, on) {
     mouse.x = (sx - STAGE_W / 2) * WPP; mouse.y = -(sy - STAGE_H / 2) * WPP; mouse.on = on;
     cam.tx = (sx / STAGE_W - .5); cam.ty = (sy / STAGE_H - .5);
+  }
+
+  /* лупа выбирает случайную яркую точку текущей фигуры и плавно едет к ней (пружина) */
+  function pickLens(m) {
+    for (let t = 0; t < 80; t++) {
+      const i = (Math.random() * N) | 0;
+      if (cto[i * 3] + cto[i * 3 + 1] + cto[i * 3 + 2] < .9) continue;
+      const p = M.apply(m, [to[i * 3], to[i * 3 + 1], to[i * 3 + 2]]);
+      if (Math.abs(p[0]) > 6.8 || Math.abs(p[1]) > 3.7) continue;
+      if (t < 60 && Math.hypot(p[0] - lens.x, p[1] - lens.y) < 1.4) continue;
+      lens.tx = p[0]; lens.ty = p[1]; return;
+    }
+  }
+  function updateLens(m, dt) {
+    lens.next -= dt;
+    if (lens.next <= 0 || Math.hypot(lens.tx - lens.x, lens.ty - lens.y) < .12) { pickLens(m); lens.next = 3 + Math.random() * 2; }
+    const k = 2.6, c = 2 * Math.sqrt(k) * .9;
+    lens.vx += ((lens.tx - lens.x) * k - lens.vx * c) * dt; lens.vy += ((lens.ty - lens.y) * k - lens.vy * c) * dt;
+    lens.x += lens.vx * dt; lens.y += lens.vy * dt;
+    const want = (mouse.on ? 0 : 1) * (T >= 1 ? 1 : 0) * Math.min(1, Math.max(.25, (brightTgt - .2) / .6));
+    lens.str += (want - lens.str) * (1 - Math.pow(.2, dt));
   }
 
   function loop(now) {
@@ -266,7 +296,7 @@ void main(){
     // звёзды
     gl.uniformMatrix4fv(U.uM, false, M.rotY(time * .01));
     gl.uniform1f(U.uT, 1); gl.uniform1f(U.uTurb, 0); gl.uniform1f(U.uKick, 0);
-    gl.uniform1f(U.uSize, .09); gl.uniform1f(U.uBright, .8); gl.uniform3f(U.uMouse, 0, 0, 0);
+    gl.uniform1f(U.uSize, .09); gl.uniform1f(U.uBright, .8); gl.uniform3f(U.uMouse, 0, 0, 0); gl.uniform4f(U.uLens, 0, 0, 1, 0);
     gl.bindVertexArray(vaoStars); gl.drawArrays(gl.POINTS, 0, STARS);
 
     // главная система
@@ -276,6 +306,8 @@ void main(){
     gl.uniform1f(U.uT, T); gl.uniform1f(U.uTurb, turb); gl.uniform1f(U.uKick, kickV);
     gl.uniform1f(U.uSize, .052); gl.uniform1f(U.uBright, brightCur);
     gl.uniform3f(U.uMouse, mouse.x, mouse.y, mouse.str);
+    updateLens(m, dt);
+    gl.uniform4f(U.uLens, lens.x, lens.y, 1.05, lens.str);
     gl.bindVertexArray(vaoMain); gl.drawArrays(gl.POINTS, 0, N);
   }
 

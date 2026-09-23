@@ -5,7 +5,7 @@
 /* ───────────── НАСТРОЙКИ — поменяйте под себя ───────────── */
 const CONFIG = {
   speaker: 'Имя Фамилия',                 // [СОБРАТЬ]
-  role: 'Амбассадор AI в BI',
+  role: 'Стрим «AI в BI»',
   team: 'Команда · подразделение',        // [СОБРАТЬ]
   date: 'дата митапа',                    // [СОБРАТЬ]
   contact: 'ник в Time',                  // [СОБРАТЬ]
@@ -25,22 +25,22 @@ const CONFIG = {
 /* ───────────── сцены частиц для каждого слайда ───────────── */
 const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'y' };
 const SCENES = {
-  s1: { shape: 'title', place: { y: 1.1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
+  s1: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
   s2: { shape: 'bridge', place: { y: .4 } },
   s3: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  s4: { shape: ['ladder:-1', 'ladder:3', 'ladder:2', 'ladder:1', 'ladder:0', 'ladder:-1'],
+  s4: { shape: ['ladder:-1', 'ladder:0', 'ladder:1', 'ladder:2', 'ladder:3', 'ladder:-1'],
         place: { x: 4.75, y: -.3, s: .86, rx: .3, ry: -.6, sway: .06 }, morph: [{ dur: 2.6 }, COLOR_ONLY] },
   s5: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   s6: { shape: 'wave', place: { y: -3.1, rx: .42 }, bright: .5 },
   s7: { shape: 'galaxy', place: { y: -.3, rx: 1.05, s: 1.15, spin: .04 }, bright: .45 },
-  s8: { shape: 'bars', place: { x: 4.75, y: -.2, s: .8, rx: .32, ry: -.55, sway: .1 }, bright: .9 },
+  s8: { shape: 'bars', place: { x: 5.9, y: -2.3, s: .5, rx: .32, ry: -.55, sway: .1 }, bright: .6 },
   s9: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
   s10: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   s11: { shape: ['ring', 'tube'], place: { y: -.25 }, bright: [.3, .95, .75] },
   s12: { shape: 'trio', place: { y: 1.15, s: .92 } },
-  s13: { shape: ['qwen', 'deepseek'], place: { y: 1.45 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
+  s13: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
   s14: { shape: 'network', place: { y: -.2, s: 1.3, spin: .05 }, bright: .22 },
-  s15: { shape: 'num', place: { y: 1.05 }, morph: { dur: 3 } },
+  s15: { shape: 'num', place: { y: 1.05, sway: .1 }, morph: { dur: 3 } },
   s16: { shape: 'voxels', place: { x: 4.5, y: .45, s: .85, rx: .4, ry: -.7, sway: .08 } },
   s17: { shape: ['pipe:0', 'pipe:6'], place: { y: .55 }, morph: [{}, { dur: 3.6, turb: .25, sweep: 'x', sweepAmt: .97 }] },
   s18: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
@@ -49,7 +49,7 @@ const SCENES = {
   s20: { shape: 'knot', place: { x: 5.4, y: -1.9, s: .75, spin: .12 }, bright: .4 },
   s21: { shape: 'ring', place: { y: -.2, s: 1.3, rx: .95, spin: .1 }, bright: .4 },
   s22: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
-  s23: { shape: 'final', place: { y: 1.75 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
+  s23: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
 };
 
 (function () {
@@ -61,17 +61,20 @@ const SCENES = {
     get(k) { try { return localStorage.getItem('aibi.' + k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem('aibi.' + k, v); } catch (e) { /* ignore */ } }
   };
-  const ACTS = { 1: 'Акт I · Мир изменился', 2: 'Акт II · Карта инструментов', 3: 'Акт III · Что делать вам' };
-  const LEVELS = { 1: ['Платформа', '#22d3ee'], 2: ['Среда', '#a78bfa'], 3: ['Личный агент', '#f472b6'], 4: ['Экосистема', '#fbbf24'] };
+  const ACTS = { 1: 'Акт I · Инструменты изменились', 2: 'Акт II · Карта инструментов', 3: 'Акт III · Что делать вам' };
+  const LEVELS = { 1: ['Платформы', '#22d3ee'], 2: ['Агенты в платформах', '#a78bfa'], 3: ['Личный агент', '#f472b6'], 4: ['Автоматизация', '#fbbf24'] };
   const PRESENTER = location.hash === '#presenter';
 
   /* ───────────── модель колоды ───────────── */
   const slides = $$('.slide').map(el => ({
-    el, id: el.id, n: +el.dataset.n || 0, title: el.dataset.title, act: +el.dataset.act,
+    el, id: el.id, n: 0, title: el.dataset.title, act: +el.dataset.act,
     level: +el.dataset.level || 0, sec: el.dataset.sec || '', builds: +el.dataset.builds || 0,
     short: el.hasAttribute('data-short'), divider: el.classList.contains('divider'),
     notes: ($('.notes', el)?.textContent || '').trim().replace(/\n\s+/g, '\n')
   }));
+  // нумерация — по порядку слайдов (разделители не считаются)
+  let cnt = 0; slides.forEach(s => { if (!s.divider) s.n = ++cnt; });
+  const TOTAL = cnt;
   let secTitle = '';
   slides.forEach(s => {
     if (s.divider) { secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; SCENES[s.id] = { shape: 'ladder:' + (s.level - 1), place: { x: 3.7, y: -.35, s: 1.05, rx: .32, spin: .32 } }; }
@@ -96,7 +99,7 @@ const SCENES = {
       // киккер
       const k = $('.kicker[data-auto]', s.el);
       if (k) {
-        let h = `<span class="dot"></span><span class="kn">${pad(s.n)}</span><span>${s.secTitle ? 'Раздел ' + s.secTitle : ACTS[s.act].split(' · ')[1]}</span>`;
+        let h = `<span class="dot"></span><span class="kn">${pad(s.n)}</span><span>${s.el.dataset.kicker || (s.secTitle ? 'Раздел ' + s.secTitle : ACTS[s.act].split(' · ')[1])}</span>`;
         if (s.level) h += `<span class="kl">${LEVELS[s.level][0]}</span>`;
         k.innerHTML = h;
       }
@@ -180,7 +183,7 @@ const SCENES = {
   /* хуки конкретных слайдов */
   const HOOKS = {
     s4(s, b) {
-      const map = $('.map', s.el), lv = b >= 1 && b <= 4 ? 5 - b : 0;
+      const map = $('.map', s.el), lv = b >= 1 && b <= 4 ? b : 0;
       map.classList.toggle('focus', !!lv);
       $$('.lvl', map).forEach(r => r.classList.toggle('hl', +r.dataset.lv === lv));
     },
@@ -192,7 +195,7 @@ const SCENES = {
     const s = order[cur];
     $('#hud-act').textContent = (ACTS[s.act] || '').split(' · ')[0];
     $('#hud-n').textContent = s.n ? pad(s.n) : '§' + s.sec;
-    $('#hud-total').textContent = '23';
+    $('#hud-total').textContent = pad(TOTAL);
     $('#hud-build').textContent = s.builds ? Array.from({ length: s.builds + 1 }, (_, k) => k <= build ? '●' : '○').join('') : '';
     $('#hud-bar').style.width = (order.length > 1 ? cur / (order.length - 1) * 100 : 0) + '%';
     const lad = $('#hud-ladder');
