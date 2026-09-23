@@ -59,7 +59,8 @@ b { font-weight: 700; }
 .fx-vignette { z-index: 1; background: radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(0, 0, 0, .7) 100%); }
 .fx-grain { z-index: 1; inset: -100px; opacity: .07; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 1.2s steps(6) infinite; }
+}
+/* зерно статичное: анимированный шум по всему экрану убивает видеокодек при шаринге */
 @keyframes grain { 0%{transform:translate(0,0)} 20%{transform:translate(-30px,20px)} 40%{transform:translate(25px,-35px)} 60%{transform:translate(-15px,40px)} 80%{transform:translate(35px,10px)} 100%{transform:translate(0,0)} }
 
 /* ---------- сцена ---------- */
@@ -75,7 +76,7 @@ b { font-weight: 700; }
 
 [data-level="1"] { --lc: var(--l1); } [data-level="2"] { --lc: var(--l2); }
 [data-level="3"] { --lc: var(--l3); } [data-level="4"] { --lc: var(--l4); }
-[data-act="3"] { --lc: #7dd3fc; }
+[data-act="4"] { --lc: #7dd3fc; }
 
 /* появление */
 .r { opacity: 0; }
@@ -237,7 +238,7 @@ pre.mono b { color: var(--ok); font-weight: 600; }
 .code-h span:nth-child(1) { background: #ff5f57; } .code-h span:nth-child(2) { background: #febc2e; } .code-h span:nth-child(3) { background: #28c840; }
 .code-h b { margin-left: 10px; color: var(--l2); font-weight: 600; }
 .code-h small { margin-left: auto; font-size: 13px; color: var(--dim); }
-.code pre, .term pre { padding: 20px 26px 24px; font-size: 20px; }
+.code pre, .term-mini pre { padding: 20px 26px 24px; font-size: 20px; }
 .sql .k { color: #c4b5fd; font-weight: 600; } .sql .s { color: #86efac; } .sql .n { color: #fbbf24; } .sql .c, .skill .c { color: #6b7299; }
 .skill .k { color: var(--l1); }
 .caret::after { content: '▋'; color: var(--l2); animation: blink 1s steps(1) infinite; margin-left: 2px; }
@@ -274,10 +275,10 @@ pre.mono b { color: var(--ok); font-weight: 600; }
 .core-lab { font: 700 22px var(--fd); translate: -50% -50%; letter-spacing: -.01em; padding: 8px 16px; border-radius: 99px; background: rgba(8, 6, 20, .72); border: 1px solid rgba(244, 114, 182, .5); box-shadow: 0 0 30px rgba(244, 114, 182, .35); }
 .orb { font: 600 18px var(--fm); padding: 8px 14px; border-radius: 99px; background: rgba(8, 8, 24, .7); border: 1px solid var(--line); white-space: nowrap; translate: -50% -50%; margin-top: 50px; }
 .right-col { position: absolute; left: 1010px; right: 110px; top: 300px; display: grid; gap: 22px; }
-.term { padding: 0; background: rgba(6, 8, 20, .85); }
-.term pre { font-size: 19px; line-height: 1.7; }
-.term .p { color: var(--ok); } .term .u { color: #fff; } .term .t { color: var(--l3); font-weight: 600; } .term .a { color: var(--ok); }
-.term .illu { padding: 0 26px 18px; margin: 0; }
+.term-mini { padding: 0; background: rgba(6, 8, 20, .85); }
+.term-mini pre { font-size: 19px; line-height: 1.7; }
+.term-mini .p { color: var(--ok); } .term-mini .u { color: #fff; } .term-mini .t { color: var(--l3); font-weight: 600; } .term-mini .a { color: var(--ok); }
+.term-mini .illu { padding: 0 26px 18px; margin: 0; }
 .right-col .facts { margin-top: 0; gap: 12px; }
 .right-col .chips span { font-size: 17px; padding: 8px 14px; }
 
@@ -491,12 +492,6 @@ pre.mono b { color: var(--ok); font-weight: 600; }
 .hud { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
 .hud-brand { position: absolute; left: 120px; top: 36px; display: flex; gap: 18px; align-items: baseline; font: 500 15px var(--fm); color: var(--dim); letter-spacing: .14em; text-transform: uppercase; }
 .hud-brand b { font: 700 16px var(--fd); color: var(--ink2); letter-spacing: .02em; text-transform: none; }
-.hud-ladder { position: absolute; right: 120px; top: 30px; display: flex; align-items: flex-end; gap: 5px; height: 32px; transition: opacity .6s; }
-.hud-ladder i { width: 16px; border-radius: 3px; background: rgba(255, 255, 255, .12); transition: all .6s var(--ease); }
-.hud-ladder i[data-l="1"] { height: 8px; } .hud-ladder i[data-l="2"] { height: 16px; } .hud-ladder i[data-l="3"] { height: 24px; } .hud-ladder i[data-l="4"] { height: 32px; }
-.hud-ladder i.on { background: var(--c); box-shadow: 0 0 14px var(--c); }
-.hud-ladder span { order: -1; margin-right: 12px; font: 500 14px var(--fm); color: var(--mute); letter-spacing: .14em; text-transform: uppercase; align-self: center; }
-.hud-ladder.off { opacity: 0; }
 .hud-prog { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .05); }
 #hud-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--l1), var(--l2), var(--l3), var(--l4)); box-shadow: 0 0 12px var(--l2); transition: width .8s var(--ease); }
 .hud-num { position: absolute; right: 120px; bottom: 36px; font: 500 16px var(--fm); color: var(--dim); letter-spacing: .1em; }
@@ -604,6 +599,181 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .byok-call .chips { margin-top: 12px; }
 .byok-call .chips span { font-size: 15px; padding: 6px 12px; }
 
+/* ============================ v3: флоу, агентские среды, скиллы ============================ */
+.h-xs { font-size: 34px; }
+.toast { position: absolute; left: 50%; bottom: 70px; translate: -50% 0; padding: 12px 22px; border-radius: 99px; background: rgba(8, 9, 22, .9); border: 1px solid var(--line); font: 500 16px var(--fm); color: var(--ink2); z-index: 6; }
+.hud-flow { position: absolute; right: 120px; top: 34px; display: flex; align-items: center; gap: 6px; transition: opacity .6s; }
+.hud-flow i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, .18); transition: all .5s var(--ease); }
+.hud-flow i.on { background: var(--lc); border-color: var(--lc); box-shadow: 0 0 12px var(--lc); }
+.hud-flow span { margin-right: 12px; font: 500 14px var(--fm); color: var(--mute); letter-spacing: .14em; text-transform: uppercase; }
+.hud-flow.off { opacity: 0; }
+
+/* колонки флоу — привязаны к кольцам частиц */
+.fcol { width: 256px; top: 0; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
+.fs-n { font: 700 15px var(--fm); color: var(--mute); letter-spacing: .14em; }
+.fs-t { font: 600 23px/1.15 var(--fd); }
+.fs-s { font-size: 16px; color: var(--mute); }
+.fs-row { width: 100%; margin-top: 10px; padding: 12px 12px; border-radius: 16px; font-size: 18px; line-height: 1.35; background: rgba(255, 255, 255, .045); border: 1px solid var(--line); }
+.fs-row i { display: block; font: 600 12px var(--fm); font-style: normal; text-transform: uppercase; letter-spacing: .14em; color: var(--mute); margin-bottom: 4px; }
+.fs-ai { background: color-mix(in srgb, var(--l2) 12%, transparent); border-color: color-mix(in srgb, var(--l2) 45%, transparent); }
+.fs-ai i { color: var(--l2); }
+.fs-none { background: rgba(255, 255, 255, .02); border-style: dashed; color: var(--dim); }
+.fs-none i { color: var(--dim); }
+.envband { position: absolute; left: 120px; right: 120px; top: 800px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 20px 28px; border-radius: 22px; background: linear-gradient(90deg, rgba(167, 139, 250, .14), rgba(34, 211, 238, .12), rgba(244, 114, 182, .14)); border: 1px solid rgba(167, 139, 250, .4); }
+.envband b { font: 700 22px var(--fd); padding: 6px 16px; border-radius: 12px; background: rgba(0, 0, 0, .3); }
+.eb-k { font: 700 14px var(--fm); text-transform: uppercase; letter-spacing: .15em; color: var(--l2); }
+.eb-t { flex: 1; min-width: 480px; font-size: 20px; color: var(--ink2); }
+#flow .map-foot { left: 120px; right: auto; bottom: 36px; }
+.fc-on .fs-t { color: var(--l4); }
+.fs-skill { margin-top: 14px; width: 100%; padding: 16px 12px; border-radius: 16px; background: color-mix(in srgb, var(--l4) 12%, transparent); border: 1px solid color-mix(in srgb, var(--l4) 55%, transparent); box-shadow: 0 0 40px -12px var(--l4); display: flex; flex-direction: column; gap: 8px; align-items: center; }
+.fs-skill code { font-size: 15px; white-space: normal; color: var(--ink); }
+.fs-skill em { font: 700 13px var(--fm); text-transform: uppercase; letter-spacing: .14em; color: var(--l4); background: none; -webkit-text-fill-color: currentColor; }
+.fs-free { margin-top: 14px; width: 100%; padding: 22px 12px; border-radius: 16px; border: 1.5px dashed rgba(255, 255, 255, .16); color: var(--dim); font-size: 16px; }
+.handoff { position: absolute; left: 120px; right: 120px; top: 720px; text-align: center; font: 500 34px var(--fd); color: var(--ink2); }
+.handoff b { color: var(--l1); }
+
+/* контекст: что на входе — то и на выходе */
+.gio { position: absolute; left: 120px; right: 120px; bottom: 96px; display: grid; grid-template-columns: 300px repeat(3, 1fr); gap: 18px; align-items: stretch; }
+.gio-k { display: flex; align-items: center; font: 600 24px/1.25 var(--fd); color: var(--l4); }
+.gio-i { padding: 18px 22px; border-radius: 18px; background: rgba(255, 255, 255, .045); border: 1px solid var(--line); }
+.gio-i b { display: block; font-size: 22px; margin-bottom: 4px; }
+.gio-i small { font-size: 17px; color: var(--mute); }
+
+/* агентские среды */
+.env-lab { translate: -50% -50%; font: 700 24px var(--fd); color: #fff; text-shadow: 0 0 18px var(--c), 0 0 36px #000; }
+.env-mid { translate: -50% 0; font: 600 15px var(--fm); letter-spacing: .12em; text-transform: uppercase; color: var(--l4); white-space: nowrap; }
+.env { width: 640px; top: 0; padding: 24px 28px; border-top: 3px solid var(--c); }
+.env-h { font: 700 28px var(--fd); color: var(--c); margin-bottom: 14px; }
+.env-h small { font: 500 15px var(--fm); color: var(--mute); margin-left: 10px; letter-spacing: .06em; }
+.env dl { display: grid; grid-template-columns: 130px 1fr; gap: 10px 16px; font-size: 19px; line-height: 1.35; }
+.env dt { font: 600 13px/1.9 var(--fm); text-transform: uppercase; letter-spacing: .1em; color: var(--mute); }
+.env-thesis { position: absolute; left: 120px; right: 120px; bottom: 76px; text-align: center; font-size: 24px; color: var(--ink2); padding: 18px 26px; border-radius: 18px; background: rgba(251, 191, 36, .07); border: 1px solid rgba(251, 191, 36, .35); }
+.env-thesis b { color: var(--l4); }
+
+/* как скилл попадает в пак / dd-скилл */
+.pk { display: flex; align-items: stretch; gap: 14px; margin-top: 60px; }
+.pk-s { flex: 1; display: flex; flex-direction: column; gap: 8px; padding: 24px 24px; border-radius: 22px; background: rgba(255, 255, 255, .045); border: 1px solid var(--line); }
+.pk-s b { font: 600 24px/1.2 var(--fd); margin-top: 8px; }
+.pk-s small { font-size: 18px; color: var(--mute); line-height: 1.4; }
+.pk-s code { font-size: 20px; }
+.pk-hot { border-color: color-mix(in srgb, var(--lc) 60%, transparent); background: color-mix(in srgb, var(--lc) 12%, transparent); box-shadow: 0 0 60px -14px var(--lc); }
+.pk-a { align-self: center; font-style: normal; font-size: 34px; color: var(--lc); }
+.pk-sm { margin-top: 70px; }
+.dd-why { margin-top: 50px; font-size: 26px; line-height: 1.45; color: var(--ink2); max-width: 1400px; padding: 22px 30px; border-left: 4px solid var(--lc); background: linear-gradient(90deg, color-mix(in srgb, var(--lc) 10%, transparent), transparent); border-radius: 0 16px 16px 0; }
+.dd-why b { color: var(--ink); }
+
+/* часть Степана */
+.big-q { margin-top: 90px; font: 700 64px/1.12 var(--fd); letter-spacing: -.025em; max-width: 1500px; text-wrap: balance; }
+.big-q-sm { margin-top: 40px; font-size: 54px; }
+.why { margin-top: 56px; display: grid; gap: 18px; }
+.why-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.why-row span:not(.why-k) { padding: 12px 20px; border-radius: 14px; font-size: 21px; background: rgba(251, 113, 133, .09); border: 1px solid rgba(251, 113, 133, .35); }
+.why-w span:not(.why-k) { background: rgba(251, 191, 36, .08); border-color: rgba(251, 191, 36, .35); }
+.why-row .why-hot { background: rgba(251, 113, 133, .2) !important; border-color: var(--no) !important; font-weight: 700; }
+.why-k { width: 220px; font: 700 15px var(--fm); text-transform: uppercase; letter-spacing: .14em; color: var(--mute); }
+.why-end { position: absolute; left: 120px; right: 120px; bottom: 100px; font: 600 28px/1.4 var(--fb); padding: 24px 30px; border-radius: 20px; background: rgba(251, 113, 133, .09); border: 1px solid rgba(251, 113, 133, .4); }
+.why-end b { color: var(--no); }
+.jt { width: 100%; margin-top: 34px; border-collapse: collapse; font-size: 21px; }
+.jt th { text-align: left; font: 600 14px var(--fm); text-transform: uppercase; letter-spacing: .12em; color: var(--mute); padding: 0 16px 12px; border-bottom: 1px solid rgba(255, 255, 255, .2); }
+.jt td { padding: 16px 16px; border-bottom: 1px solid var(--line); color: var(--ink2); line-height: 1.4; vertical-align: top; }
+.jt td b { color: var(--ink); }
+.jt td.k { font: 700 18px var(--fm); color: var(--lc); width: 60px; }
+.jt tr.hot td { background: color-mix(in srgb, var(--lc) 6%, transparent); }
+.jt-note { margin-top: 26px; font-size: 22px; color: var(--ink2); }
+.jt-note b { color: var(--lc); }
+.nots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; }
+.nt { border-left: 4px solid var(--no); --lc: var(--no); }
+.nt b { font: 600 26px/1.25 var(--fd); }
+.nt p { margin-top: 12px; font-size: 21px; line-height: 1.45; color: var(--ink2); }
+.chk-sub { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 24px; }
+.chk-sub span { padding: 10px 16px; border-radius: 12px; font-size: 18px; color: var(--ink2); background: rgba(255, 255, 255, .045); border: 1px solid var(--line); }
+.chk-sub b { color: var(--ink); }
+.qgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-top: 26px; }
+.qblock { padding: 16px 12px; border-radius: 16px; text-align: center; cursor: pointer; background: rgba(255, 255, 255, .04); border: 1px solid var(--line); transition: .25s var(--ease); }
+.qblock:hover { transform: translateY(-3px); border-color: rgba(255, 255, 255, .25); }
+.qblock.sel { border-color: var(--lc); background: color-mix(in srgb, var(--lc) 14%, transparent); box-shadow: 0 0 40px -14px var(--lc); }
+.qblock .bn { font: 600 12px var(--fm); color: var(--mute); letter-spacing: .1em; }
+.qblock .bt { font: 600 17px/1.25 var(--fd); margin: 8px 0; min-height: 44px; }
+.qblock .bc { font: 14px var(--fm); color: var(--ink2); }
+.qblock .bc b { color: var(--l4); }
+.qpanel { margin-top: 18px; padding: 22px 28px; border-radius: 20px; background: rgba(8, 9, 22, .7); border: 1px solid var(--line); min-height: 280px; }
+.qpanel h4 { font: 600 22px var(--fd); margin-bottom: 14px; }
+.qpanel ul { list-style: none; display: grid; gap: 10px; }
+.qpanel li { display: flex; gap: 14px; font-size: 20px; line-height: 1.4; color: var(--ink2); }
+.qpanel .star { width: 18px; color: var(--l4); flex: none; }
+.qpanel .qid { width: 56px; flex: none; font: 700 17px var(--fm); color: var(--lc); }
+.qpanel .qfoot { margin-top: 14px; font-size: 15px; color: var(--mute); }
+.rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+.rl b { display: block; font: 600 22px/1.25 var(--fd); margin-top: 14px; }
+.rl p { margin-top: 10px; font-size: 19px; line-height: 1.45; color: var(--ink2); }
+.rl-hot { grid-row: span 2; border-color: color-mix(in srgb, var(--lc) 55%, transparent); background: color-mix(in srgb, var(--lc) 10%, rgba(255, 255, 255, .02)); }
+.rl-hot b { font-size: 30px; }
+.rl-hot p { font-size: 22px; }
+.stp .lane { width: 100%; margin-top: 8px; padding: 10px 10px; border-radius: 14px; font-size: 17px; line-height: 1.3; }
+.stp .lane i { display: block; font: 600 11px var(--fm); font-style: normal; text-transform: uppercase; letter-spacing: .12em; margin-bottom: 4px; }
+.ln-n { background: rgba(96, 165, 250, .1); border: 1px solid rgba(96, 165, 250, .45); } .ln-n i { color: #60a5fa; }
+.ln-m { background: rgba(255, 138, 101, .1); border: 1px solid rgba(255, 138, 101, .45); } .ln-m i { color: #ff8a65; }
+.prog { position: absolute; left: 120px; right: 120px; bottom: 110px; text-align: center; font: 500 20px var(--fm); color: var(--mute); }
+.prog span { color: var(--ink2); margin: 0 12px; } .prog b { color: var(--lc); letter-spacing: .15em; }
+.art { display: grid; grid-template-columns: 1.1fr .9fr; gap: 26px; margin-top: 30px; }
+.md-prev { padding: 24px 28px; border-radius: 20px; background: rgba(6, 7, 16, .85); border: 1px solid var(--line); font: 16px/1.7 var(--fm); color: var(--ink2); overflow: hidden; }
+.md-prev > div { white-space: pre; }
+.md-prev .mh { color: var(--ink); font-weight: 700; font-size: 18px; }
+.md-prev .mq { color: #ff8a65; } .md-prev .sec { color: var(--l1); font-weight: 700; } .md-prev .mk { color: var(--ok); }
+.md-prev .cr { color: var(--no); } .md-prev .wa { color: var(--l4); } .md-prev .t-dim { color: var(--mute); }
+.md-prev .t-blank { height: 8px; }
+.ann { display: grid; gap: 14px; align-content: start; }
+.ann .a { --c: var(--l2); padding: 18px 22px; border-radius: 16px; background: rgba(255, 255, 255, .045); border: 1px solid var(--line); border-left: 4px solid var(--c); }
+.ann .a h5 { font: 600 20px var(--fd); margin-bottom: 6px; }
+.ann .a p { font-size: 18px; line-height: 1.45; color: var(--ink2); }
+.ann .a-hot { background: rgba(251, 191, 36, .09); border-color: rgba(251, 191, 36, .45); }
+.take-k { margin-top: 44px; font: 600 15px var(--fm); text-transform: uppercase; letter-spacing: .15em; color: var(--mute); }
+.takes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 16px; }
+.tk b { font: 600 21px var(--fd); }
+.tk p { margin-top: 10px; font-size: 18px; line-height: 1.45; color: var(--ink2); }
+.limits { position: absolute; left: 120px; right: 120px; bottom: 96px; font-size: 18px; line-height: 1.5; color: var(--mute); border-top: 1px solid var(--line); padding-top: 18px; }
+.limits b { color: var(--ink2); }
+
+/* большие терминалы */
+.slide-term { padding: 60px 90px 90px; display: flex; flex-direction: column; }
+.term-head { display: flex; align-items: flex-end; gap: 20px; }
+.term-head .kicker { margin-bottom: 12px; }
+.term-keys { margin-left: auto; display: flex; gap: 10px; }
+.term-keys span { font: 500 15px var(--fm); padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line); color: var(--ink2); }
+.term { flex: 1; min-height: 0; margin-top: 20px; display: flex; flex-direction: column; border-radius: 22px; overflow: hidden; background: rgba(5, 6, 14, .9); border: 1px solid rgba(167, 139, 250, .3); box-shadow: 0 0 80px -30px rgba(167, 139, 250, .6), 0 40px 100px -40px #000; backdrop-filter: blur(16px); }
+.term-bar { flex: none; height: 50px; display: flex; align-items: center; gap: 14px; padding: 0 20px; background: rgba(255, 255, 255, .04); border-bottom: 1px solid var(--line); font: 15px var(--fm); color: var(--mute); }
+.term-bar .dots i { display: inline-block; width: 13px; height: 13px; border-radius: 50%; margin-right: 7px; background: #3a3f5c; }
+.term-bar .dots i:nth-child(1) { background: #ff5f57; } .term-bar .dots i:nth-child(2) { background: #febc2e; } .term-bar .dots i:nth-child(3) { background: #28c840; }
+.tctl { margin-left: auto; display: flex; gap: 10px; }
+.tctl button { font: 14px var(--fm); color: var(--ink2); background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 9px; padding: 6px 12px; cursor: pointer; }
+.tctl button:hover { border-color: var(--l2); color: var(--ink); }
+.term-body { flex: 1; overflow: auto; padding: 22px 30px 30px; font: 19px/1.6 var(--fm); color: var(--ink2); scroll-behavior: smooth; }
+.term-body::-webkit-scrollbar { width: 10px; } .term-body::-webkit-scrollbar-thumb { background: #2a2f4a; border-radius: 5px; }
+.tline { opacity: 0; transform: translateY(6px); animation: tin .35s forwards; }
+@keyframes tin { to { opacity: 1; transform: none; } }
+.t-assist { color: var(--ink); } .t-assist::before { content: '✦ '; color: var(--l2); }
+.t-dim { color: var(--mute); } .t-bar { color: var(--ink); font-weight: 700; } .t-prog { color: var(--l1); letter-spacing: .18em; font-weight: 700; }
+.t-path { color: var(--ok); } .t-user { color: var(--l4); } .t-user::before { content: '› '; color: var(--mute); } .t-user b { color: var(--ink); }
+.t-ok::before { content: '✓ '; color: var(--ok); } .t-blank { height: 12px; } .t-warnline { color: #ff8a65; }
+.tcaret { display: inline-block; width: 10px; height: 20px; background: var(--ink2); vertical-align: -3px; animation: blink 1s steps(1) infinite; }
+.ask { margin: 12px 0 6px; padding: 16px 18px; border-radius: 14px; border: 1px solid rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .03); }
+.ask .aq-top { color: var(--l4); margin-bottom: 8px; font-size: 16px; }
+.ask .aq-q { color: var(--ink); margin-bottom: 10px; font-weight: 700; }
+.opt { display: flex; gap: 12px; padding: 8px 12px; border-radius: 10px; cursor: pointer; transition: .15s; }
+.opt:hover { background: rgba(255, 255, 255, .04); }
+.opt.sel { background: rgba(167, 139, 250, .15); box-shadow: inset 0 0 0 1px rgba(167, 139, 250, .55); }
+.opt .car { width: 14px; flex: none; color: var(--l2); }
+.opt .ol { color: var(--ink); } .opt .od { color: var(--mute); font-size: 16px; }
+.ask .hint { margin-top: 10px; padding-left: 12px; font-size: 14px; color: var(--mute); }
+.ttab { width: 100%; margin: 10px 0 6px; border-collapse: collapse; font-size: 17px; }
+.ttab th, .ttab td { padding: 7px 12px; border: 1px solid #262b45; text-align: left; vertical-align: top; }
+.ttab th { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--mute); }
+.qline { white-space: pre; } .qline .qid { color: var(--l1); } .qline .bhead { color: var(--ink); font-weight: 700; }
+.m-full, .c-good { color: var(--ok); } .m-part, .c-warn, .m-star { color: var(--l4); } .m-none, .c-none { color: #4b5173; }
+.c-crit { color: var(--no); } .c-serious { color: #ff8a65; }
+.demo-legend { flex: none; display: flex; gap: 22px; margin-top: 14px; font: 15px var(--fm); color: var(--mute); }
+.demo-legend .dl-r { margin-left: auto; }
+
 </style>
 </head>
 <body>
@@ -615,266 +785,225 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 <div id="stage">
 <div id="deck">
 
-<!-- ═══════════════════════════ АКТ I ═══════════════════════════ -->
+<!-- ═══════════════════════════ АКТ I · ЧТО ИЗМЕНИЛОСЬ ═══════════════════════════ -->
 
-<section class="slide" id="s1" data-act="1" data-short data-title="Титул">
+<section class="slide" id="title" data-act="1" data-short data-title="Титул">
   <div class="kicker r"><span class="dot"></span>BI-митап · <span data-cfg="date"></span></div>
   <div class="title-block">
     <h1 class="hero r scr">Что уже можно использовать <em>сегодня</em></h1>
     <div class="speaker r">
       <span class="sp-name" data-cfg="speaker"></span><i></i>
-      <span data-cfg="role"></span><i></i>
-      <span data-cfg="team"></span>
+      <span class="sp-name" data-cfg="cospeaker"></span><i></i>
+      <span data-cfg="role"></span>
     </div>
   </div>
   <div class="hint r">→ &nbsp;или клик, чтобы начать</div>
-  <aside class="notes">15 секунд. Представиться одной фразой: «Я из стрима AI в BI — это инициативная группа внутри BI. Сегодня покажу, что из AI-инструментов уже работает не на слайдах, а в проде».
-Подвигай мышью над частицами — они расступаются.</aside>
+  <aside class="notes">Говорит: Роман. 15 секунд. «Мы из стрима AI в BI — это инициативная группа внутри BI. Сегодня покажем, что из AI-инструментов уже работает не на слайдах, а в проде, и расскажем про наши скиллы».</aside>
 </section>
 
-<section class="slide" id="s2" data-act="1" data-kicker="Кто мы" data-title="Кто мы: стрим «AI в BI»">
+<section class="slide" id="who" data-act="1" data-kicker="Кто мы" data-title="Кто мы: стрим «AI в BI»">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Стрим <em>«AI в BI»</em> — инициативная группа внутри BI</h2>
-  <div class="anchor r lab" data-anchor="-4.6,-1.05,0"><b>Команды — владельцы<br>инструментов</b><span class="lab-sub">Helicopter · Nessy · Proteus · Nestor<br>Skills Market · n8n</span></div>
-  <div class="anchor r lab lab-main" data-anchor="0,-1.2,0"><b>Стрим «AI в BI»</b><small>инициативная группа</small></div>
+  <h2 class="h h-sm r scr">Стрим <em>«AI в BI»</em> — инициативная группа AI-амбассадоров BI</h2>
+  <div class="anchor r lab" data-anchor="-4.6,-1.05,0"><b>Команды<br>платформ данных</b><span class="lab-sub">Helicopter · Nessy · Proteus<br>Data Detective · n8n · Nestor</span></div>
+  <div class="anchor r lab lab-main" data-anchor="0,-1.2,0"><b>Стрим «AI в BI»</b><small>собираемся · генерим идеи</small></div>
   <div class="anchor r lab" data-anchor="4.6,-1.05,0"><b>BI-аналитики<br>и владельцы бордов</b><small>бенефициары</small></div>
   <div class="triad">
-    <div class="card r tilt"><span class="num">01</span><p>Работаем с командами — владельцами инструментов: доносим задачи BI и первыми узнаём планы</p></div>
-    <div class="card r tilt"><span class="num">02</span><p>Систематизируем инструменты и собираем скиллы — чтобы не было десяти версий одного и того же</p></div>
+    <div class="card r tilt"><span class="num">01</span><p>Работаем с командами платформ: участвуем в проработке фич Proteus и Helicopter</p></div>
+    <div class="card r tilt"><span class="num">02</span><p>Собираемся, генерим идеи, собираем скиллы — чтобы не было десяти версий одного и того же</p></div>
     <div class="card r tilt"><span class="num">03</span><p>Всё это — для аналитиков и владельцев бордов: несите задачи и фидбек, <em>нам можно и нужно писать</em></p></div>
   </div>
-  <aside class="notes">30 сек. Мы — стрим «AI в BI», инициативная группа внутри BI. Работаем с командами — владельцами инструментов (Helicopter, Nessy, Proteus, Nestor, Skills Market, n8n). Бенефициары — вы: BI-аналитики и владельцы бордов.
-Важно: это не история одного человека, а общая работа стрима.
-Заложить основу для слайда про BI-пак: «одна из наших задач — чтобы мы не делали десять версий одного и того же скилла».</aside>
+  <aside class="notes">30 сек. Мы — стрим «AI в BI», инициативная группа AI-амбассадоров внутри BI. Активно работаем с командами платформ данных — не только внутри группы: собираемся, генерим идеи, дорабатываем вместе с Proteus и Helicopter. Некоторые фичи, которые они реализуют, мы помогали прорабатывать.
+Бенефициары — вы: BI-аналитики и владельцы бордов. Это не история одного человека.</aside>
 </section>
 
-<section class="slide" id="s3" data-act="1" data-short data-title="Инструменты стали стабильнее">
+<section class="slide" id="useful" data-act="1" data-short data-title="Агенты стали полезнее">
   <div class="kicker r" data-auto></div>
-  <h2 class="h r scr">Инструменты изменились —<br><em>и стали стабильнее</em></h2>
-  <div class="ms r anchor" data-anchor="-4.8,-.95,0" style="--c:var(--l2)"><span class="ms-k">Nessy</span><b>Qwen → DeepSeek&nbsp;V4&nbsp;Flash</b><small>новая основная модель Nessy Data Agent · 31.08</small></div>
-  <div class="ms r anchor" data-anchor="-1.6,-.95,0" style="--c:var(--l3)"><span class="ms-k">BYOK</span><b>GLM-5.3 в tclaude</b><small>своя модель по своему ключу · контекст 1M</small></div>
+  <h2 class="h r scr">Агенты стали полезнее —<br><em>ими уже закрывают реальные джобы</em></h2>
+  <div class="ms r anchor" data-anchor="-4.8,-.95,0" style="--c:var(--l2)"><span class="ms-k">Nessy</span><b>Qwen ушёл → DeepSeek&nbsp;V4&nbsp;Flash</b><small>новая основная модель Nessy · 31.08</small></div>
+  <div class="ms r anchor" data-anchor="-1.6,-.95,0" style="--c:var(--l3)"><span class="ms-k">BYOK</span><b>Своя подписка в tclaude</b><small>GLM-5.3 · согласовано ИБ</small></div>
   <div class="ms r anchor" data-anchor="1.6,-.95,0" style="--c:var(--l4)"><span class="ms-k">Skills Market</span><b>Скиллы в одном каталоге</b><small>готовые инструкции для агентов</small></div>
   <div class="ms r anchor" data-anchor="4.8,-.95,0" style="--c:var(--l1)"><span class="ms-k">MCP</span><b>Корпоративные MCP</b><small>агенты ходят в Proteus, Jira, GitLab, Wiki</small></div>
-  <aside class="notes">1 мин. Не «мир изменился», а инструменты: они стали стабильнее и перестали быть экспериментом.
-Четыре изменения — каждое раскроем дальше: Qwen в Nessy заменили на DeepSeek; GLM-5.3 можно подключить к tclaude через BYOK; скиллы собраны в Skills Market; агенты ходят в корпоративные системы через MCP.</aside>
+  <aside class="notes">1 мин. Не «год назад было так», а просто: агенты стали полезнее — ими уже можно реально закрывать джобы.
+Четыре изменения: Qwen в Nessy ушёл, теперь DeepSeek V4 Flash; к tclaude можно подключить свою подписку (BYOK, GLM согласован ИБ); скиллы собраны в Skills Market; агенты ходят в корпоративные системы через MCP.</aside>
 </section>
 
-<section class="slide" id="s4" data-act="1" data-kicker="Карта инструментов" data-short data-builds="5" data-title="Карта инструментов (главный слайд)">
+<section class="slide" id="flow" data-act="1" data-kicker="Флоу BI-аналитика" data-short data-builds="2" data-title="Флоу BI-аналитика × инструменты (главный слайд)">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Карта AI-инструментов <em>BI-аналитика</em></h2>
-  <div class="map">
-    <div class="lvl r" data-lv="1">
-      <div class="lvl-h"><span class="lvl-n">01</span><span class="lvl-t">Платформы</span><small>где мы работаем</small></div>
-      <div class="tools">
-        <div class="tool"><b>Proteus</b><span>дашборды и виджеты — здесь живут наши отчёты</span><code>уже в работе</code><em class="st">работает</em></div>
-        <div class="tool"><b>Helicopter</b><span>ноутбуки, SQL к DWH, кроны</span><code>helicopter.tcsbank.ru</code><em class="st">работает</em></div>
-      </div>
-    </div>
-    <div class="lvl r" data-lv="2">
-      <div class="lvl-h"><span class="lvl-n">02</span><span class="lvl-t">Агенты в платформах</span><small>AI внутри инструмента</small></div>
-      <div class="tools">
-        <div class="tool"><b>Nessy Data Agent</b><span>в Helicopter: код, новые ноутбуки, SQL, агентский режим · модель DeepSeek V4 Flash</span><code>уже включён</code><em class="st">работает</em></div>
-        <div class="tool"><b>Proteus AI</b><span>в дашборде: Q&amp;A, «AI-анализ», скиллы борда</span><code>уже включён в Proteus</code><em class="st">работает, развивается</em></div>
-      </div>
-    </div>
-    <div class="lvl r" data-lv="3">
-      <div class="lvl-h"><span class="lvl-n">03</span><span class="lvl-t">Личный агент</span><small>в своей песочнице</small></div>
-      <div class="tools">
-        <div class="tool"><b>tclaude</b><span>кодинг-агент + MCP: Proteus, Jira, GitLab, Sage, Wiki, T-Tracker</span><code>место в ai-seats</code><em class="st">работает</em></div>
-        <div class="tool"><b>BYOK · GLM</b><span>своя платная учётка в tclaude — без общих лимитов</span><code>z.ai от $18/мес + ключ LLM Proxy</code><em class="st">согласовано ИБ</em></div>
-        <div class="tool"><b>Nessy CLI</b><span>агент Nessy в терминале: скиллы, superpowers</span><code>в песочнице</code><em class="st">работает</em></div>
-      </div>
-    </div>
-    <div class="lvl r" data-lv="4">
-      <div class="lvl-h"><span class="lvl-n">04</span><span class="lvl-t">Автоматизация</span><small>скиллы и сценарии: AI делает рутину за тебя</small></div>
-      <div class="tools">
-        <div class="tool"><b>Skills Market + BI-пак</b><span>готовые инструкции для агентов, свой пак BI</span><code>dp skills install</code><em class="st st-build">строим процесс</em></div>
-        <div class="tool"><b>n8n</b><span>рассылки, отчётность, интеграции, Time&nbsp;×&nbsp;n8n</span><code>запрос доступа</code><em class="st">работает</em></div>
-        <div class="tool"><b>proteus-echarts-builder</b><span>HTML-макет → интерактивный JS-виджет</span><code>скилл из BI-пака + tclaude</code><em class="st st-our">our story</em></div>
-      </div>
-    </div>
+  <h2 class="h h-sm r scr">Флоу BI-аналитика: <em>где инструменты и где в них AI</em></h2>
+  <div class="fcol anchor r" data-pipe="0"><span class="fs-n">01</span><b class="fs-t">Требования</b><small class="fs-s">сбор с заказчика</small>
+    <div class="fs-row"><i>инструмент</i>встречи · бриф · Wiki</div>
+    <div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol anchor r" data-pipe="1"><span class="fs-n">02</span><b class="fs-t">Данные</b><small class="fs-s">сбор и источники</small>
+    <div class="fs-row"><i>инструмент</i>Helicopter · DWH · Data Detective</div>
+    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent: поиск таблиц, SQL</div></div>
+  <div class="fcol anchor r" data-pipe="2"><span class="fs-n">03</span><b class="fs-t">Подготовка</b><small class="fs-s">расчёт и расписание</small>
+    <div class="fs-row"><i>инструмент</i>Helicopter: ноутбуки, кроны</div>
+    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent: правит и создаёт ноутбуки</div></div>
+  <div class="fcol anchor r" data-pipe="3"><span class="fs-n">04</span><b class="fs-t">Дашборд</b><small class="fs-s">визуализация</small>
+    <div class="fs-row"><i>инструмент</i>Proteus</div>
+    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
+  <div class="fcol anchor r" data-pipe="4"><span class="fs-n">05</span><b class="fs-t">Описание</b><small class="fs-s">документация отчёта</small>
+    <div class="fs-row"><i>инструмент</i>Data Detective</div>
+    <div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol anchor r" data-pipe="5"><span class="fs-n">06</span><b class="fs-t">Автоматизация</b><small class="fs-s">рассылки, боты</small>
+    <div class="fs-row"><i>инструмент</i>n8n · Time</div>
+    <div class="fs-row fs-ai" data-step="1"><i>AI</i>агентные ноды на DeepSeek</div></div>
+  <div class="envband" data-step="2">
+    <span class="eb-k">На любом этапе</span>
+    <b>Nessy</b><b>Hermes</b><b>tclaude</b>
+    <span class="eb-t">агентские среды: закрывают сколько угодно джоб — всё упирается в доступность MCP и инструментов</span>
   </div>
   <div class="map-foot r">Этот слайд пришлём — повесьте рядом с рабочим столом</div>
-  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Идём сверху вниз, 01 → 04, каждый клик подсвечивает следующий уровень (4 клика), пятый — снова вся карта:
-01 Платформы — Proteus и Helicopter, где мы работаем.
-02 Агенты в платформах — Nessy Data Agent в Helicopter и Proteus AI в дашборде.
-03 Личный агент в своей песочнице — tclaude, своя учётка через BYOK, Nessy CLI.
-04 Автоматизация и скиллы — Skills Market, n8n, наш echarts-builder.
-Можно кликать по строкам мышью — подсветится ступень лестницы.
+  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Раскладываем инструменты по флоу работы BI-аналитика: требования → данные → подготовка → дашборд → описание → автоматизация.
+Клик (1) — где инструменты уже AI-изированы: Nessy Data Agent в Helicopter, Proteus AI в дашборде, агентные ноды в n8n. На требованиях и описании — пока руками (к этому вернёмся со скиллами).
+Клик (2) — агентские среды Nessy, Hermes и tclaude работают на любом этапе; всё упирается в доступность MCP и инструментов.
 «Этот слайд мы вам пришлём — повесьте рядом с рабочим столом».</aside>
 </section>
 
-<!-- ═══════════════════════════ АКТ II ═══════════════════════════ -->
+<!-- ═══════════════════════════ АКТ II · ИНСТРУМЕНТЫ ПО ФЛОУ ═══════════════════════════ -->
 
-<section class="slide divider" id="dA" data-act="2" data-level="1" data-sec="A" data-short data-title="Раздел A · Helicopter + Nessy">
+<section class="slide divider" id="dA" data-act="2" data-level="2" data-stages="2,3" data-sec="A" data-short data-title="Раздел A · Helicopter + Nessy">
   <div class="div-wrap">
     <div class="div-letter r">A</div>
-    <div class="div-meta r">Уровни 01–02 · Платформа и агент в ней</div>
+    <div class="div-meta r">Флоу · данные и подготовка</div>
     <h2 class="div-title r scr">Helicopter + Nessy</h2>
-    <p class="div-sub r">Агент уже правит код и пишет ноутбуки</p>
+    <p class="div-sub r">Что нового и почему всё упирается в контекст</p>
   </div>
-  <aside class="notes">Разделитель. Ступень 01 «Платформы» на лестнице. Мостик: «Начнём с того, где живут данные».</aside>
+  <aside class="notes">Разделитель. На флоу горят этапы «Данные» и «Подготовка». Мостик: «Начнём с того, где живут данные».</aside>
 </section>
 
-<section class="slide" id="s5" data-act="2" data-level="1" data-title="Helicopter: агент правит код">
+<section class="slide" id="heli" data-act="2" data-level="2" data-title="Helicopter: что нового">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr" style="max-width:1050px">Helicopter: Nessy уже <em>правит код и пишет ноутбуки</em></h2>
+  <h2 class="h h-sm r scr" style="max-width:1080px">Helicopter: Nessy работает в агентском режиме — <em>правит и создаёт ноутбуки</em></h2>
   <ul class="facts">
-    <li class="r"><b>helicopter.tcsbank.ru</b> — ноутбуки, SQL к DWH, кроны с датами начала и конца</li>
-    <li class="r"><b>Nessy Data Agent</b> — не только выгрузки: дорабатывает код, пишет новые ноутбуки, работает в агентском режиме</li>
+    <li class="r"><b>Агентский режим</b> — Nessy Data Agent в правой панели дорабатывает код и пишет новые ноутбуки</li>
     <li class="r"><b>С 18.09 главная — Nessy Data Workspace:</b> несколько ноутбуков и таблиц в одном контексте, панель «Артефакты»</li>
+    <li class="r"><b>MCP-тулы Data Detective и Proteus</b> в Nessy (релиз 31.08) · MCP для ноутбуков — план Q4</li>
   </ul>
-  <div class="reacts r"><span>🔥 17</span><span>🚀 9</span><small>реакции на анонс Workspace</small></div>
-  <blockquote class="q r" style="max-width:960px">«Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда»<cite>helicopter-users · 10.09 · стратегическая цель платформы</cite></blockquote>
+  <blockquote class="q r" style="max-width:960px">«Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда»<cite>helicopter-users · 10.09 · цель платформы</cite></blockquote>
   <div class="anchor lab-tag r" data-anchor="2.27,2.05,0">Nessy Data Agent</div>
   <div class="anchor lab-tag lab-tag-dim r" data-anchor="-1.05,2.05,0">ноутбук · код</div>
-  <aside class="notes">1 мин. Helicopter давно не только про выгрузки: Nessy Data Agent дорабатывает код, пишет новые ноутбуки, может работать в агентском режиме.
-Стратегическая цель платформы (helicopter-users, 10.09): «Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда».
+  <aside class="notes">1 мин. Новости Helicopter: Nessy Data Agent работает в агентском режиме — правит и создаёт ноутбуки; с 18.09 главная — Nessy Data Workspace; в релизе 31.08 в Nessy приехали MCP-тулы Data Detective и Proteus; MCP для ноутбуков — план Q4.
+Цель платформы (helicopter-users, 10.09): «от запроса до создания дашборда».
 Мост: «Но всё упирается в одно — в контекст».</aside>
 </section>
 
-<section class="slide" id="s6" data-act="2" data-level="2" data-short data-builds="1" data-title="Nessy: всё упирается в контекст">
+<section class="slide" id="ctx" data-act="2" data-level="2" data-short data-builds="1" data-title="Nessy: всё упирается в контекст">
   <div class="kicker r" data-auto></div>
   <h2 class="h r scr">Всё упирается <em>в контекст</em></h2>
-  <p class="lead lead-sm r">Код, ноутбуки, SQL, агентский режим — Nessy справляется, если понимает задачу. Неважно, как вы передаёте контекст. Важно, чтобы он был <b>написан</b>.</p>
+  <p class="lead lead-sm r">Агентский режим, правка и создание ноутбуков, SQL — качество зависит от контекста, который вы даёте. Формат любой. Важно, чтобы он был <b>написан</b>.</p>
   <div class="ctx">
     <div class="ctx-src">
-      <div class="src-i r"><span>🧩</span><div><b>Скилл</b><small>переиспользуемая инструкция</small></div></div>
-      <div class="src-i r"><span>✍️</span><div><b>Промпт</b><small>роль · задача · период · поля · формат</small></div></div>
       <div class="src-i r"><span>📄</span><div><b>MD-файл</b><small>описание данных и правил</small></div></div>
       <div class="src-i r"><span>📓</span><div><b>Начало ноутбука</b><small>ячейка с описанием задачи</small></div></div>
+      <div class="src-i r"><span>🧩</span><div><b>Свой скилл</b><small>чтобы поставить команду на рельсы</small></div></div>
+      <div class="src-i r"><span>✍️</span><div><b>Промпт</b><small>цель · данные · ограничения · формат</small></div></div>
     </div>
     <svg class="ctx-flow r" viewBox="0 0 640 336" preserveAspectRatio="none">
       <defs><linearGradient id="cfg" x1="0" x2="1"><stop offset="0" stop-color="#a78bfa" stop-opacity=".15"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>
       <path id="cf0" d="M0,42 C320,42 320,168 640,168"/><path id="cf1" d="M0,126 C320,126 320,168 640,168"/>
       <path id="cf2" d="M0,210 C320,210 320,168 640,168"/><path id="cf3" d="M0,294 C320,294 320,168 640,168"/>
-      <circle r="6"><animateMotion dur="2.2s" repeatCount="indefinite"><mpath href="#cf0"/></animateMotion></circle>
-      <circle r="6"><animateMotion dur="2.2s" begin=".55s" repeatCount="indefinite"><mpath href="#cf1"/></animateMotion></circle>
-      <circle r="6"><animateMotion dur="2.2s" begin="1.1s" repeatCount="indefinite"><mpath href="#cf2"/></animateMotion></circle>
-      <circle r="6"><animateMotion dur="2.2s" begin="1.65s" repeatCount="indefinite"><mpath href="#cf3"/></animateMotion></circle>
+      <circle r="6"><animateMotion dur="2.6s" repeatCount="indefinite"><mpath href="#cf0"/></animateMotion></circle>
+      <circle r="6"><animateMotion dur="2.6s" begin=".65s" repeatCount="indefinite"><mpath href="#cf1"/></animateMotion></circle>
+      <circle r="6"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#cf2"/></animateMotion></circle>
+      <circle r="6"><animateMotion dur="2.6s" begin="1.95s" repeatCount="indefinite"><mpath href="#cf3"/></animateMotion></circle>
     </svg>
-    <div class="ctx-agent r"><span class="ctx-pulse"></span><b>Nessy Data Agent</b><small>код · ноутбуки · SQL · агентский режим</small><em class="ctx-note">результат проверяет аналитик</em></div>
+    <div class="ctx-agent r"><span class="ctx-pulse"></span><b>Nessy Data Agent</b><small>агентский режим · ноутбуки · SQL</small><em class="ctx-note">результат проверяет аналитик</em></div>
   </div>
-  <div class="ex" data-step="1">
-    <div class="card prompt bad"><div class="ptag">❌ без контекста</div><p class="mono big">дай данные по судам за год</p><small>Какой год? Какие поля? Откуда? Агент будет угадывать.</small></div>
-    <div class="card prompt good"><div class="ptag">✅ с контекстом</div>
-<pre class="mono"><b>Роль:</b> аналитик данных, SQL для DWH · <b>Контекст:</b> судебные дела клиентов
-<b>Период:</b> 01.01.2025–31.12.2025 · <b>Поля:</b> id дела, клиент, суд, дата, статус
-<b>Таблицы:</b> найди сам в DWH · <b>Формат:</b> SQL + пояснение</pre></div>
+  <div class="gio" data-step="1">
+    <div class="gio-k">Что на входе — то и на выходе</div>
+    <div class="gio-i"><b>Цель и ограничения</b><small>что считаем, для кого, чего делать нельзя</small></div>
+    <div class="gio-i"><b>Данные</b><small>какие таблицы и поля, где они лежат</small></div>
+    <div class="gio-i"><b>Формат результата</b><small>ноутбук, SQL или витрина — и как проверить</small></div>
   </div>
-  <aside class="notes">1,5 мин. Главная мысль раздела: всё упирается в контекст. Агентский режим, код, ноутбуки — всё это работает, если у агента есть хорошо описанный контекст.
-Неважно, каким способом вы его передаёте — скилл, промпт, MD-файл, первая ячейка ноутбука. Важно, чтобы он был написан.
-Клик (1): пример — промпт без контекста и с контекстом.
-Nessy — ассистент: результат проверяет аналитик (LIMIT 100, дедубликация, итерации «добавь фильтр», «убери дубли»).
-Источник: инструкция «Nessy Data Agent в Helicopter» (wiki 9035808218).
-→ ДЕМО Д1 (2–3 мин). Запасной план — запись 60 сек.</aside>
+  <aside class="notes">1,5 мин. Не про выгрузку: в агентском режиме Nessy редактирует ноутбуки и создаёт новые. Но всё зависит от качества контекста, который вы даёте.
+Форматы любые: MD-файл, первая ячейка ноутбука, самописный скилл — если пытаетесь поставить на рельсы команду, — или просто хороший промпт.
+Клик (1): что на входе — то и на выходе. Нет нормального контекста на входе — не будет и результата на выходе. Опишите цель и ограничения, данные, формат результата.
+Nessy — ассистент: результат проверяет аналитик.
+→ ДЕМО (по желанию, 2 мин). Источник: инструкция «Nessy Data Agent в Helicopter» (wiki 9035808218).</aside>
 </section>
 
-<section class="slide" id="s7" data-act="2" data-level="2" data-title="Кейсы Helicopter из практики">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h r scr">Команды уже экономят часы — <em>и не только на SQL</em></h2>
-  <div class="cases">
-    <div class="card case r tilt">
-      <div class="case-k">Справочник по внутренним либам</div>
-      <p>«Проще обратиться к агенту nessy data, у него есть в контексте документация по dal и другим либам»</p>
-      <cite>helicopter-users · 02.07</cite>
-    </div>
-    <div class="card case r tilt">
-      <div class="case-k">Е2Е: запрос → ноут → крон → дашборд</div>
-      <p>Тред на <b class="big-n">77</b> постов. Часть сценария уже в агенте, MCP для ноутбуков — план Q4</p>
-      <cite>helicopter-users · 09–10.09</cite>
-    </div>
-    <div class="card case r tilt">
-      <div class="case-k">Скилл вместо бота</div>
-      <p>«у нас не бот — а скилл, который отрабатывает в хелике… чтобы по текстовому запросу получить селект и конечный ответ»</p>
-      <cite>bi-analytics · 04.09</cite>
-    </div>
-    <div class="card case r tilt">
-      <div class="case-k">Анализ «Выписок» банка</div>
-      <p>Агенты разбирают выписки — с тюнингом промптов под задачу</p>
-      <cite>Nessy CLI Discussion · 17.09</cite>
-    </div>
-  </div>
-  <aside class="notes">1 мин. Живые имена команд работают лучше цифр. Все кейсы — из Time-чатов (Приложение А.2).
-Рамка кейса: кто → какая рутина → что сделали → сколько сэкономили.</aside>
-</section>
-
-<section class="slide divider" id="dB" data-act="2" data-level="2" data-sec="B" data-short data-title="Раздел B · Proteus AI">
+<section class="slide divider" id="dB" data-act="2" data-level="1" data-stages="4" data-sec="B" data-short data-title="Раздел B · Proteus AI">
   <div class="div-wrap">
     <div class="div-letter r">B</div>
-    <div class="div-meta r">Уровень 02 · Агент в дашборде</div>
+    <div class="div-meta r">Флоу · дашборд</div>
     <h2 class="div-title r scr">Proteus AI</h2>
-    <p class="div-sub r">Агент, который живёт на вашем дашборде</p>
+    <p class="div-sub r">Агент, который живёт в дашборде</p>
   </div>
-  <aside class="notes">Разделитель. Ступень 02 «Агенты в платформах». Мостик: «Теперь — туда, где данные смотрят».</aside>
+  <aside class="notes">Разделитель. На флоу горит «Дашборд».</aside>
 </section>
 
-<section class="slide" id="s8" data-act="2" data-level="2" data-short data-title="Proteus AI: скиллы под задачи борда">
+<section class="slide" id="proteus" data-act="2" data-level="1" data-short data-title="Proteus AI: что есть и где границы">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr" style="max-width:1500px">Proteus AI живёт в дашборде — <em>дальше скиллы под задачи борда</em></h2>
-  <div class="pw">
-    <div class="stack">
-      <div class="pw-k r">Сегодня</div>
-      <div class="mini r"><b>«AI-анализ»</b> — кнопка на дашбордах с 20.08: агент разбирает графики с учётом фильтров</div>
-      <div class="mini r"><b>Скиллы борда</b> — создаются через чат, видны всем пользователям дашборда</div>
-      <div class="mini r"><b>eCharts</b> — агент правит код графиков</div>
-    </div>
-    <div class="pw-road r">
-      <div class="pw-k">Куда идёт команда Proteus <span class="pw-tag">в проработке</span></div>
-      <div class="pflow">
-        <div class="pf"><span class="num">1</span><b>Skills Market</b><small>скиллы из общего каталога</small></div>
-        <i>→</i>
-        <div class="pf"><span class="num">2</span><b>Активация на дашборде</b><small>скилл включается на конкретном борде</small></div>
-        <i>→</i>
-        <div class="pf pf-hot"><span class="num">3</span><b>Скиллы под задачи борда</b><small>агент заранее знает, для чего создан дашборд</small></div>
-      </div>
-      <small class="pw-src">RFC «Proteus Agent 🤝 Skills Market» · автозагрузка — PROTEUS-918</small>
-    </div>
-  </div>
-  <blockquote class="q q-sm r" style="max-width:1480px">«…появился агент Proteus AI, и теперь делаем скиллы к нашим бордам, чтобы пользователь мог из любого нашего борда запросить значение любой метрики в нужных разрезах»<cite>bi-analytics · 07.09 · команда отказалась от самописного бота в Time</cite></blockquote>
-  <div class="cta r"><span class="big-n" data-count="8">8</span>+ команд откликнулись в треде про селф-сервис метрик&nbsp;&nbsp;·&nbsp;&nbsp;<b>Владелец дашборда? Опишите задачи борда — это и есть будущий скилл.</b></div>
-  <aside class="notes">1,5 мин. Как пользоваться агентом в дашборде — очевидно, на этом не задерживаемся.
-Главное — куда идёт команда Proteus: интеграция со Skills Market. Можно будет активировать скиллы на конкретном дашборде и прописывать скиллы под те задачи, которые мы закладываем в этот дашборд.
-Не обещать сроки: RFC «Proteus Agent 🤝 Skills Market» в проработке, автозагрузка — PROTEUS-918.
-Кейс: команда отказалась от самописного бота в Time в пользу скиллов Proteus AI; в треде про селф-сервис метрик откликнулись 8+ команд.</aside>
-</section>
-
-<section class="slide" id="s9" data-act="2" data-level="2" data-title="Proteus AI: честно о границах">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h r scr">Честно о <em>границах</em></h2>
+  <h2 class="h h-sm r scr">Proteus AI уже отвечает по борду — <em>но пока это не промышленная история</em></h2>
   <div class="yn">
     <div class="card yes r">
-      <div class="yn-h">✅ Работает</div>
+      <div class="yn-h">✅ Уже умеет</div>
       <ul>
-        <li>Создание и редактирование скиллов через чат — владельцы бордов</li>
-        <li>Скилл виден всем пользователям борда</li>
+        <li>Отвечает на вопросы по данным дашборда</li>
+        <li>«AI-анализ» графиков с учётом фильтров <small>кнопка на дашбордах с 20.08</small></li>
+        <li>Простые джобы уже закрывает <small>по словам команды Proteus</small></li>
       </ul>
     </div>
     <div class="card no r">
-      <div class="yn-h">❌ Пока нет</div>
+      <div class="yn-h">⚠️ Ограничения</div>
       <ul>
-        <li>Установка из Skills Market / GitLab <small>RFC «Proteus Agent 🤝 Skills Market» · автозагрузка — PROTEUS-918</small></li>
-        <li>Автоактивация скилла <small>в работе</small></li>
-        <li>UI редактирования <small>«скоро»</small></li>
+        <li>Непрозрачно, как управлять логикой агента и настраивать её</li>
+        <li>Хорошо работает на простых бордах <small>один датасет или простые датасеты</small></li>
+        <li>Сложные датасеты — ответ чаще неудовлетворительный</li>
       </ul>
     </div>
   </div>
-  <div class="honest r">Мы не продаём — показываем, где границы. <span>Интеграция со Skills Market — в бэклоге; это временно.</span></div>
-  <aside class="notes">1 мин. Слайд про доверие: «Мы не продаём — показываем, где границы. Планы такие-то». Это усиливает всё остальное.
-Интеграция со Skills Market и GitLab пока в бэклоге — скиллы в Proteus AI создаются через чат; это временно.</aside>
+  <div class="honest r">В работе у команды Proteus: <b>интеграция со Skills Market</b>. <span>Появятся понятные правила игры — как устанавливать скиллы на дашборд.</span></div>
+  <aside class="notes">1,5 мин. Холиварная тема — говорим честно.
+Proteus AI уже есть и может отвечать по борду. Некоторые простые джобы точно закрывает — нам это рассказывала сама команда Proteus.
+Ограничения: довольно непрозрачно, как управлять логикой работы агента и настраивать её. Чаще всего хорошо работает на простых бордах с одним датасетом или простыми датасетами. Если накручены сложные датасеты — ответ чаще неудовлетворительный.
+Про текущие скиллы в Proteus AI пока НЕ рассказываем: сейчас это чёрный ящик.
+В работе: интеграция со Skills Market (RFC «Proteus Agent 🤝 Skills Market», PROTEUS-918) — будут понятны правила игры, как устанавливать скиллы на дашборд.</aside>
 </section>
 
-<section class="slide divider" id="dC" data-act="2" data-level="2" data-sec="C" data-short data-title="Раздел C · Nessy → DeepSeek">
+<section class="slide divider" id="dC" data-act="2" data-level="2" data-stages="1,2,3,4,5,6" data-sec="C" data-short data-title="Раздел C · Агентские среды">
   <div class="div-wrap">
     <div class="div-letter r">C</div>
-    <div class="div-meta r">Уровень 02 · Модель под капотом Nessy</div>
-    <h2 class="div-title r scr">Nessy → DeepSeek</h2>
-    <p class="div-sub r">История одного переезда</p>
+    <div class="div-meta r">Флоу · любой этап</div>
+    <h2 class="div-title r scr">Nessy + Hermes</h2>
+    <p class="div-sub r">Агентские среды, где закрываются любые джобы</p>
   </div>
-  <aside class="notes">Разделитель. Снова ступень 02 — модель под капотом Nessy. Сначала рассказываем про Nessy, потом — про личного агента tclaude.</aside>
+  <aside class="notes">Разделитель. На флоу горят все этапы: агентские среды работают везде.</aside>
 </section>
 
-<section class="slide" id="s13" data-act="2" data-level="2" data-short data-builds="2" data-title="Qwen → DeepSeek V4 Flash">
+<section class="slide" id="envs" data-act="2" data-level="2" data-short data-title="Nessy и Hermes — агентские среды">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Nessy и Hermes — <em>агентские среды</em></h2>
+  <div class="anchor env-lab r" data-anchor="-3.7,0,0" style="--c:var(--l2)">Nessy</div>
+  <div class="anchor env-lab r" data-anchor="3.7,0,0" style="--c:var(--l1)">Hermes</div>
+  <div class="env card r anchor" data-anchor="-3.7,-1.45,0" style="--c:var(--l2)">
+    <div class="env-h">Nessy <small>CLI · Data Agent · Cloud</small></div>
+    <dl>
+      <dt>Где живёт</dt><dd>CLI — на рабочей станции; Data Agent — в Helicopter</dd>
+      <dt>Порог</dt><dd>установить CLI или открыть Helicopter</dd>
+      <dt>Файлы</dt><dd>✅ локальные файлы на ноуте</dd>
+      <dt>Модель</dt><dd>DeepSeek V4 Flash</dd>
+    </dl>
+  </div>
+  <div class="env card r anchor" data-anchor="3.7,-1.45,0" style="--c:var(--l1)">
+    <div class="env-h">Hermes <small>Personal Agent · ML Core</small></div>
+    <dl>
+      <dt>Где живёт</dt><dd>облако, чат в браузере — без терминала</dd>
+      <dt>Порог</dt><dd>открыть ссылку</dd>
+      <dt>Файлы</dt><dd>❌ нет доступа к ноуту · сессия ~10 часов</dd>
+      <dt>Скиллы</dt><dd>из Skills Market, профили под задачи, создание прямо в UI</dd>
+    </dl>
+  </div>
+  <div class="env-thesis r">Работаем с моделями в агентском режиме и закрываем сколько угодно джоб — <b>всё упирается в доступность MCP и инструментов</b></div>
+  <aside class="notes">1,5 мин. Nessy и Hermes — это наши две «песочницы», агентские среды: там, где мы работаем с моделями в агентском режиме и можем закрывать неограниченное количество джоб. Всё упирается в доступность MCP, ручек и инструментов.
+Nessy — семейство: CLI на рабочей станции (форк qwen-code, модель DeepSeek V4 Flash), Data Agent в Helicopter, Nessy Cloud. Есть доступ к локальным файлам.
+Hermes (Personal Agent, продукт ML Core): облачный агент, чат прямо в браузере — personal-agent.t-tech.team/hermes. Нулевой порог входа, не нужен терминал. Сессия живёт ~10 часов, нет доступа к локальным файлам. Скиллы: из Skills Market (dp skills install &lt;name&gt; --agent hermes), через git clone самим агентом или прямо в UI. Есть профили — наборы скиллов под разные задачи, в том числе data-agent.
+[УТОЧНИТЬ] Стёпа: у Hermes есть доступ к DWH — проверить в канале personal-agent-users / итогах.
+Как люди выбирают: одну и ту же задачу решают и в Hermes, и в Nessy — это соседние среды, разный рантайм.</aside>
+</section>
+
+<section class="slide" id="nessy" data-act="2" data-level="2" data-builds="2" data-title="Qwen ушёл → DeepSeek V4 Flash">
   <div class="kicker r" data-auto></div>
   <div class="mig">
     <div class="mig-row" data-step-only="0">
@@ -895,25 +1024,25 @@ Nessy — ассистент: результат проверяет аналит
     </div>
   </div>
   <div class="cta cta-center" data-step="2">Пробовали скиллы в Nessy и не работало? <b>Попробуйте ещё раз — это не те скиллы и не та модель.</b></div>
-  <aside class="notes">1,5 мин. Клики: (0) частицы «Qwen» — хаос → (1) пересборка в «DeepSeek» + цитата анонса → (2) голос пользователя + уроки ретро.
-Техническая сторона: Qwen3.5 397b морально устарел → Q3-обновление; катали a2a (без проблем), затем nessy-cli; скачок нагрузки — стабилизировали в день инцидента.
+  <aside class="notes">1 мин. Клики: (0) частицы «Qwen» — хаос → (1) пересборка в «DeepSeek» + цитата анонса → (2) голос пользователя + уроки ретро.
 Источники: ретро перехода (wiki 9242349163), Time-каналы.
-Честная оговорка для Q&A: квоты суточные, при исчерпании — очередь; локальный DeepSeek медленнее GLM на тяжёлых задачах («раза в 4–6» на тестах).
-Мост: «Nessy — агент внутри платформы. Дальше — личный агент без общих лимитов».</aside>
-</section>
-<section class="slide divider" id="dD" data-act="2" data-level="3" data-sec="D" data-short data-title="Раздел D · tclaude и BYOK">
-  <div class="div-wrap">
-    <div class="div-letter r">D</div>
-    <div class="div-meta r">Уровень 03 · Личный агент</div>
-    <h2 class="div-title r scr">tclaude + BYOK</h2>
-    <p class="div-sub r">Свой агент — без общих лимитов</p>
-  </div>
-  <aside class="notes">Разделитель. Ступень 03 «Личный агент». Мостик: «Nessy — агент внутри платформы. А если нужен свой агент, который не упирается в общие лимиты, — это tclaude».</aside>
+Для Q&amp;A: квоты суточные, при исчерпании — очередь.
+Мост: «Nessy — общая среда. А если нужны свои ресурсы — tclaude».</aside>
 </section>
 
-<section class="slide" id="s10" data-act="2" data-level="3" data-short data-title="tclaude: корпоративный кодинг-агент">
+<section class="slide divider" id="dD" data-act="2" data-level="3" data-stages="1,2,3,4,5,6" data-sec="D" data-short data-title="Раздел D · tclaude">
+  <div class="div-wrap">
+    <div class="div-letter r">D</div>
+    <div class="div-meta r">Флоу · любой этап</div>
+    <h2 class="div-title r scr">tclaude</h2>
+    <p class="div-sub r">Твои личные ресурсы — без очередей</p>
+  </div>
+  <aside class="notes">Разделитель.</aside>
+</section>
+
+<section class="slide" id="tclaude" data-act="2" data-level="3" data-short data-title="tclaude: твои личные ресурсы">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">tclaude + BYOK — <em>свой агент без общих лимитов</em></h2>
+  <h2 class="h h-sm r scr">tclaude — <em>твои личные ресурсы</em></h2>
   <div class="anchor core-lab r" data-anchor="0,0,0">tclaude</div>
   <div class="anchor orb r" data-orb="0">Proteus</div>
   <div class="anchor orb r" data-orb="1">Jira</div>
@@ -922,8 +1051,8 @@ Nessy — ассистент: результат проверяет аналит
   <div class="anchor orb r" data-orb="4">Wiki</div>
   <div class="anchor orb r" data-orb="5">T-Tracker</div>
   <div class="right-col">
-    <div class="byok-call r"><b>Подключаете свою платную учётку через BYOK</b> — и агент не упирается в общие квоты ai-seats<div class="chips"><span>песочница</span><span>LLM Proxy</span><span>Анон</span><span>MCP из dp cli</span></div></div>
-    <div class="card term r">
+    <div class="byok-call r"><b>Выделенные ресурсы — только твои.</b> Не стоишь в общих очередях: ограничен только своим бюджетом<div class="chips"><span>песочница</span><span>LLM Proxy</span><span>Анон</span><span>MCP из dp cli</span></div></div>
+    <div class="card term-mini r">
       <div class="code-h"><span></span><span></span><span></span><b>tclaude</b></div>
 <pre class="mono" data-type><span class="p">$</span> tclaude
 <span class="u">› что считается в этом графике?</span>
@@ -933,223 +1062,320 @@ Nessy — ассистент: результат проверяет аналит
       <small class="illu">иллюстрация сценария</small>
     </div>
     <ul class="facts facts-sm">
-      <li class="r">Читает дашборд через MCP Proteus, ходит в Jira / T-Tracker, ищет по Wiki</li>
-      <li class="r"><b>Доступ:</b> место в ai-seats через руководителя — или своя учётка через BYOK</li>
+      <li class="r"><b>Доступы уже есть:</b> место в ai-seats — или своя подписка через BYOK</li>
+      <li class="r"><b>Основные MCP уже подключены:</b> Proteus, Jira, GitLab, Sage, Wiki, T-Tracker</li>
     </ul>
   </div>
-  <aside class="notes">1,5 мин. Главное про tclaude: это возможность подключить свою платную учётку через BYOK и работать с агентом, который не упирается в общие лимиты.
-T-Claude Code — Claude Code от Nestor: песочница, LLM Proxy, Анон и корпоративные MCP-инструменты из dp cli.
-Пример из практики: «спрашиваешь агента “что считается в этом графике” — он читает SQL графика и объясняет».
-Факт: в T-Claude 0.0.23 каталог dp ai mcp — 32 MCP-сервера.
-→ ДЕМО Д2 (2 мин): в терминале спросить про реальный дашборд. Запасной план — запись 60 сек.</aside>
+  <aside class="notes">1 мин. Про tclaude: доступы уже есть — можно заплатить денежки и использовать. Преимущество: это выделенные ресурсы, твои личные. Не стоишь в очередях — ты ограничен только долларами, которые потратил. И к основным MCP доступ уже есть.
+Подробности про тарифы и подписки не рассказываем — только если спросят (инструкция: wiki 9112708455).
+Пример: «спрашиваешь агента “что считается в этом графике” — он читает SQL графика и объясняет».</aside>
 </section>
 
-<section class="slide" id="s11" data-act="2" data-level="3" data-short data-builds="2" data-title="BYOK: свой ключ в tclaude">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Свой ключ в корпоративном tclaude — <em>GLM уже согласован ИБ</em></h2>
-  <div class="paths">
-    <div class="path r"><span class="num">1</span><div><b>Team-подписка Claude</b><small>общая, оформляем мы</small></div></div>
-    <div class="path r"><span class="num">2</span><div><b>Своя подписка Claude / ChatGPT</b><small>AD-группа Sandbox</small></div></div>
-    <div class="path path-hot r"><span class="num">3</span><div><b>GLM Coding Plan в tclaude</b><small>GLM-5.3 / 5.3-Flash · 1M контекст · ~×3 дешевле Claude</small></div></div>
-  </div>
-  <div data-step="1">
-    <div class="anchor flow-n" data-anchor="-4.6,-.85,0"><b>Ключ z.ai</b><small>заголовок X-Byok-Key</small></div>
-    <div class="anchor flow-n" data-anchor="0,-.85,0"><b>LLM Proxy</b><small>Анон · корпоративные гарды</small></div>
-    <div class="anchor flow-n" data-anchor="4.6,-.85,0"><b>tclaude</b><small><code>tclaude set-byok-key</code> · с 0.0.23</small></div>
-    <div class="flow-note">Место в ai-seats не нужно · нужны <b>два ключа</b>: персональный LLM Proxy + X-Byok-Key · суффикс <code>[1m]</code> обязателен</div>
-  </div>
-  <div class="byok-bottom" data-step="2">
-    <div class="tariffs">
-      <div class="tar"><span>Lite</span><b>$18</b><small>«вообще не вариант» — лимит на 5 часов уходит на одну задачу</small></div>
-      <div class="tar tar-hot"><span>Pro</span><b>$80</b><small>рекомендуем для ежедневной работы</small></div>
-      <div class="tar"><span>Max</span><b>$168</b><small>70% недельных кредитов за 2 дня интенсива</small></div>
-    </div>
-    <div class="ib">
-      <div class="ib-h">Границы ИБ</div>
-      <div>только рабочая станция · только tclaude · не для прода / CI</div>
-      <div class="ib-stats"><span><b>04.09</b> запуск</span><span><b data-count="68">68</b> участников встречи 14.09</span></div>
-    </div>
-  </div>
-  <aside class="notes">1,5 мин. Клики: (1) схема «ключ → LLM Proxy → tclaude» → (2) тарифы и границы ИБ.
-Источники: инструкция «Получение Claude Code/ChatGPT/GLM» (wiki 9112708455) + канал ~t-claude-code-byok-byol: запуск 04.09.2026, встреча сообщества 14.09 — 68 участников.
-Реальный опыт: Lite «не вариант» (5-часовой лимит уходит на одну задачу), Max — 70% недельных кредитов за 2 дня → советовать Pro. Латентность через прокси 9–10 сек на первый токен, пик 9:00–13:00 МСК.
-Грабли: суффикс [1m] обязателен, нужны ДВА ключа (персональный LLM Proxy + X-Byok-Key z.ai).
-ВАЖНО: сообщество BYOK пока чисто девелоперское — аналитиков там почти нет. «Вы — первые, кто это принесёт в BI».</aside>
-</section>
-
-<section class="slide" id="s12" data-act="2" data-level="3" data-title="Модельный ландшафт">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Нет «лучшей модели» — есть <em>правильная под задачу</em></h2>
-  <div class="models">
-    <div class="model r anchor" data-anchor="-4.6,-1.25,0" style="--c:#FF8A65">
-      <div class="m-name">Claude</div>
-      <dl><dt>Чей бюджет</dt><dd>корпоративная квота ai-seats</dd>
-      <dt>Когда брать</dt><dd>тяжёлые задачи</dd>
-      <dt>Факт</dt><dd>дневной лимит extra-limits поднят до $150</dd></dl>
-    </div>
-    <div class="model r anchor" data-anchor="0,-1.25,0" style="--c:#60A5FA">
-      <div class="m-name">GLM-5.3</div>
-      <dl><dt>Чей бюджет</dt><dd>личная подписка (BYOK)</dd>
-      <dt>Контекст</dt><dd>1M токенов</dd>
-      <dt>Из Time</dt><dd>«скорость просто офигенная, всё летает»</dd></dl>
-    </div>
-    <div class="model r anchor" data-anchor="4.6,-1.25,0" style="--c:#22D3EE">
-      <div class="m-name">DeepSeek V4 Flash</div>
-      <dl><dt>Где</dt><dd>под капотом Nessy</dd>
-      <dt>Когда брать</dt><dd>ежедневная рутина</dd>
-      <dt>Честно</dt><dd>на тяжёлых задачах «раза в 4–6» медленнее GLM</dd></dl>
-    </div>
-  </div>
-  <div class="pattern r">
-    <span class="pt-k">Паттерн экономии</span>
-    <span><b>flash</b> — рутина и субагенты</span><span><b>5.3</b> — планирование и ревью</span>
-    <code>CLAUDE.md: «ты — оркестратор, для основного кодинга запускай субагентов на флэше»</code>
-  </div>
-  <aside class="notes">1 мин. GLM Max хвалят за скорость и качество «лучше ожиданий в сравнении с Anthropic»; местный DeepSeek «раза в 4–6 медленнее» GLM на тестах («1.5 часа против 15 минут»); специализация: «для frontend qwen лучше… GLM больше для бэкенда».
-ВАЖНО для зала: сообщество BYOK пока чисто девелоперское — аналитиков там почти нет, доклад должен это поменять.
-Мост: «Личный агент работает с вами. Дальше — автоматизация, которая работает сама».</aside>
-</section>
-
-
-<section class="slide divider" id="dE" data-act="2" data-level="4" data-sec="E" data-title="Раздел E · n8n">
+<section class="slide divider" id="dE" data-act="2" data-level="4" data-stages="6" data-sec="E" data-title="Раздел E · n8n">
   <div class="div-wrap">
     <div class="div-letter r">E</div>
-    <div class="div-meta r">Уровень 04 · Автоматизация</div>
+    <div class="div-meta r">Флоу · автоматизация</div>
     <h2 class="div-title r scr">n8n</h2>
-    <p class="div-sub r">Клей между системами</p>
+    <p class="div-sub r">Флоу, которые работают сами</p>
   </div>
-  <aside class="notes">Разделитель. Верхняя ступень 04 — экосистема: AI делает рутину за тебя.</aside>
+  <aside class="notes">Разделитель. Коротко — про n8n много рассказывали на митапах.</aside>
 </section>
 
-<section class="slide" id="s14" data-act="2" data-level="4" data-title="n8n: клей между системами">
+<section class="slide" id="n8n" data-act="2" data-level="4" data-title="n8n: от ботов до командных автоматизаций">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Агент работает с тобой. <em>n8n — сам, по расписанию</em></h2>
+  <h2 class="h h-sm r scr">n8n: <em>от ботов поддержки до командных автоматизаций</em></h2>
   <div class="wf r">
-    <div class="wf-n"><span>⏱</span><b>Триггер</b><small>расписание / T-Tracker</small></div>
+    <div class="wf-n"><span>⏱</span><b>Триггер</b><small>расписание · T-Tracker · Time</small></div>
     <div class="wf-e"><i></i></div>
-    <div class="wf-n wf-hot"><span>✦</span><b>Нода «Несси»</b><small>Nessy Cloud по промпту · 🔥 23</small></div>
+    <div class="wf-n wf-hot"><span>✦</span><b>Агентная нода</b><small>Nessy Cloud · DeepSeek</small></div>
     <div class="wf-e"><i></i></div>
-    <div class="wf-n"><span>✉</span><b>Отправка</b><small>Time · Postgres · отчёт</small></div>
+    <div class="wf-n"><span>✉</span><b>Результат</b><small>Time · отчёт · Postgres</small></div>
   </div>
   <div class="n8n-grid">
     <div class="card r">
-      <div class="case-k">Кейсы аналитиков из Time</div>
+      <div class="case-k">Что уже закрывают</div>
       <ul class="dl">
-        <li><b>07.09</b> бот в Time, отдающий метрики из источников — готовый шаблон</li>
-        <li><b>03.09</b> ежемесячные отчёты «для бюрократов и менеджеров»</li>
-        <li><b>27.08</b> правка отчёта по задачам и тредам сотрудника</li>
-        <li><b>20.08</b> выгрузка в Postgres для Grafana и истории в DWH-реплике</li>
-        <li><b>21.07</b> отчёты из Jira по меткам</li>
+        <li><b>бот</b> в Time, отдающий метрики из источников</li>
+        <li><b>отчёты</b> для менеджеров — каждый месяц, сами</li>
+        <li><b>выгрузки</b> в Postgres для Grafana и истории</li>
       </ul>
     </div>
     <div class="stack">
-      <blockquote class="q q-sm r">«Аналитик, QA или вообще любой инженер должен с такой задачей справиться»<cite>n8n-ask · позиционирование платформы</cite></blockquote>
-      <div class="mini r"><b>Форсайт:</b> «хотелось бы Proteus MCP в блоке nessy в n8n» (11.09) → уже задача <code>N8N-879</code> (16.09)</div>
-      <div class="punch r">Скилл учит агента — n8n делает так, чтобы <em>агента вообще не нужно было звать</em></div>
+      <div class="punch r">Автоматизации <em>подросли</em>: в флоу теперь можно звать агента на DeepSeek</div>
+      <div class="mini r"><b>Nessy Cloud</b> работает по расписанию — не нужно держать ноутбук открытым</div>
     </div>
   </div>
-  <aside class="notes">1 мин. n8n.t-tech.team; self-service. Свежее: нода «Несси» — Nessy Cloud по промпту в изолированном окружении (09.09, fire×23); ноды T-Tracker с триггерами; n8n — стандартный кубик Т-Лего.
-Форсайт: заявка «хотелось бы Proteus MCP в блоке nessy в n8n» (11.09) → уже задача N8N-879 (16.09).
-Связка: «Скилл учит агента — n8n делает так, чтобы агента вообще не нужно было звать».</aside>
+  <aside class="notes">45 сек. Долго не останавливаемся — про n8n много рассказывали на митапах.
+Главное: разные автоматизации с применением агента подросли, потому что там теперь тоже можно использовать DeepSeek (агентная нода — Nessy Cloud, работает по расписанию, ноутбук держать открытым не нужно).
+Разные флоу можно закрывать — от ботов поддержки до командных автоматизаций.</aside>
 </section>
 
-<section class="slide divider" id="dF" data-act="2" data-level="4" data-sec="F" data-short data-title="Раздел F · Skills Market и BI-пак">
+<!-- ═══════════════════════════ АКТ III · НАШИ СКИЛЛЫ ═══════════════════════════ -->
+
+<section class="slide divider" id="dF" data-act="3" data-level="4" data-stages="1,4,5" data-sec="F" data-short data-title="Раздел F · BI-пак">
   <div class="div-wrap">
     <div class="div-letter r">F</div>
-    <div class="div-meta r">Уровень 04 · Экосистема скиллов</div>
-    <h2 class="div-title r scr">Skills Market + BI-пак</h2>
-    <p class="div-sub r">Скиллы как валюта</p>
+    <div class="div-meta r">Наши скиллы</div>
+    <h2 class="div-title r scr">BI-пак</h2>
+    <p class="div-sub r">Скиллы, которые мы собрали для BI</p>
   </div>
-  <aside class="notes">Разделитель. Ступень 04 — экосистема скиллов.</aside>
+  <aside class="notes">Разделитель. Переходим от инструментов к нашим скиллам.</aside>
 </section>
 
-<section class="slide" id="s15" data-act="2" data-level="4" data-title="Skills Market: скиллы как валюта">
+<section class="slide" id="pack" data-act="3" data-level="4" data-short data-title="Как скилл попадает в BI-пак">
   <div class="kicker r" data-auto></div>
-  <div class="num-under">
-    <div class="num-cap r">переиспользуемых скиллов в Skills Market <span>+ <b data-count="174">174</b> экстеншена</span></div>
-    <div class="num-facts">
-      <div class="nf r"><b>Индексация из GitLab</b><small>SKILL.md / nessy-extension.json · раз в день</small></div>
-      <div class="nf r"><b><code>dp skills install</code></b><small>скиллы переносимы между агентами</small></div>
-      <div class="nf r"><b>Skill Packs трёх типов</b><small>профессия · платформа · бизнес-линия</small></div>
-    </div>
-    <div class="src r">по API маркета на 21.09.2026 · у каждого скилла в UI видно число установок</div>
-    <div class="teaser r">Найти BI-шное среди 11 тысяч — задача нетривиальная →</div>
-  </div>
-  <aside class="notes">1 мин. 11 563 скилла и 174 экстеншена (по API маркета /api/v1/meta на 21.09.2026).
-Проблема, которая подводит к BI-паку: найти в 11 тысячах скиллов именно BI-шное — нетривиально.
-Прозрачность: «Я бы хотела видеть, что за скиллпак мы выгружаем и где он протестирован» (skills-market, 22.09) — ровно тот запрос, который закрывает наш пак.</aside>
-</section>
-
-<section class="slide" id="s16" data-act="2" data-level="4" data-short data-title="BI-пак: свой полк в общем маркете">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h r scr" style="max-width:1050px">BI-пак — <em>свой полк</em> в общем маркете</h2>
-  <div class="tl r">
-    <div class="tl-i"><b>09.09</b><span>вопрос в skills-market: «как создать отдельную папку для BI-аналитиков и туда складывать скиллы»</span></div>
-    <div class="tl-i"><b>10.09</b><span>MR !737 «вкладка по BI-профессии»</span></div>
-    <div class="tl-i tl-hot"><b>10.09</b><span>вмержен в тот же день</span></div>
+  <h2 class="h r scr" style="max-width:1150px">Как скилл попадает <em>в BI-пак</em></h2>
+  <div class="pk">
+    <div class="pk-s r"><span class="num">1</span><b>GitLab</b><small>залили скилл (SKILL.md) в репозиторий</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s r"><span class="num">2</span><b>Skills Market</b><small>скилл появляется там автоматически</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s pk-hot r"><span class="num">3</span><b>Валидация стрима</b><small>«AI в BI» проверяет, что скилл работает и не дублирует другие</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s r"><span class="num">4</span><b>BI-пак</b><small>одно место с проверенным для BI</small></div>
   </div>
   <div class="pack-row">
-    <div class="principle r"><b>Принцип:</b> в паке BI-профессии <em>нет дублирующих джобов</em><small>добавление пока централизовано — через стрим «AI в BI» · рядом та же механика: QA-пак по перф-тестам, MR !805 (22.09)</small></div>
-    <div class="ph r" style="width:560px;height:210px">[СОБРАТЬ] текущий состав BI-пака — список скиллов</div>
+    <div class="principle r"><b>Пока — просто напишите нам в личку.</b> Будет много заявок — продумаем нормальный процесс.<small>в паке BI-профессии нет дублирующих джоб</small></div>
+    <div class="ph r" style="width:560px;height:190px">[СОБРАТЬ] текущий состав BI-пака — список скиллов</div>
   </div>
-  <aside class="notes">1 мин. История создания: 09.09 вопрос в skills-market → 10.09 MR !737 «вкладка по BI-профессии» → вмержен в тот же день.
-Принцип: в паке BI-профессии нет дублирующих джобов; сейчас доступ на добавление централизован — через стрим.
-[СОБРАТЬ] состав пака, число установок. Честно про текущий процесс — см. следующий слайд.</aside>
+  <aside class="notes">1 мин. Все скиллы автоматически появляются в Skills Market, если их залить в GitLab. В BI-пак они попадают, если уже есть в Skills Market — через валидацию стрима «AI в BI».
+Пока — приходите в личку. Если заявок станет много — продумаем нормальный процесс. Сложного процесса пока нет, и это нормально.</aside>
 </section>
 
-<section class="slide" id="s17" data-act="2" data-level="4" data-short data-builds="2" data-title="Флоу контрибьюции">
+<section class="slide" id="skillflow" data-act="3" data-level="4" data-short data-builds="1" data-title="Флоу BI-аналитика × наши скиллы">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Пока — через стрим. <em>Это осознанно.</em></h2>
-  <div class="now r"><span class="now-k">Сейчас</span><span>хочешь скилл в пак</span><i>→</i><span>пишешь в стрим</span><i>→</i><span>вмерживаем</span><small>сначала копим качество и не плодим дубли — потом строим процесс</small></div>
-  <div class="pipe-labels" data-step="1">
-    <div class="anchor stage" data-pipe="0"><b>MR в skills.yaml</b><small>репозиторий-манифест</small></div>
-    <div class="anchor stage" data-pipe="1"><b>Линт</b><small>структура скилла</small></div>
-    <div class="anchor stage" data-pipe="2"><b>Установка</b><small>в целевые среды</small></div>
-    <div class="anchor stage" data-pipe="3"><b>2 прогона</b><small>функциональные</small></div>
-    <div class="anchor stage" data-pipe="4"><b>Оценка</b><small>100-балльная шкала</small></div>
-    <div class="anchor stage" data-pipe="5"><b>Отчёт в MR</b><small>→ в пак</small></div>
-  </div>
-  <div class="target-k" data-step="1">Целевая модель · на каждый MR — автоматический CI</div>
-  <div class="prec" data-step="2">
-    <span class="pt-k">Уже применяется</span>
-    <span>dwsai</span><span>nessy-qwarium</span><span>nestor-data-agent-eval</span><i>·</i><span>OpenAI</span><span>Anthropic</span><span>promptfoo</span>
-    <small>подход «скилл + evals + валидация до мержа»</small>
-  </div>
-  <aside class="notes">1,5 мин. Пока добавление идёт через стрим «AI в BI» — осознанно: копим качество и не плодим дубли.
-Клики: (1) запуск целевого пайплайна — кольца загораются по очереди → (2) прецеденты.
-Целевая модель: репозиторий-манифест skills.yaml, добавление = Merge Request, на каждый MR автоматически CI: линт структуры → установка в целевые среды → два функциональных прогона → аналитическая оценка (100-балльная шкала) → отчёт прямо в MR.
-Подход «скилл + evals + валидация до мержа» уже применяется в банке минимум в трёх местах (dwsai, nessy-qwarium, nestor-data-agent-eval) и в индустрии (OpenAI, Anthropic, promptfoo).
-Это «продуктовое» мышление — покажи, что процесс продуман. Источник: wiki 9253808524.</aside>
+  <h2 class="h h-sm r scr">Какие этапы флоу <em>уже закрывают наши скиллы</em></h2>
+  <div class="fcol anchor r fc-on" data-pipe="0"><span class="fs-n">01</span><b class="fs-t">Требования</b>
+    <div class="fs-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
+  <div class="fcol anchor r" data-pipe="1"><span class="fs-n">02</span><b class="fs-t">Данные</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol anchor r" data-pipe="2"><span class="fs-n">03</span><b class="fs-t">Подготовка</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol anchor r fc-on" data-pipe="3"><span class="fs-n">04</span><b class="fs-t">Дашборд</b>
+    <div class="fs-skill"><code>proteus-echarts-builder</code><em>сегодня</em></div></div>
+  <div class="fcol anchor r fc-on" data-pipe="4"><span class="fs-n">05</span><b class="fs-t">Описание</b>
+    <div class="fs-skill"><code>dd-report-skill</code><em>бонус</em></div></div>
+  <div class="fcol anchor r" data-pipe="5"><span class="fs-n">06</span><b class="fs-t">Автоматизация</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="handoff" data-step="1">Начнём с требований — <b>передаю слово Степану</b> →</div>
+  <aside class="notes">45 сек. Возвращаемся во флоу BI-аналитика, но теперь смотрим не на инструменты, а на наши скиллы: какие этапы они уже покрывают.
+Сегодня расскажем про три: сбор требований (Степан), proteus-echarts-builder и бонусом — dd-report-skill. Пустые этапы — место для ваших скиллов.
+Клик (1): «Передаю слово Степану».</aside>
 </section>
 
-<section class="slide divider" id="dG" data-act="2" data-level="4" data-sec="G" data-short data-title="Раздел G · proteus-echarts-builder">
+<section class="slide divider" id="dG" data-act="3" data-level="1" data-stages="1" data-sec="G" data-short data-title="Раздел G · Сбор требований (Степан)">
   <div class="div-wrap">
     <div class="div-letter r">G</div>
-    <div class="div-meta r">Уровень 04 · Прокачка платформы скиллами</div>
-    <h2 class="div-title r scr">proteus-echarts-builder</h2>
-    <p class="div-sub r">Our story · смена парадигмы</p>
+    <div class="div-meta r">Флоу · требования · говорит <span data-cfg="cospeaker"></span></div>
+    <h2 class="div-title r scr">Сбор требований за 6 шагов</h2>
+    <p class="div-sub r">Скилл <code>bi-requirements-gather</code> — одинаковый процесс у всех и проверяемый артефакт на выходе</p>
   </div>
-  <aside class="notes">Разделитель. Фирменная часть доклада.</aside>
+  <aside class="notes">Говорит: Степан. Разделитель. «Сбор BI-требований за 6 шагов».</aside>
 </section>
 
-<section class="slide" id="s18" data-act="2" data-level="4" data-short data-builds="2" data-title="proteus-echarts-builder: смена парадигмы">
+<section class="slide" id="rq-problem" data-act="3" data-level="1" data-short data-builds="2" data-title="Требования: проблематика">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr" style="max-width:1100px">HTML-макет → <em>интерактивный JS-виджет</em> в Proteus</h2>
-  <div class="steps3">
-    <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>неизменяемый эталон вёрстки</small></div></div>
-    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>источник данных</small></div></div>
-    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS</b><small>единственный файл, который создаёт скилл</small></div></div>
+  <div class="big-q r">Каждый BI-аналитик собирает требования <em>заново</em> — и каждый <em>по-своему</em></div>
+  <div class="why" data-step="1">
+    <div class="why-row"><span class="why-k">Почему сложно</span>
+      <span>Заказчик не мыслит в терминах дашборда</span><span>Источники разбросаны</span><span>Нет процесса — есть личный стиль</span><span>Ответы не фиксируются сразу</span><span class="why-hot">Пробелы не видны</span></div>
+    <div class="why-row why-w"><span class="why-k">Почему меняются</span>
+      <span>Дозревание</span><span>Противоречия источников</span><span>Смена контекста</span><span>Замена источника</span></div>
   </div>
-  <div class="trick r"><b>Приём:</b> eCharts-контейнер — пустой холст; вся отрисовка — HTML/CSS/SVG/JS поверх глобального массива <code>data</code></div>
-  <blockquote class="q q-sm r" style="max-width:880px">«Через Claude генерим макеты, а потом скиллом в несси конвертим в echarts»<cite>proteus-creators · 31.07 · ваш воркфлоу уже повторяют</cite></blockquote>
-  <div class="link r">skills-market.t-tech.team/skills/cross/proteus-echarts-builder <small>· анонс 25.08</small></div>
-  <aside class="notes">1,5 мин. ФИРМЕННЫЙ СЛАЙД. Клики: частицы пересобираются (0) HTML-макет → (1) база данных SQL → (2) 3D-виджет.
-Как работает: HTML-макет = неизменяемый эталон вёрстки, SQL = источник данных, JS = единственный файл, который создаёт скилл.
-Смежный сигнал: платформа сама движется сюда — новый тип графика eCharts с настройкой через JSON (PRODEV-1258, апрель), кроссфильтрация в echarts (июнь).
-Вишенка: агент Proteus AI правит eCharts-код: «с ним ечартсы и делаются в 99% случаев» (26.06).</aside>
+  <div class="why-end" data-step="2">Требования будут меняться всегда. Проблема в другом — <b>нет механизма отследить изменение</b>: какой факт откуда взялся и какой уже устарел.</div>
+  <aside class="notes">Говорит: Степан. 2 мин (три прежних слайда в одном — подробности устно).
+Два вопроса в зал поднятием рук: «У кого в команде есть единый чек-лист вопросов к заказчику дашборда?» — рук мало. «А у кого требования живут в переписке или в голове?» — рук много. Дать паузу.
+Клик (1) — почему сложно: заказчик не мыслит в терминах дашборда (он знает боль, а не метрики); источники разбросаны (бриф в почте, встреча в Zoom, уточнения в мессенджере); нет процесса — есть личный стиль (один спросит про RLS, другой забудет); ответы не фиксируются в момент получения. Самая дорогая — пробелы не видны: мы не знаем, чего не знаем, и узнаём об этом на середине разработки.
+Почему меняются: дозревание (увидел первую версию — понял, чего хотел), противоречия источников, смена контекста, замена источника.
+Клик (2) — главная рамка: требования будут меняться всегда, это не дефект процесса. Дефект — в отсутствии механизма отследить изменение. Потеря требования на старте стоит десять минут разговора; та же потеря на приёмке стоит спринт.</aside>
 </section>
 
-<section class="slide" id="s19" data-act="2" data-level="4" data-short data-builds="1" data-title="Что становится возможным (до/после)">
+<section class="slide" id="rq-jobs" data-act="3" data-level="1" data-short data-builds="1" data-title="Пять джоб, которые закрывает скилл">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Пять джоб, которые <em>закрывает скилл</em></h2>
+  <table class="jt r">
+    <thead><tr><th></th><th>Когда…</th><th>…я хочу…</th><th>…чтобы</th></tr></thead>
+    <tbody>
+      <tr><td class="k">J1</td><td>иду на встречу с заказчиком дашборда</td><td><b>получить гайд с правильными вопросами</b> под мой случай</td><td>не забыть про источники, права доступа и сроки — и не ходить на вторую встречу за тем же</td></tr>
+      <tr class="hot"><td class="k">J2</td><td>у меня уже есть транскрипт, бриф или заметки</td><td><b>автоматически разложить их по чек-листу</b> требований</td><td>не перечитывать простыню и не переспрашивать то, что заказчик уже сказал</td></tr>
+      <tr class="hot"><td class="k">J3</td><td>сбор закончен и кажется, что всё есть</td><td><b>увидеть, чего реально не хватает</b>, с приоритетом</td><td>не начинать проектирование с дырой в фундаменте</td></tr>
+      <tr><td class="k">J4</td><td>требования собраны</td><td><b>документ с указанием источника каждого факта</b></td><td>передать в разработку, вернуться через месяц и понимать, откуда что взялось</td></tr>
+      <tr><td class="k">J5</td><td>процесс прервался: встреча через неделю, заказчик пропал</td><td><b>сохранить прогресс и продолжить</b> с того же места</td><td>не собирать всё заново и не терять уже полученные ответы</td></tr>
+    </tbody>
+  </table>
+  <div class="jt-note" data-step="1">Самые недооценённые — <b>J2</b> и <b>J3</b>: разбор материалов и проверку полноты руками почти никто не делает системно. Именно их и стоит отдать агенту.</div>
+  <aside class="notes">Говорит: Степан. 1,5 мин. САМЫЙ ЦЕННЫЙ СЛАЙД — «когда мне это использовать».
+Одна большая джоба — собрать требования с заказчика; чтобы её выполнить, закрываются вот такие core-джобы. Джобы разные по моменту: J1 — до встречи, J2 — после, J3 — перед проектированием, J4 — после сбора, J5 — сквозная.
+Клик (1): подчеркнуть J2 и J3 — разбор транскрипта и проверка полноты руками почти никто не делает системно, потому что скучно и долго.</aside>
+</section>
+
+<section class="slide" id="rq-not" data-act="3" data-level="1" data-title="Чего скилл не делает">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Чего скилл <em class="em-no">не</em> делает</h2>
+  <div class="nots">
+    <div class="card nt r tilt"><b>Не проводит встречу за вас</b><p>Разговаривать с заказчиком всё равно вам. Скилл готовит к встрече и разбирает её результат.</p></div>
+    <div class="card nt r tilt"><b>Не проектирует дашборд</b><p>На выходе требования, а не макет. Прототип — отдельный скилл на последнем шаге.</p></div>
+    <div class="card nt r tilt"><b>Не решает за заказчика</b><p>Противоречие в источниках подсветит — но версию не выберет.</p></div>
+  </div>
+  <div class="honest r">Закрывает узкий кусок: <b>подготовка → разбор → проверка полноты → документ</b></div>
+  <aside class="notes">Говорит: Степан. 45 сек. Немного посмеяться: работу за вас он не делает. Инструмент, который обещает всё, обычно не делает ничего.
+Третий пункт — мостик к принципам: на «не решает за заказчика» держится вся конструкция.</aside>
+</section>
+
+<section class="slide" id="rq-check" data-act="3" data-level="1" data-title="На чём стоит чек-лист">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Чек-лист: <em>7 блоков, 25 вопросов, 10 ключевых</em></h2>
+  <div class="chk-sub r"><span><b>Dashboard Canvas</b> — структура дашборда = структура требований</span><span><b>BABOK</b> — каждый ответ привязан к вопросу и источнику</span><span><b>Канонические формулировки</b> — агенту запрещено их «улучшать»</span></div>
+  <div class="qgrid r" id="qgrid"></div>
+  <div class="qpanel r" id="qpanel"></div>
+  <aside class="notes">Говорит: Степан. 1 мин. Вопросы не зачитываем — рассказываем, какие есть блоки: каждый блок состоит из группы вопросов, и в каждом выделены ключевые (★), которые обязательно стоит задать.
+Покликать 1–2 блока (например, «Цель и контекст» и «Источники данных»). Обратить внимание на блок 6: ноль ключевых — тип графика наша работа, а не требование заказчика.
+Главный тезис: формулировки канонические — иначе два прогона перестают быть сравнимыми.</aside>
+</section>
+
+<section class="slide" id="rq-rules" data-act="3" data-level="1" data-title="Пять правил качества">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Пять правил, которые <em>держат качество</em></h2>
+  <div class="rules">
+    <div class="card rl r"><span class="num">01</span><b>Wizard, а не анкета</b><p>Один шаг — одно сообщение. Задал вопрос — ждёт.</p></div>
+    <div class="card rl rl-hot r"><span class="num">02</span><b>Гипотеза ≠ ответ</b><p>🎤 сказал заказчик · ✍️ уточнено вручную · 🤖 предположение агента — не засчитывается, пока человек не подтвердил.</p></div>
+    <div class="card rl r"><span class="num">03</span><b>Противоречие не разрешается само</b><p>Два источника говорят разное → в открытые вопросы.</p></div>
+    <div class="card rl r"><span class="num">04</span><b>Пробелы — только по выбранному набору</b><p>Цель — достаточность для задачи, а не 100% ради 100%.</p></div>
+    <div class="card rl r"><span class="num">05</span><b>В документе нет пустоты</b><p>Всё неизвестное — ровно в одном месте: «Открытые вопросы».</p></div>
+  </div>
+  <aside class="notes">Говорит: Степан. 1,5 мин. Центральный — принцип 2. Обычная претензия к AI в аналитике — «он придумывает». Здесь придумывание запрещено структурно: у гипотезы отдельный маркер, и она не попадает в числитель заполненности. Агенту невыгодно выдавать догадку за ответ.
+Если аудитория техническая: в скилле есть отдельная «постоянная самопроверка» плюс чек-лист «проверь перед отправкой» в карточке каждого шага.</aside>
+</section>
+
+<section class="slide" id="rq-steps" data-act="3" data-level="1" data-title="6 шагов, две ветки входа">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">6 шагов, <em>две ветки входа</em></h2>
+  <div class="fcol stp anchor r" data-pipe="0"><span class="fs-n">ШАГ 1</span><b class="fs-t">Старт</b><small class="fs-s">выбор входа</small></div>
+  <div class="fcol stp anchor r" data-pipe="1"><span class="fs-n">ШАГ 2</span>
+    <div class="lane ln-n"><i>новый дашборд</i>Выбор набора вопросов</div>
+    <div class="lane ln-m"><i>есть материалы</i>Материалы и разбор</div></div>
+  <div class="fcol stp anchor r" data-pipe="2"><span class="fs-n">ШАГ 3</span>
+    <div class="lane ln-n"><i>новый дашборд</i>Гайд для встречи и сбор</div>
+    <div class="lane ln-m"><i>есть материалы</i>Выбор набора — уже по фактам</div></div>
+  <div class="fcol stp anchor r" data-pipe="3"><span class="fs-n">ШАГ 4</span><b class="fs-t">Пробелы</b><small class="fs-s">🔴 критично / 🟡 желательно</small></div>
+  <div class="fcol stp anchor r" data-pipe="4"><span class="fs-n">ШАГ 5</span><b class="fs-t">Артефакт</b><small class="fs-s">документ из реально собранного</small></div>
+  <div class="fcol stp anchor r" data-pipe="5"><span class="fs-n">ШАГ 6</span><b class="fs-t">Завершение</b><small class="fs-s">что дальше — решает человек</small></div>
+  <div class="prog r">Прогресс в каждом сообщении: <span>Шаг 3 из 6</span> <b>▓▓▓░░░</b></div>
+  <aside class="notes">Говорит: Степан. 1 мин. Две ветки — это две разные джобы, J1 и J2. Акцент: чаще всего у нас уже есть какие-то материалы — всегда есть какая-то точка входа, поэтому шаг и продуман.
+Новый дашборд: сначала выбираем вопросы, потом получаем гайд. Есть материалы: сначала разбираем, потом выбираем набор — видя, что уже закрыто.
+По каждому шагу подробно не идём — всё будет видно в демо.</aside>
+</section>
+
+<section class="slide slide-term" id="rq-demo" data-act="3" data-level="1" data-short data-title="Демо: сбор требований в терминале">
+  <div class="term-head r">
+    <div><div class="kicker" data-auto></div><h2 class="h h-xs">Прогон в терминале: <em>дашборд «Эффективность обзвона»</em></h2></div>
+    <div class="term-keys"><span>↑ ↓ ⏎ — выбор</span><span>R — заново</span></div>
+  </div>
+  <div class="term r" id="term-rq">
+    <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span>~/projects/obzvon — bi-requirements-gather v5.0</span>
+      <span class="tctl"><button data-act="restart">⟲ заново</button><button data-act="skip">⏭ пропустить вывод</button></span></div>
+    <div class="term-body"></div>
+  </div>
+  <div class="demo-legend r"><span><b class="c-good">●</b> ответ есть</span><span><b class="c-warn">◐</b> частичный</span><span><b class="c-none">○</b> пусто</span><span><b class="c-warn">★</b> входит в набор из 10 ключевых</span><span class="dl-r">выбор мышью или клавишами — ветка меняется по-настоящему</span></div>
+  <aside class="notes">Говорит: Степан; кликает Роман по команде. 3–4 мин. ГЛАВНЫЙ СЛАЙД части.
+Рекомендуемый маршрут: «Уже есть материалы» → «предложенный набор» → «уточнить сейчас» → «добавить новый материал» — так виден и разбор, и пересчёт пробелов, и противоречие.
+Две мысли вслух: (1) 🔴 на вопросе «откуда данные» после полноценного интервью — типовой случай; найти его здесь стоит одного сообщения, на согласованном макете — спринт. (2) На противоречии живой аналитик берёт то, что услышал последним; скилл останавливается.
+Последний шаг «Что дальше» — здесь рассказать, что скилл можно встроить в свой флоу: например, «B. Создать задачу».
+Если времени мало — «Продолжить без уточнений» и сразу к финалу.</aside>
+</section>
+
+<section class="slide" id="rq-doc" data-act="3" data-level="1" data-short data-title="Итоговый документ">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">На выходе — <em>md-файл с требованиями</em></h2>
+  <div class="art">
+    <div class="md-prev r">
+<div class="mh"># Требования к дашборду: Эффективность обзвона</div>
+<div class="t-blank"></div>
+<div class="mq">&gt; ⚠️ Документ сформирован LLM-ассистентом на основе собранных</div>
+<div class="mq">&gt; материалов, может содержать ошибки. Требует проверки аналитиком.</div>
+<div class="t-blank"></div>
+<div>&gt; Статус: <span class="wa">**Черновик**</span> · Заполненность: <span class="wa">60% (6/10)</span></div>
+<div>&gt; Легенда: <span class="mk">🎤</span> из интервью · <span class="mk">✍️</span> вручную · <span class="mk">🤖</span> предположение</div>
+<div class="t-blank"></div>
+<div><span class="sec">## 1.</span> Общая информация</div>
+<div><span class="sec">## 2.</span> Бизнес-цель и контекст</div>
+<div><span class="sec">## 3.</span> Целевая аудитория</div>
+<div><span class="sec">## 4.</span> Метрики и показатели</div>
+<div><span class="sec">## 5.</span> Измерения, фильтры, детализация</div>
+<div><span class="sec">## 6.</span> Источники данных и обновление</div>
+<div><span class="sec">## 7.</span> Визуализация и макет</div>
+<div><span class="sec">## 8.</span> Ограничения и допущения</div>
+<div><span class="sec">## 9.</span> Открытые вопросы</div>
+<div class="t-dim">   | 1 | Q5.1 Из каких систем данные? | <span class="cr">🔴 Критично</span> |</div>
+<div class="t-dim">   | 2 | Q5.2 Частота обновления      | <span class="wa">🟡 Желательно</span> |</div>
+<div><span class="sec">## 10.</span> Выявлено вне набора</div>
+    </div>
+    <div class="ann">
+      <div class="a r"><h5>⚠️ Дисклеймер сверху — обязателен</h5><p>Документ сделала модель, проверяет человек.</p></div>
+      <div class="a r" style="--c:var(--l1)"><h5>У каждого факта — источник</h5><p>Через месяц видно, что сказал заказчик (🎤), а что дописали руками (✍️).</p></div>
+      <div class="a r" style="--c:var(--no)"><h5>Неизвестное — только в разделе 9</h5><p>Остальной документ без прочерков и заглушек.</p></div>
+      <div class="a a-hot r" style="--c:var(--l4)"><h5>Встраивается в ваш флоу</h5><p>md-файл → задача в Jira или T-Tracker, прототип дашборда — дальше решает команда.</p></div>
+    </div>
+  </div>
+  <aside class="notes">Говорит: Степан. 1,5 мин. По итогу получаем md-файл. Важно: дисклеймер сверху, у каждого факта — источник, всё неизвестное — только в «Открытых вопросах».
+И важно рассказать: этот скилл закрывает часть джобы. В зависимости от команды вокруг него можно строить свой флоу — например, автоматически отправлять md-файл в Jira или T-Tracker.</aside>
+</section>
+
+<section class="slide" id="rq-final" data-act="3" data-level="1" data-short data-builds="1" data-title="Финал части про требования">
+  <div class="kicker r" data-auto></div>
+  <div class="big-q big-q-sm r">Требования собираются <em>один раз</em> — и остаются <em>проверяемыми</em></div>
+  <div class="take-k r">Что забрать с собой, даже без скилла</div>
+  <div class="takes">
+    <div class="card tk r"><b>Чек-лист 25 вопросов</b><p>7 блоков, 10 ключевых. Работает и без агента.</p></div>
+    <div class="card tk r"><b>Маркер источника</b><p>🎤 / ✍️ / 🤖 — окупается на первой переделке.</p></div>
+    <div class="card tk r"><b>Проверка пробелов</b><p>🔴 / 🟡 — до проектирования, а не после демо.</p></div>
+    <div class="card tk r"><b>Противоречие → вопрос</b><p>Не повод выбрать версию. Повод вернуться к заказчику.</p></div>
+  </div>
+  <div class="limits" data-step="1"><b>Честно:</b> качество выхода = качество входа · документ требует вычитки · чек-лист универсальный, не отраслевой. <b>Проверяется</b> регрессионными прогонами на трёх сценариях и механическим валидатором.</div>
+  <aside class="notes">Говорит: Степан. 45 сек. Если уйдёте без скилла, но с чек-листом и привычкой помечать источник каждого факта — доклад свою задачу выполнил.
+Клик (1): ограничения и тесты одной фразой — скилл не автопилот, а продукт с регрессионными тестами (transcript_sparse, resume_session, user_refusal); на тестирование ушло вчетверо больше времени, чем на написание.
+Передать слово обратно Роману: proteus-echarts-builder.</aside>
+</section>
+
+<section class="slide divider" id="dH" data-act="3" data-level="4" data-stages="4" data-sec="H" data-short data-title="Раздел H · proteus-echarts-builder">
+  <div class="div-wrap">
+    <div class="div-letter r">H</div>
+    <div class="div-meta r">Флоу · дашборд</div>
+    <h2 class="div-title r scr">proteus-echarts-builder</h2>
+    <p class="div-sub r">Любой HTML-макет → интерактивный виджет</p>
+  </div>
+  <aside class="notes">Говорит: Роман. Разделитель. Механику целиком не рассказываем — только суть и пример.</aside>
+</section>
+
+<section class="slide" id="ech" data-act="3" data-level="4" data-short data-builds="2" data-title="proteus-echarts-builder: суть">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr" style="max-width:1100px">Любой HTML-макет → <em>интерактивный виджет в Proteus</em></h2>
+  <div class="steps3">
+    <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>эталон вёрстки — его можно сгенерировать</small></div></div>
+    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>источник данных</small></div></div>
+    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS-виджет</b><small>единственный файл, который пишет скилл</small></div></div>
+  </div>
+  <blockquote class="q q-sm r" style="max-width:880px">«Через Claude генерим макеты, а потом скиллом в несси конвертим в echarts»<cite>proteus-creators · 31.07 · воркфлоу уже повторяют команды</cite></blockquote>
+  <div class="link r">skills-market.t-tech.team/skills/cross/proteus-echarts-builder</div>
+  <aside class="notes">Говорит: Роман. 45 сек. Всю механику не рассказываем — она безумная. Суть: любой HTML-макет с помощью этого скилла превращается в интерактивный виджет в Proteus.
+Клики: частицы пересобираются HTML-макет → SQL → виджет. Дальше — демо в терминале и живой пример.</aside>
+</section>
+
+<section class="slide slide-term" id="ech-demo" data-act="3" data-level="4" data-short data-title="Демо: proteus-echarts-builder в терминале">
+  <div class="term-head r">
+    <div><div class="kicker" data-auto></div><h2 class="h h-xs">Прогон в терминале: <em>HTML-макет → виджет</em></h2></div>
+    <div class="term-keys"><span>↑ ↓ ⏎ — выбор</span><span>R — заново</span></div>
+  </div>
+  <div class="term r" id="term-ech">
+    <div class="term-bar"><span class="dots"><i></i><i></i><i></i></span><span>~/projects/channels — proteus-echarts-builder</span>
+      <span class="tctl"><button data-act="restart">⟲ заново</button><button data-act="skip">⏭ пропустить вывод</button></span></div>
+    <div class="term-body"></div>
+  </div>
+  <div class="demo-legend r"><span>иллюстрация сценария — точный вывод скилла может отличаться</span><span class="dl-r">выбор мышью или клавишами</span></div>
+  <aside class="notes">Говорит: Роман. 2 мин. Маршрут: «HTML-макет + SQL» → «Дать формулу» → «Поправить по комментарию».
+Показать две вещи: макет — эталон, скилл его не меняет, пишет только JS; пробел в данных («Конверсия» без поля) скилл не придумывает, а спрашивает.
+Проверки в конце — известные грабли: кавычки в значениях ломают JSON-парсер, большой объём data — агрегировать или кэшировать.
+[СОБРАТЬ] сверить шаги с реальным выводом скилла.</aside>
+</section>
+
+<section class="slide" id="ech-ex" data-act="3" data-level="4" data-builds="1" data-title="Что становится возможным (пример)">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr">Сводные, drilldown, кроссфильтр — <em>вопрос одного промта</em></h2>
   <div class="ba" data-step-only="0">
@@ -1167,83 +1393,84 @@ T-Claude Code — Claude Code от Nestor: песочница, LLM Proxy, Ано
     <div class="shot-pair"><div class="shot ph" data-shot="before1">[СОБРАТЬ] было · скриншот 1<small>перетащите файл сюда</small></div><span>→</span><div class="shot ph" data-shot="after1">[СОБРАТЬ] стало · скриншот 1<small>перетащите файл сюда</small></div></div>
     <div class="shot-pair"><div class="shot ph" data-shot="before2">[СОБРАТЬ] было · скриншот 2<small>перетащите файл сюда</small></div><span>→</span><div class="shot ph" data-shot="after2">[СОБРАТЬ] стало · скриншот 2<small>перетащите файл сюда</small></div></div>
   </div>
-  <div class="refs r"><span>Референсы:</span> HR Executive — «супер кастомные вещи» (31.07) · дашборд 56024 — HTML/SVG-overlay (09.09) · AI Experience Day #12 — сложные визуализации в эфире (30.07)</div>
-  <aside class="notes">1,5 мин. Сводные таблицы с поиском и сортировкой, drilldown, кроссфильтрация, переключалки метрик, пагинация, экспорт — всё это теперь вопросы одного промта, а не недели разработки.
-Справа — ЖИВОЙ виджет (синтетические данные): поиск, сортировка по заголовкам, переключение метрик, клик по строке = drilldown, пагинация, экспорт CSV.
-Клик (1) — пары реальных скриншотов «было/стало» ([СОБРАТЬ] — перетащите файлы на рамки, они запомнятся в браузере).
-→ ДЕМО Д3: видео 60–90 сек HTML-макет → виджет.</aside>
+  <div class="refs r"><span>Референсы:</span> HR Executive — «супер кастомные вещи» (31.07) · дашборд 56024 — HTML/SVG-overlay (09.09)</div>
+  <aside class="notes">Говорит: Роман. 1 мин. Справа — живой виджет (синтетические данные): поиск, сортировка, переключение метрик, drilldown, пагинация, экспорт CSV.
+Клик (1) — реальные примеры «было/стало» ([СОБРАТЬ] — перетащите скриншоты на рамки).</aside>
 </section>
 
-<section class="slide" id="s20" data-act="2" data-level="4" data-title="Честные ограничения eCharts">
+<section class="slide" id="dd" data-act="3" data-level="1" data-stages="5" data-title="Бонус: dd-report-skill">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Четыре ограничения — <em>и по каждому есть задача или обход</em></h2>
-  <div class="lims">
-    <div class="card lim r tilt"><span class="num">1</span><b>Внутренние ссылки из eCharts блокируются</b><div class="lim-s">→ задача <code>PROTEUS-6347</code> заведена</div></div>
-    <div class="card lim r tilt"><span class="num">2</span><b>Лимит объёма данных в массиве</b><div class="lim-s">→ кэширование · референс «Детальные списки»</div></div>
-    <div class="card lim r tilt"><span class="num">3</span><b>Пермалинк не сохраняет состояние</b><div class="lim-s">→ вентилируем с командой Proteus</div></div>
-    <div class="card lim r tilt"><span class="num">4</span><b>Скриншотер снимает только canvas</b><div class="lim-s">HTML/SVG-overlay не попадает в превью и рассылки → гайды сообщества «Nuances for screenshotting», двухрежимный рендер · тред на 58 постов</div></div>
+  <h2 class="h h-sm r scr">Бонус: <em>описать отчёт в Data Detective</em> быстро</h2>
+  <div class="pk pk-sm">
+    <div class="pk-s r"><span class="num">1</span><b>Дашборд в Proteus</b><small>готовый отчёт</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s r"><span class="num">2</span><b>MCP Proteus</b><small>скилл читает состав, SQL и фильтры</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s pk-hot r"><span class="num">3</span><b><code>dd-report-skill</code></b><small>готовит описание отчёта</small></div>
+    <i class="pk-a r">→</i>
+    <div class="pk-s r"><span class="num">4</span><b>Карточка в DD</b><small>описание, которое видят все</small></div>
   </div>
-  <div class="honest r">+ кавычки <code>"</code> в значениях полей ломают JSON-парсер чарта</div>
-  <aside class="notes">1 мин. Паттерн «честности» повторяется второй раз в докладе — это бренд спикера.
-Источники: echarts-proteus-tasks.md + Time (Приложение А.3, тред на 58 постов).</aside>
+  <div class="dd-why r"><b>Почему DD:</b> мы все рекомендуем вести описание в Data Detective — оно интегрировано с инструментами дата-платформы и становится контекстом для агентов.</div>
+  <aside class="notes">Говорит: Роман. 30 сек. Бонус-фича для команд, которые уже ведут описание в Data Detective. А мы все рекомендуем его вести: DD интегрирован с разными инструментами дата-платформы — это контекст.
+Скилл помогает быстро описывать отчёты, анализируя дашборд в Proteus.</aside>
 </section>
 
-<!-- ═══════════════════════════ АКТ III ═══════════════════════════ -->
+<!-- ═══════════════════════════ АКТ IV · ЧТО ДЕЛАТЬ ВАМ ═══════════════════════════ -->
 
-<section class="slide" id="s21" data-act="3" data-short data-title="С чего начать: чеклист">
+<section class="slide" id="todo" data-act="4" data-short data-title="С чего начать: чеклист">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr">Один шаг <em>на следующей неделе</em> — выберите свой</h2>
   <div class="acts">
-    <div class="card act r tilt" style="--c:var(--l2)"><div class="act-role">Аналитик</div><p>Открыть Helicopter и сгенерировать первый SQL по структуре промта</p><div class="qr" data-qr="nessySql"></div></div>
-    <div class="card act r tilt" style="--c:var(--l1)"><div class="act-role">Владелец дашборда</div><p>Создать первый скилл дашборда в Proteus AI через чат</p><div class="qr" data-qr="proteusSkills"></div></div>
-    <div class="card act r tilt" style="--c:var(--l3)"><div class="act-role">Упёрся в квоты</div><p>Подключить GLM BYOK по инструкции</p><div class="qr" data-qr="byok"></div></div>
-    <div class="card act r tilt" style="--c:var(--l4)"><div class="act-role">Есть рутина</div><p>Написать в стрим про скилл в BI-пак + посмотреть n8n</p><div class="qr" data-qr="n8n"></div></div>
+    <div class="card act r tilt" style="--c:var(--l2)"><div class="act-role">Работаете в Helicopter</div><p>Дайте Nessy контекст — MD-файл или первая ячейка ноутбука — и попробуйте агентский режим</p><div class="qr" data-qr="nessySql"></div></div>
+    <div class="card act r tilt" style="--c:var(--l1)"><div class="act-role">Без терминала</div><p>Откройте Hermes в браузере — скиллы из маркета уже работают</p><div class="qr" data-qr="hermes"></div></div>
+    <div class="card act r tilt" style="--c:var(--l3)"><div class="act-role">Нужны свои ресурсы</div><p>tclaude — место в ai-seats или своя подписка через BYOK</p><div class="qr" data-qr="byok"></div></div>
+    <div class="card act r tilt" style="--c:var(--l4)"><div class="act-role">Есть рутина или скилл</div><p>Напишите нам — скилл в BI-пак; сценарий — в n8n</p><div class="qr" data-qr="n8n"></div></div>
   </div>
   <div class="cta cta-center r"><b>28.09</b> — отбор задач Proteus в Q4 в канале «Планирование Протеус x BI профессия»: приходите со своими болями</div>
-  <aside class="notes">1,5 мин. Это слайд, ради которого всё затевалось. QR обязательно — дать залу 10 секунд отсканировать.
-Бонус-призыв: встреча 28.09 — отбор задач Proteus в Q4.</aside>
+  <aside class="notes">1 мин. Это слайд, ради которого всё затевалось. Дать залу 10 секунд отсканировать QR.
+Самый простой первый шаг без терминала — Hermes в браузере.</aside>
 </section>
 
-<section class="slide" id="s22" data-act="3" data-title="Горизонт: что дальше">
+<section class="slide" id="horizon" data-act="4" data-title="Горизонт: что дальше">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr glow-t">Горизонт: <em>экосистема сходится</em></h2>
   <div class="road">
-    <div class="rd r"><i></i><b>Proteus Agent ↔ Skills Market</b><small>RFC · в проработке</small></div>
-    <div class="rd r"><i></i><b>Автоактивация скиллов</b><small>в работе</small></div>
-    <div class="rd r"><i></i><b>MR-валидация для BI-пака</b><small>процесс контрибьюции</small></div>
+    <div class="rd r"><i></i><b>Proteus AI ↔ Skills Market</b><small>правила установки скиллов на дашборд</small></div>
+    <div class="rd r"><i></i><b>MCP для ноутбуков</b><small>Helicopter · план Q4</small></div>
+    <div class="rd r"><i></i><b>Процесс BI-пака</b><small>когда станет много заявок</small></div>
     <div class="rd r"><i></i><b>Proteus AI ↔ DWS AI</b><small>сближение harness (Nessy Data)</small></div>
   </div>
-  <div class="road-note r">сроки не обещаю — всё «в проработке»</div>
-  <aside class="notes">1 мин. Не обещать сроки жёстко — «в проработке».
-Интеграция Proteus Agent со Skills Market (RFC, ~Q3); автоактивация скиллов; MR-валидация для BI-пака; сближение harness Proteus AI и DWS AI (Nessy Data).</aside>
+  <div class="road-note r">сроки не обещаем — всё «в проработке»</div>
+  <aside class="notes">45 сек. Не обещать сроки жёстко.</aside>
 </section>
 
-<section class="slide" id="s23" data-act="3" data-short data-title="Призыв + контакты">
+<section class="slide" id="final" data-act="4" data-short data-title="Призыв + контакты">
   <div class="final">
     <div class="final-l">
       <h2 class="h r scr">Приходите со скиллами — <em>пак растёт через вас</em></h2>
       <ul class="facts facts-sm">
         <li class="r"><b>Скилл в BI-пак</b> → к нам в стрим, без формы, просто сообщением · <span data-cfg="contact"></span></li>
-        <li class="r"><b>Канал</b> ~t-claude-code-byok-byol — аналитиков там пока почти нет. Будьте первыми</li>
-        <li class="r"><b>Слайды и карта инструментов</b> — пришлём в чат митапа</li>
+        <li class="r"><b>Идеи и боли</b> по Proteus и Helicopter — несите нам, передадим командам платформ</li>
+        <li class="r"><b>Слайды и флоу инструментов</b> — пришлём в чат митапа</li>
       </ul>
       <div class="closing r">AI в BI перестал быть экспериментом — <em>это ваш ежедневный инструмент</em></div>
     </div>
     <div class="final-r r"><div class="qr qr-big" data-qr="all"></div><small>все ссылки из доклада</small></div>
   </div>
-  <aside class="notes">30 сек. Закрыть тем же тезисом, что открыл: «AI в BI перестал быть экспериментом — это ваш ежедневный инструмент».
-Дальше — Q&A 5–7 минут.</aside>
+  <aside class="notes">30 сек. Закрыть тем же тезисом: «AI в BI перестал быть экспериментом — это ваш ежедневный инструмент». Дальше — вопросы.</aside>
 </section>
+
 
 </div><!-- /deck -->
 
 <!-- HUD -->
 <div class="hud">
   <div class="hud-brand"><b>AI в BI</b><span id="hud-act"></span></div>
-  <div class="hud-ladder" id="hud-ladder"><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span id="hud-lvl"></span></div>
+  <div class="hud-flow off" id="hud-flow"><span id="hud-lvl"></span><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="hud-prog"><div id="hud-bar"></div></div>
   <div class="hud-num"><b id="hud-n">01</b> / <span id="hud-total">23</span><span id="hud-build"></span></div>
   <div class="hud-short" id="hud-short">короткая версия · 15 мин</div>
+  <div class="toast" id="toast" hidden></div>
 </div>
 </div><!-- /stage -->
 
@@ -1262,6 +1489,8 @@ T-Claude Code — Claude Code от Nestor: песочница, LLM Proxy, Ано
       <dt>K</dt><dd>короткая версия на 15 минут (§8)</dd>
       <dt>F</dt><dd>полный экран</dd>
       <dt>B</dt><dd>затемнить экран</dd>
+      <dt>L</dt><dd>лёгкий режим частиц (для слабого ПК и шаринга; включается и сам при низком FPS)</dd>
+      <dt>↑ ↓ ⏎ · R</dt><dd>выбор и перезапуск в терминальных демо</dd>
       <dt>цифры + Enter</dt><dd>перейти к слайду N</dd>
       <dt>H / ?</dt><dd>эта справка</dd>
     </dl>
@@ -3650,6 +3879,7 @@ uniform mat4 uP, uV, uM;
 uniform float uT, uSpan, uTime, uTurb, uKick, uSize, uScale, uBright;
 uniform vec3 uMouse;
 uniform vec4 uLens; // x, y, радиус, сила — автономная «лупа»
+uniform float uWave; // 0 в лёгком режиме
 out vec3 vC; out float vA;
 float ease(float t){ return t<.5 ? 4.*t*t*t : 1.-pow(-2.*t+2.,3.)*.5; }
 vec3 flow(vec3 p, float t){
@@ -3674,13 +3904,13 @@ void main(){
   w.xy += dq*lf*.5; w.z += lf*1.2;
   // бегущая световая волна по всей сцене
   float wv = sin(w.x*.55 + w.y*.3 - uTime*1.2);
-  float band = smoothstep(.6, 1., wv);
-  w.z += wv*.06;
+  float band = smoothstep(.6, 1., wv)*uWave;
+  w.z += wv*.06*uWave;
   vec4 v = uV*w;
   gl_Position = uP*v;
   float sz = uSize*(.5+aRnd.z)*(1.+bump*.7)*(1.+lf*1.7+band*.25);
   gl_PointSize = clamp(sz*uScale/(-v.z), 1., 64.);
-  float tw = .72+.28*sin(uTime*(1.4+aRnd.y*2.2)+aRnd.x*50.);
+  float tw = .86+.14*sin(uTime*(1.1+aRnd.y*1.6)+aRnd.x*50.);
   vC = mix(aCF, aCT, e)*(1.+bump*.9+m*1.6+lf*1.4+band*.45);
   vA = uBright*tw;
 }`;
@@ -3735,7 +3965,7 @@ void main(){
       gl.linkProgram(prog);
       if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     } catch (e) { console.warn('[PX] shader error', e); return false; }
-    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse', 'uLens']
+    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse', 'uLens', 'uWave']
       .forEach(n => U[n] = gl.getUniformLocation(prog, n));
 
     // стартовое облако: широкая сфера
@@ -3781,7 +4011,7 @@ void main(){
 
   function resize() {
     if (!canvas) return;
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = Math.min(devicePixelRatio || 1, lite ? 1 : 1.5);
     W = innerWidth; H = innerHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     const ar = W / H;
@@ -3865,11 +4095,26 @@ void main(){
     lens.str += (want - lens.str) * (1 - Math.pow(.2, dt));
   }
 
+  /* лёгкий режим: половина частиц, без волны, dpr 1. Включается клавишей L
+     или сам, если несколько секунд подряд FPS ниже 40 (например, при шаринге экрана) */
+  let lite = false, fpsAcc = 0, fpsN = 0, slowWin = 0, onLite = null;
+  function setLite(v) { lite = !!v; resize(); onLite && onLite(lite); }
+  function watchFps(dt) {
+    if (lite || !dt) return;
+    fpsAcc += dt; fpsN++;
+    if (fpsAcc >= 2) {
+      slowWin = fpsN / fpsAcc < 40 ? slowWin + 1 : 0;
+      fpsAcc = 0; fpsN = 0;
+      if (slowWin >= 2) setLite(true);
+    }
+  }
+
   function loop(now) {
     if (!running) return;
     requestAnimationFrame(loop);
     if (document.hidden) return;
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now; time += dt;
+    watchFps(dt);
     T = Math.min(1, T + dt / dur);
     kickV *= Math.pow(.12, dt);
     const k = 1 - Math.pow(.02, dt);
@@ -3904,13 +4149,15 @@ void main(){
     gl.uniform3f(U.uMouse, mouse.x, mouse.y, mouse.str);
     updateLens(m, dt);
     gl.uniform4f(U.uLens, lens.x, lens.y, 1.05, lens.str);
-    gl.bindVertexArray(vaoMain); gl.drawArrays(gl.POINTS, 0, N);
+    gl.uniform1f(U.uWave, lite ? 0 : 1);
+    gl.bindVertexArray(vaoMain); gl.drawArrays(gl.POINTS, 0, lite ? Math.round(N * .5) : N);
   }
 
   window.PX = {
     N, WPP, init, morph, place, toStage,
     bright: b => { brightTgt = b; },
     kick: a => { kickV = Math.max(kickV, a); },
+    setLite, get lite() { return lite; }, set onLite(f) { onLite = f; },
     settle: () => { T = 1; Object.assign(cur, tgt); brightCur = brightTgt; },
     mouse: setMouse,
     get ready() { return !!gl; }
@@ -4273,7 +4520,7 @@ void main(){
   // пайплайн MR: ось + 6 колец; lit — сколько колец горит.
   // tag = кольцо + 8 * вид (0 — ось, 1 — кольцо, 2 — ядро)
   const PIPE_X = [-5.5, -3.3, -1.1, 1.1, 3.3, 5.5];
-  const PIPE_C = [C.l2, C.l2, C.l3, C.l3, C.l4, C.ok];
+  const PIPE_C = [C.l1, C.blue, C.l2, C.l3, C.coral, C.l4];
   function pipeBase() {
     const b = new B();
     for (let k = 0; k < N * .16; k++) {
@@ -4286,13 +4533,34 @@ void main(){
     });
     return b.done({ dim: .2 });
   }
-  function pipeline(lit) {
+  function pipeLit(isOn) {
     return variant(SH.get('pipeBase'), (t, c) => {
-      const i = t % 8, kind = t >> 3, on = i < lit;
+      const i = t % 8, kind = t >> 3, on = isOn(i);
       if (kind === 2) return on ? mul(c, 1.2) : [0, 0, 0];
       if (kind === 1) return on ? mul(c, 1.4) : mix(C.dim, c, .25);
       return on ? mul(c, .9) : C.dim;
     });
+  }
+  const pipeline = lit => pipeLit(i => i < lit);
+  // горят только перечисленные кольца: 'pset:0,3,4'
+  const pipeSet = list => { const on = new Set(String(list).split(',').filter(x => x !== '').map(Number)); return pipeLit(i => on.has(i)); };
+
+  // две агентские среды (Nessy и Hermes) и общие MCP-инструменты между ними
+  function duo() {
+    const b = new B(), xs = [-3.7, 3.7], cs = [C.l2, C.l1];
+    xs.forEach((x0, i) => {
+      for (let k = 0; k < N * .19; k++) { const p = spherePt(.78); const band = Math.sin(p[1] * 13 + i * 2) * .5 + .5; b.add(x0 + p[0], p[1], p[2], mul(cs[i], .55 + band * .9)); }
+      for (let k = 0; k < N * .08; k++) {
+        const a = rn() * TAU, r = 1.2 + rn() * .3, tilt = .45 + i * .2, x = Math.cos(a) * r, z = Math.sin(a) * r;
+        b.add(x0 + x, z * Math.sin(tilt), z * Math.cos(tilt), mul(cs[i], .55));
+      }
+    });
+    const nodes = [-1.3, -.65, 0, .65, 1.3].map((y, j) => [Math.cos(j) * .25, y * .95, 0]);
+    nodes.forEach(n => { for (let k = 0; k < N * .025; k++) { const p = ballPt(.16); b.add(n[0] + p[0], n[1] + p[1], p[2], mul(C.l4, 1.4)); } });
+    nodes.forEach(n => xs.forEach((x0, i) => {
+      for (let k = 0; k < N * .012; k++) { const t = rn(); b.add(x0 + (n[0] - x0) * t + gauss() * .012, n[1] * t + Math.sin(t * Math.PI) * .15 + gauss() * .012, gauss() * .02, mul(mix(cs[i], C.l4, t), .5)); }
+    }));
+    return b.done({ dim: .2 });
   }
 
   // HTML-макет → SQL → виджет
@@ -4376,7 +4644,7 @@ void main(){
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
     ladderBase, pipeBase, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
-    pipe: a => pipeline(+a), html: htmlFrame, db, horizon, ring, knot
+    pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
   const cache = {};
   window.SH = {
@@ -4392,57 +4660,449 @@ void main(){
 </script>
 <script>
 /* ============================================================================
+   demos.js — интерактивные терминалы и данные для части про скиллы
+   • TERM.create(el, flow, opts) — терминал с ветвлениями (выбор ↑ ↓ ⏎, цифрами или мышью)
+   • RQ — чек-лист 25 вопросов и сценарий скилла bi-requirements-gather (часть Степана)
+   • ECH — сценарий скилла proteus-echarts-builder (иллюстрация)
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  /* ───────────── движок терминала ───────────── */
+  function create(root, FLOW, opts = {}) {
+    const body = root.querySelector('.term-body');
+    const total = opts.steps || 6;
+    const slow = opts.slow || 1.5; // Стёпа просил помедленнее
+    const bar = s => '▓'.repeat(s) + '░'.repeat(total - s);
+    let queue = [], pend = null, optIdx = 0, skipping = false, timer = null, started = false;
+
+    const scroll = () => { body.scrollTop = body.scrollHeight; };
+    function line(html, cls) {
+      const d = document.createElement('div');
+      d.className = 'tline ' + (cls || ''); d.innerHTML = html;
+      body.appendChild(d); scroll(); return d;
+    }
+    function table(t) {
+      const d = document.createElement('div'); d.className = 'tline';
+      d.innerHTML = '<table class="ttab"><thead><tr>' + t.head.map(x => '<th>' + x + '</th>').join('') + '</tr></thead><tbody>' +
+        t.rows.map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
+      body.appendChild(d); scroll();
+    }
+    function ask(b) {
+      pend = b; optIdx = 0;
+      const box = document.createElement('div');
+      box.className = 'tline ask';
+      box.innerHTML = '<div class="aq-top">?  выбор — ' + b.h + '</div><div class="aq-q">' + b.q + '</div>' +
+        b.o.map((o, i) => '<div class="opt' + (i ? '' : ' sel') + '" data-i="' + i + '"><span class="car">' + (i ? ' ' : '❯') + '</span>' +
+          '<span class="ob"><span class="ol">' + (i + 1) + '. ' + o.l + '</span><br><span class="od">' + o.d + '</span></span></div>').join('') +
+        '<div class="hint">↑/↓ — навигация · Enter — выбор · или кликните мышью</div>';
+      body.appendChild(box); scroll();
+      box.querySelectorAll('.opt').forEach(el => {
+        el.onmouseenter = () => { optIdx = +el.dataset.i; paint(); };
+        el.onclick = e => { e.stopPropagation(); optIdx = +el.dataset.i; choose(); };
+      });
+      b._box = box;
+    }
+    function paint() {
+      if (!pend) return;
+      pend._box.querySelectorAll('.opt').forEach((el, i) => {
+        el.classList.toggle('sel', i === optIdx);
+        el.querySelector('.car').textContent = i === optIdx ? '❯' : ' ';
+      });
+    }
+    function choose() {
+      if (!pend) return;
+      const b = pend, o = b.o[optIdx];
+      b._box.querySelectorAll('.opt').forEach((el, i) => { if (i !== optIdx) el.style.display = 'none'; else { el.onclick = null; el.onmouseenter = null; el.style.cursor = 'default'; } });
+      b._box.querySelector('.hint').remove();
+      pend = null;
+      line('выбрано: <b>' + o.l + '</b>', 't-user'); line('', 't-blank');
+      timer = setTimeout(() => run(o.n), 380);
+    }
+    function delay(b) {
+      if (skipping) return 0;
+      const d = { blank: 60, d: 170, ql: 600, tab: 560, a: 520, warn: 520 }[b.k] ?? 300;
+      return d * slow;
+    }
+    function type(txt, done) {
+      const el = line('', 't-user');
+      if (skipping) { el.innerHTML = txt; done(); return; }
+      let i = 0;
+      (function tick() {
+        el.innerHTML = txt.slice(0, i) + '<span class="tcaret"></span>'; scroll(); i++;
+        if (i <= txt.length) timer = setTimeout(tick, 24 * slow); else { el.innerHTML = txt; done(); }
+      })();
+    }
+    function next() {
+      if (!queue.length) { skipping = false; return; }
+      const b = queue.shift();
+      switch (b.k) {
+        case 'a': line(b.x, 't-assist'); break;
+        case 'p': line(b.x); break;
+        case 'd': line(b.x, 't-dim'); break;
+        case 'ok': line(b.x, 't-ok'); break;
+        case 'warn': line(b.x, 't-warnline'); break;
+        case 'path': line(b.x, 't-path'); break;
+        case 'blank': line('', 't-blank'); break;
+        case 'bar': line('Шаг ' + b.s + ' из ' + total + ': ' + b.t, 't-bar'); line(bar(b.s), 't-prog'); line('', 't-blank'); break;
+        case 'ql': (opts.qlist ? opts.qlist(b.mode) : []).forEach(l => line(l, 'qline')); break;
+        case 'tab': table(opts.tables[b.d]); break;
+        case 'u': type(b.x, () => { timer = setTimeout(next, 330 * slow); }); return;
+        case 'go': run(b.n); return;
+        case 'ask': ask(b); return;
+      }
+      timer = setTimeout(next, delay(b));
+    }
+    function run(key) { queue = FLOW[key].slice(); next(); }
+    function restart() {
+      clearTimeout(timer); queue = []; pend = null; skipping = false; started = true;
+      body.innerHTML = '';
+      line('$ ' + (opts.cmd || 'tclaude'), 't-dim'); line('', 't-blank');
+      timer = setTimeout(() => run('start'), 600);
+    }
+    root.querySelectorAll('.term-bar button').forEach(b => {
+      b.onclick = e => {
+        e.stopPropagation();
+        if (b.dataset.act === 'restart') restart();
+        else { skipping = true; clearTimeout(timer); next(); }
+      };
+    });
+    return {
+      restart,
+      get started() { return started; },
+      // возвращает true, если клавиша ушла в терминал
+      key(k) {
+        if (k === 'r' || k === 'R' || k === 'к' || k === 'К') { restart(); return true; }
+        // стрелки ↑ ↓ и Enter на слайде с терминалом никогда не листают презентацию
+        if (!pend) return ['ArrowUp', 'ArrowDown', 'Enter'].includes(k);
+        if (k === 'ArrowDown') { optIdx = (optIdx + 1) % pend.o.length; paint(); return true; }
+        if (k === 'ArrowUp') { optIdx = (optIdx - 1 + pend.o.length) % pend.o.length; paint(); return true; }
+        if (k === 'Enter') { choose(); return true; }
+        if (/^[1-9]$/.test(k) && +k <= pend.o.length) { optIdx = +k - 1; paint(); choose(); return true; }
+        return false;
+      }
+    };
+  }
+
+  /* ───────────── чек-лист требований (Степан) ───────────── */
+  const KEY10 = ['Q1.1', 'Q1.2', 'Q2.1', 'Q3.1', 'Q3.4', 'Q4.1', 'Q5.1', 'Q5.2', 'Q7.1', 'Q7.3'];
+  const QB = [
+    { n: 1, t: 'Цель и контекст', q: [
+      ['Q1.1', 'Какую бизнес-задачу решает дашборд? Какое решение будет приниматься на его основе?', 'full'],
+      ['Q1.2', 'Что происходит сейчас без дашборда? В чём боль?', 'part'],
+      ['Q1.3', 'Как поймём, что дашборд успешен? (критерий успеха)', 'none']] },
+    { n: 2, t: 'Аудитория и роли', q: [
+      ['Q2.1', 'Кто основные пользователи? Роли/должности?', 'full'],
+      ['Q2.2', 'Кто заказчик и спонсор? Кто принимает финальное решение по приёмке?', 'full'],
+      ['Q2.3', 'Как часто и в каком контексте смотрят? (ежедневно/еженедельно, планёрка/самостоятельно)', 'part'],
+      ['Q2.4', 'С какого устройства? (десктоп / мобайл / ТВ-панель)', 'none']] },
+    { n: 3, t: 'Метрики и показатели', q: [
+      ['Q3.1', 'Какие ключевые KPI/метрики нужны?', 'full'],
+      ['Q3.2', 'Формула расчёта каждой метрики?', 'part'],
+      ['Q3.3', 'Целевые/плановые значения, бенчмарки?', 'part'],
+      ['Q3.4', 'На какие вопросы должен отвечать дашборд? Какой главный вопрос должен закрывать дашборд одним взглядом?', 'full']] },
+    { n: 4, t: 'Разрезы и фильтры', q: [
+      ['Q4.1', 'По каким измерениям смотреть? (регион, продукт, менеджер, канал…)', 'part'],
+      ['Q4.2', 'Нужные фильтры и их значения по умолчанию?', 'none'],
+      ['Q4.3', 'Глубина детализации (drill-down до какого уровня)?', 'none'],
+      ['Q4.4', 'Период по умолчанию и доступные периоды сравнения (YoY, MoM)?', 'none']] },
+    { n: 5, t: 'Источники данных', q: [
+      ['Q5.1', 'Из каких систем берутся данные?', 'none'],
+      ['Q5.2', 'Требуемая частота обновления? (real-time / раз в час / раз в сутки)', 'part'],
+      ['Q5.3', 'Глубина исторических данных?', 'part'],
+      ['Q5.4', 'Известные проблемы качества/полноты данных?', 'none']] },
+    { n: 6, t: 'Визуализация и UX', q: [
+      ['Q6.1', 'Предпочтительные типы визуализаций? Есть ли референсы?', 'full'],
+      ['Q6.2', 'Приоритет элементов на экране (что важнее всего сверху)?', 'part'],
+      ['Q6.3', 'Формат вывода/выгрузки (экспорт в Excel, PDF, рассылка)?', 'full']] },
+    { n: 7, t: 'Ограничения', q: [
+      ['Q7.1', 'Требования к доступам и разграничению прав (row-level security)?', 'part'],
+      ['Q7.2', 'Требования безопасности / конфиденциальности данных?', 'none'],
+      ['Q7.3', 'Срок готовности (deadline)?', 'none']] }
+  ];
+  function qlist(mode) {
+    const out = [];
+    QB.forEach(b => {
+      out.push('<span class="bhead">Блок ' + b.n + '. ' + b.t + '</span>');
+      b.q.forEach(x => {
+        const star = KEY10.includes(x[0]);
+        let pre;
+        if (mode === 'new') pre = star ? '  <span class="m-star">✓</span> ' : '    ';
+        else {
+          const m = x[2] === 'full' ? '<span class="m-full">●</span>' : x[2] === 'part' ? '<span class="m-part">◐</span>' : '<span class="m-none">○</span>';
+          pre = (star ? '  <span class="m-star">★</span> ' : '    ') + m + ' ';
+        }
+        out.push(pre + '<span class="qid">' + x[0] + '</span> ' + x[1]);
+      });
+    });
+    return out;
+  }
+  const CR = '<span class="c-crit">🔴 Критично</span>', WA = '<span class="c-warn">🟡 Желательно</span>';
+  const RQ_TABLES = {
+    GAPS1: { head: ['Приоритет', 'Вопрос', 'Чего не хватает'], rows: [
+      [CR, 'Q5.1 Источники данных', 'не названы системы-источники (откуда данные обзвона, затрат, времени звонков)'],
+      [WA, 'Q1.2 Боль / контекст', 'есть частичный ответ — «неинформативный дашборд»; нужна конкретика'],
+      [WA, 'Q4.1 Разрезы', 'есть частичный ответ (по сотруднику); другие измерения не оговорены'],
+      [WA, 'Q5.2 Частота обновления', 'единоразовый / регулярная рассылка; интервал не задан'],
+      [WA, 'Q7.1 Доступы', 'сотрудник видит себя; полное разграничение прав не описано'],
+      [WA, 'Q7.3 Срок готовности', 'не указан deadline']] },
+    GAPS2: { head: ['Приоритет', 'Вопрос', 'Чего не хватает'], rows: [
+      [CR, 'Q5.1 Источники данных', 'не названы системы-источники'],
+      [WA, 'Q5.2 Частота обновления', '<span class="c-serious">противоречие источников</span> (единоразовый отчёт vs динамика в течение акции)'],
+      [WA, 'Q7.1 Доступы', 'полное разграничение прав не описано'],
+      [WA, 'Q7.3 Срок готовности', 'не указан deadline']] }
+  };
+  const SET = [
+    { l: 'Взять предложенный набор — 10 отмеченных вопросов', d: 'Сокращённый набор для небольшого дашборда' },
+    { l: 'Взять все 25 вопросов', d: 'Полный чек-лист' },
+    { l: 'Настроить по блокам', d: 'Отметить нужные вопросы по блокам вручную' }];
+  const RQ_FLOW = {
+    start: [
+      { k: 'a', x: 'Помогу собрать требования к BI-дашборду небольшими шагами и сохранить прогресс.' },
+      { k: 'blank' },
+      { k: 'bar', s: 1, t: 'Старт' },
+      { k: 'p', x: 'Укажи путь к рабочей папке, где сохранить прогресс и итоговый файл.' },
+      { k: 'u', x: '~/projects/obzvon' },
+      { k: 'ok', x: 'Созданы input/ и output/ · запись проверена · сохранённой сессии не найдено' },
+      { k: 'blank' },
+      { k: 'ask', h: 'Старт', q: 'Что у тебя есть на старте?', o: [
+        { l: 'Новый дашборд', d: 'Материалов пока нет', n: 'newA' },
+        { l: 'Уже есть материалы', d: 'Транскрипт, заметки, бриф', n: 'matA' }] }],
+    newA: [
+      { k: 'bar', s: 2, t: 'Выбор набора' },
+      { k: 'p', x: 'Ниже — весь чек-лист из 25 вопросов по 7 блокам. ✓ отмечены десять ключевых.' },
+      { k: 'blank' }, { k: 'ql', mode: 'new' }, { k: 'blank' },
+      { k: 'p', x: 'Отмеченные ✓ — сокращённый набор для небольшого дашборда. Можно взять его, пройти все вопросы или настроить набор по блокам.' },
+      { k: 'ask', h: 'Набор', q: 'Как будем собирать требования?', o: SET.map(o => ({ ...o, n: 'newB' })) }],
+    newB: [
+      { k: 'bar', s: 3, t: 'Подготовка и сбор' },
+      { k: 'ok', x: 'Интервью-гайд собран только из выбранных вопросов:' },
+      { k: 'path', x: '~/projects/obzvon/output/Вопросы_для_интервью_Эффективность_обзвона.md' },
+      { k: 'p', x: 'Можно идти с ним на встречу. Вернись с чем угодно: файл, транскрипт, заметки, текст в чат или ответы прямо здесь.' },
+      { k: 'blank' },
+      { k: 'd', x: '— ожидание — прогресс в output/state.json, можно вернуться хоть через неделю —' },
+      { k: 'blank' },
+      { k: 'u', x: 'input/interview_raw.txt  # вернулся со встречи, транскрипт 38 мин' },
+      { k: 'a', x: 'Материалы получены и разобраны по выбранным вопросам. Неотвеченные переходят в проверку пробелов.' },
+      { k: 'go', n: 'step4' }],
+    matA: [
+      { k: 'bar', s: 2, t: 'Материалы и разбор' },
+      { k: 'p', x: 'Передай материалы любым способом: загрузи файл, вставь текст в чат или укажи путь.' },
+      { k: 'u', x: 'input/interview_raw.txt  # транскрипт встречи с владельцем продукта, 38 мин' },
+      { k: 'ok', x: 'Сохранено в input/ · active_source зафиксирован' },
+      { k: 'blank' },
+      { k: 'a', x: 'Материал разобран по всем 25 вопросам чек-листа: по каждому проверено, есть ли ответ и достаточно ли его для проектирования дашборда.' },
+      { k: 'blank' },
+      { k: 'p', x: 'Сводка: закрыто полностью — <b class="c-good">7</b>, частично — <b class="c-warn">9</b>, пусто — <b class="c-none">9</b>.' },
+      { k: 'blank' },
+      { k: 'bar', s: 3, t: 'Набор вопросов' },
+      { k: 'ql', mode: 'mat' }, { k: 'blank' },
+      { k: 'd', x: '● ответ есть · ◐ частичный, нужна конкретика · ○ в материалах ничего нет · ★ входит в предложенный набор из 10 ключевых' },
+      { k: 'blank' },
+      { k: 'p', x: 'Часть вопросов уже закрыта материалами. Выбери, какой набор считаем обязательным: по нему будет считаться заполненность и проверка пробелов.' },
+      { k: 'ask', h: 'Набор', q: 'Как будем собирать требования?', o: SET.map(o => ({ ...o, n: 'step4' })) }],
+    step4: [
+      { k: 'bar', s: 4, t: 'Проверка пробелов' },
+      { k: 'd', x: 'Проверка пробелов — сравнение того, что мы хотели узнать, с тем, что реально удалось узнать.' },
+      { k: 'd', x: 'Ответа достаточно → пробела нет. Ответ есть, но не хватает конкретики → пробел. Ответа нет → пробел.' },
+      { k: 'd', x: 'Вопрос не выбирали → он не участвует в проверке. Цель — не формальные 100%, а понимание, чего не хватает.' },
+      { k: 'blank' },
+      { k: 'p', x: '<span class="c-crit">🔴 1</span> / <span class="c-warn">🟡 5</span>' },
+      { k: 'tab', d: 'GAPS1' },
+      { k: 'ask', h: 'Пробелы', q: 'Что сделать дальше?', o: [
+        { l: 'Уточнить открытые вопросы сейчас', d: 'Добавить материал или ответить в диалоге', n: 'clarify' },
+        { l: 'Сформировать черновой артефакт для доуточнения', d: 'Забрать список открытых вопросов и вернуться позже', n: 'draft' },
+        { l: 'Продолжить без уточнений', d: 'Перенести пробелы в «Открытые вопросы» и перейти к финалу', n: 'step5' }] }],
+    clarify: [
+      { k: 'ask', h: 'Способ', q: 'Как хочешь уточнять?', o: [
+        { l: 'Добавить новый материал', d: 'Файл, транскрипт, заметки или текст', n: 'more' },
+        { l: 'Ответить на вопросы отдельно', d: 'По одному, сначала все 🔴', n: 'more2' }] }],
+    more: [
+      { k: 'u', x: 'заметки_после_уточняющего_звонка.md' },
+      { k: 'a', x: 'Второй материал разобран и объединён с первым. Q1.2 (боль) и Q4.1 (разрезы) стали достаточными. Добавлены: формула эффективности, план 50%, состав фильтров, типы визуализаций.' },
+      { k: 'warn', x: 'Противоречие источников по частоте обновления: «единоразовый отчёт» vs «динамика в течение длительной акции». Версию не выбираю — выношу в открытые вопросы.' },
+      { k: 'blank' },
+      { k: 'p', x: '<span class="c-crit">🔴 1</span> / <span class="c-warn">🟡 3</span>' },
+      { k: 'tab', d: 'GAPS2' },
+      { k: 'ask', h: 'Пробелы', q: 'Что сделать дальше?', o: [
+        { l: 'Перейти к итоговому документу', d: 'Оставшиеся пробелы уедут в «Открытые вопросы»', n: 'step5' },
+        { l: 'Ещё уточнить открытые вопросы', d: 'Ответить на оставшиеся', n: 'more2' }] }],
+    more2: [
+      { k: 'a', x: 'Задаю только реальные пробелы, сначала критичные. По одному.' },
+      { k: 'blank' },
+      { k: 'p', x: '<span class="c-crit">🔴</span> Q5.1 Из каких систем берутся данные?' },
+      { k: 'u', x: 'не знаю, надо спрашивать у дата-инженеров' },
+      { k: 'ok', x: 'Принято. Вопрос остаётся открытым, в ответ ничего не дописываю. Не настаиваю.' },
+      { k: 'blank' },
+      { k: 'p', x: '<span class="c-crit">🔴 1</span> / <span class="c-warn">🟡 3</span>' },
+      { k: 'ask', h: 'Пробелы', q: 'Что сделать дальше?', o: [
+        { l: 'Перейти к итоговому документу', d: 'Пробелы уедут в «Открытые вопросы»', n: 'step5' },
+        { l: 'Сформировать черновик для доуточнения', d: 'Вернуться к этому позже', n: 'draft' }] }],
+    draft: [
+      { k: 'ok', x: 'Черновик для доуточнения готов:' },
+      { k: 'path', x: '~/projects/obzvon/output/Черновик_для_доуточнения_Эффективность_обзвона.md' },
+      { k: 'p', x: 'Открытые вопросы вынесены отдельно. Принесёшь уточнения — обновлю ответы, пересчитаю пробелы и доработаю артефакт.' },
+      { k: 'ask', h: 'Пробелы', q: 'Что дальше?', o: [
+        { l: 'Добавить уточнения сейчас', d: 'Второй материал после звонка', n: 'more' },
+        { l: 'Перейти к итоговому документу', d: 'Зафиксировать как есть', n: 'step5' }] }],
+    step5: [
+      { k: 'bar', s: 5, t: 'Итоговый артефакт' },
+      { k: 'p', x: 'Собираю документ только из реально собранной информации.' },
+      { k: 'warn', x: 'Статус: Черновик. «Готово к проектированию» присвоить нельзя — остался критичный пробел Q5.1.' },
+      { k: 'ok', x: 'Сохранено:' },
+      { k: 'path', x: '~/projects/obzvon/output/Требования_Эффективность_обзвона.md' },
+      { k: 'd', x: 'заполненность выбранного набора 60% (6/10) · открытых вопросов 4 · находок вне набора 12' },
+      { k: 'go', n: 'step6' }],
+    step6: [
+      { k: 'blank' },
+      { k: 'bar', s: 6, t: 'Завершение' },
+      { k: 'a', x: 'Сбор требований завершён. Прогресс сохранён в output/state.json — сессию можно продолжить позже.' },
+      { k: 'ask', h: 'Дальше', q: 'Что сделать следующим шагом?', o: [
+        { l: 'A. Уточнить открытые вопросы', d: 'Закрыть критичный пробел — источники данных', n: 'clarify' },
+        { l: 'B. Создать задачу', d: 'Задача по реализации дашборда', n: 'endB' },
+        { l: 'C. Сгенерировать прототип', d: 'Передать артефакт в skill bi-analyst-prototype', n: 'endC' },
+        { l: 'D. Ничего, работа завершена', d: 'Завершить сценарий', n: 'endD' }] }],
+    endB: [{ k: 'ok', x: 'Задача создана из артефакта требований.' }, { k: 'go', n: 'endD' }],
+    endC: [{ k: 'ok', x: 'Передаю сохранённый артефакт в skill bi-analyst-prototype как входные требования.' }, { k: 'go', n: 'endD' }],
+    endD: [
+      { k: 'blank' },
+      { k: 'a', x: 'Готово. Удачи с дашбордом.' },
+      { k: 'd', x: 'сессия завершена · R или «⟲ заново» — пройти ещё раз, ветка может быть другой' }]
+  };
+
+  /* ───────────── proteus-echarts-builder (иллюстрация сценария) ───────────── */
+  const ECH_TABLES = {
+    MAP: { head: ['Элемент макета', 'Поле в data', 'Статус'], rows: [
+      ['KPI «Выручка»', 'revenue', '<span class="c-good">✓</span>'],
+      ['KPI «Клиенты»', 'clients', '<span class="c-good">✓</span>'],
+      ['Сводная · канал', 'channel', '<span class="c-good">✓</span>'],
+      ['График · месяц', 'month', '<span class="c-good">✓</span>'],
+      ['KPI «Конверсия»', '—', '<span class="c-warn">нет поля в SQL</span>']] }
+  };
+  const ECH_FLOW = {
+    start: [
+      { k: 'a', x: 'Соберу интерактивный eCharts-виджет для Proteus. HTML-макет — эталон вёрстки: его не меняю, пишу только JS.' },
+      { k: 'blank' },
+      { k: 'bar', s: 1, t: 'Входные данные' },
+      { k: 'ask', h: 'Вход', q: 'Что есть на входе?', o: [
+        { l: 'HTML-макет + SQL-запрос', d: 'Макет сгенерирован заранее, запрос готов', n: 'both' },
+        { l: 'Текущий график в Proteus', d: 'Прочитаю SQL и конфигурацию через MCP Proteus', n: 'chart' }] }],
+    both: [
+      { k: 'u', x: 'input/layout.html  input/query.sql' },
+      { k: 'ok', x: 'Макет прочитан: шапка, 3 KPI-карточки, сводная таблица, график по месяцам' },
+      { k: 'ok', x: 'SQL разобран: колонки запроса → поля глобального массива data' },
+      { k: 'go', n: 'map' }],
+    chart: [
+      { k: 'u', x: 'дашборд «Каналы», график «Выручка по каналам»' },
+      { k: 'ok', x: 'MCP Proteus → SQL графика и список полей получены' },
+      { k: 'p', x: 'Макета нет. Сначала соберу HTML-макет — согласуйте его до сборки виджета.' },
+      { k: 'path', x: 'output/layout.html' },
+      { k: 'go', n: 'map' }],
+    map: [
+      { k: 'bar', s: 2, t: 'Сопоставление макета и данных' },
+      { k: 'tab', d: 'MAP' },
+      { k: 'warn', x: 'Для KPI «Конверсия» в SQL нет поля. Формулу не придумываю.' },
+      { k: 'ask', h: 'Пробел', q: 'Что делаем с «Конверсией»?', o: [
+        { l: 'Дать формулу', d: 'Например: converted / clients', n: 'formula' },
+        { l: 'Убрать KPI из виджета', d: 'Макет обновить отдельно', n: 'build' },
+        { l: 'Оставить заглушку', d: 'И вернуться к заказчику с вопросом', n: 'build' }] }],
+    formula: [
+      { k: 'u', x: 'conversion = converted / clients, в процентах' },
+      { k: 'ok', x: 'Принято. Формула помечена как «со слов аналитика»' },
+      { k: 'go', n: 'build' }],
+    build: [
+      { k: 'bar', s: 3, t: 'Сборка JS' },
+      { k: 'd', x: 'eCharts-контейнер — пустой холст; вся отрисовка — HTML/CSS/SVG поверх массива data' },
+      { k: 'ok', x: 'Сгенерирован output/widget.js' },
+      { k: 'd', x: 'поиск · сортировка · переключатель метрик · drilldown по клику · пагинация' },
+      { k: 'blank' },
+      { k: 'bar', s: 4, t: 'Проверки' },
+      { k: 'ok', x: 'Вёрстка совпадает с макетом' },
+      { k: 'ok', x: 'Кавычки в значениях полей экранированы — JSON-парсер графика не сломается' },
+      { k: 'warn', x: 'Строк в data много — рекомендую агрегировать в SQL или кэшировать' },
+      { k: 'blank' },
+      { k: 'bar', s: 5, t: 'Готово' },
+      { k: 'path', x: 'output/widget.js' },
+      { k: 'p', x: 'В Proteus: график типа eCharts → вставить код из widget.js. SQL остаётся тем же.' },
+      { k: 'ask', h: 'Дальше', q: 'Что дальше?', o: [
+        { l: 'Поправить по комментарию', d: 'Правки текстом — макет не трогаю', n: 'tweak' },
+        { l: 'Завершить', d: 'Виджет готов', n: 'end' }] }],
+    tweak: [
+      { k: 'u', x: 'акцентный цвет — жёлтый, и добавь экспорт в CSV' },
+      { k: 'ok', x: 'widget.js обновлён: стили и кнопка экспорта. Макет не тронут.' },
+      { k: 'go', n: 'end' }],
+    end: [
+      { k: 'blank' },
+      { k: 'a', x: 'Готово. Виджет живёт в Proteus, данные — из вашего SQL.' },
+      { k: 'd', x: 'R или «⟲ заново» — пройти ещё раз' }]
+  };
+
+  window.TERM = { create };
+  window.RQ = { QB, KEY10, qlist, TABLES: RQ_TABLES, FLOW: RQ_FLOW };
+  window.ECH = { TABLES: ECH_TABLES, FLOW: ECH_FLOW };
+})();
+
+</script>
+<script>
+/* ============================================================================
    app.js — навигация, шаги, эффекты, пульт спикера, интерактивы
    ========================================================================== */
 
 /* ───────────── НАСТРОЙКИ — поменяйте под себя ───────────── */
 const CONFIG = {
-  speaker: 'Имя Фамилия',                 // [СОБРАТЬ]
+  speaker: 'Роман Казанцев',
+  cospeaker: 'Степан Гришков',
   role: 'Стрим «AI в BI»',
-  team: 'Команда · подразделение',        // [СОБРАТЬ]
   date: 'дата митапа',                    // [СОБРАТЬ]
   contact: 'ник в Time',                  // [СОБРАТЬ]
   durationMin: 30,                        // хронометраж для таймера пульта (короткая версия — 15)
   links: {                                // QR-коды строятся автоматически
     nessySql: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9035808218',
-    proteusSkills: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9264076290',
+    hermes: 'https://personal-agent.t-tech.team/hermes',
     byok: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9112708455',
     n8n: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=8886861056',
     all: ''                               // [СОБРАТЬ] одна ссылка «всё из доклада» для финального QR
   },
   shots: {                                // пути к картинкам рядом с файлом (или перетащите на рамку)
-    photo: '', before1: '', after1: '', before2: '', after2: ''
+    before1: '', after1: '', before2: '', after2: ''
   }
 };
 
 /* ───────────── сцены частиц для каждого слайда ───────────── */
-const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'y' };
+const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'x' };
+const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов
+const DIM = (shape, bright = .3, place = {}) => ({ shape, place, bright });
 const SCENES = {
-  s1: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
-  s2: { shape: 'bridge', place: { y: .4 } },
-  s3: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  s4: { shape: ['ladder:-1', 'ladder:0', 'ladder:1', 'ladder:2', 'ladder:3', 'ladder:-1'],
-        place: { x: 4.75, y: -.3, s: .86, rx: .3, ry: -.6, sway: .06 }, morph: [{ dur: 2.6 }, COLOR_ONLY] },
-  s5: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
-  s6: { shape: 'wave', place: { y: -3.1, rx: .42 }, bright: .5 },
-  s7: { shape: 'galaxy', place: { y: -.3, rx: 1.05, s: 1.15, spin: .04 }, bright: .45 },
-  s8: { shape: 'bars', place: { x: 5.9, y: -2.3, s: .5, rx: .32, ry: -.55, sway: .1 }, bright: .6 },
-  s9: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
-  s10: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
-  s11: { shape: ['ring', 'tube'], place: { y: -.25 }, bright: [.3, .95, .75] },
-  s12: { shape: 'trio', place: { y: 1.15, s: .92 } },
-  s13: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
-  s14: { shape: 'network', place: { y: -.2, s: 1.3, spin: .05 }, bright: .22 },
-  s15: { shape: 'num', place: { y: 1.05, sway: .1 }, morph: { dur: 3 } },
-  s16: { shape: 'voxels', place: { x: 4.5, y: .45, s: .85, rx: .4, ry: -.7, sway: .08 } },
-  s17: { shape: ['pipe:0', 'pipe:6'], place: { y: .55 }, morph: [{}, { dur: 3.6, turb: .25, sweep: 'x', sweepAmt: .97 }] },
-  s18: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
+  title: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
+  who: { shape: 'bridge', place: { y: .4 } },
+  useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
+  flow: { shape: ['pipe:6', 'pset:1,2,3,5', 'pipe:6'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
+  ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
+  proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
+  envs: { shape: 'duo', place: { y: 1.25, s: .75 } },
+  nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
+  tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
+  n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
+  pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
+  skillflow: { shape: 'pset:0,3,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  'rq-problem': DIM('knot', .28, { y: -.8, s: .9, spin: .08 }),
+  'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
+  'rq-not': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  'rq-check': DIM('galaxy', .3, { y: -.6, rx: 1.05, s: 1.2, spin: .04 }),
+  'rq-rules': DIM('core', .22, { y: -.3, s: 1.1, spin: .06 }),
+  'rq-steps': { shape: 'pipe:6', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x', sweepAmt: .95 } },
+  'rq-demo': DIM('wave', .22, { y: -3.6, rx: .42 }),
+  'rq-doc': DIM('wave', .25, { y: -3.6, rx: .42 }),
+  'rq-final': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  ech: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
          place: [{ x: 4.3, y: -.1, s: .95, ry: -.25, sway: .05 }, { x: 4.3, y: -.2, s: .95, rx: .35, spin: .25 }, { x: 4.4, y: -.05, s: 1.05, rx: .35, ry: -.6, sway: .12 }] },
-  s19: { shape: 'wave', place: { y: -3.4, rx: .42 }, bright: .3 },
-  s20: { shape: 'knot', place: { x: 5.4, y: -1.9, s: .75, spin: .12 }, bright: .4 },
-  s21: { shape: 'ring', place: { y: -.2, s: 1.3, rx: .95, spin: .1 }, bright: .4 },
-  s22: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
-  s23: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
+  'ech-demo': DIM('widget', .2, { x: 5.6, y: -1.8, s: .6, rx: .35, ry: -.6, sway: .1 }),
+  'ech-ex': DIM('wave', .3, { y: -3.4, rx: .42 }),
+  dd: DIM('db', .5, { x: 4.6, y: -2.1, s: .6, rx: .35, spin: .2 }),
+  todo: DIM('ring', .4, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  horizon: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
+  final: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
 };
 
 (function () {
@@ -4454,8 +5114,10 @@ const SCENES = {
     get(k) { try { return localStorage.getItem('aibi.' + k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem('aibi.' + k, v); } catch (e) { /* ignore */ } }
   };
-  const ACTS = { 1: 'Акт I · Инструменты изменились', 2: 'Акт II · Карта инструментов', 3: 'Акт III · Что делать вам' };
-  const LEVELS = { 1: ['Платформы', '#22d3ee'], 2: ['Агенты в платформах', '#a78bfa'], 3: ['Личный агент', '#f472b6'], 4: ['Автоматизация', '#fbbf24'] };
+  const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Что делать вам' };
+  const LCOL = { 1: '#22d3ee', 2: '#a78bfa', 3: '#f472b6', 4: '#fbbf24' };
+  const STAGES = ['Требования', 'Данные', 'Подготовка', 'Дашборд', 'Описание', 'Автоматизация'];
+  const stageLabel = st => st.length === 6 ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
   const PRESENTER = location.hash === '#presenter';
 
   /* ───────────── модель колоды ───────────── */
@@ -4468,11 +5130,17 @@ const SCENES = {
   // нумерация — по порядку слайдов (разделители не считаются)
   let cnt = 0; slides.forEach(s => { if (!s.divider) s.n = ++cnt; });
   const TOTAL = cnt;
-  let secTitle = '';
+  // раздел и этапы флоу наследуются от ближайшего разделителя; на разделителе частицы — флоу с подсвеченными этапами
+  let secTitle = '', secStages = [];
+  const parseSt = v => (v || '').split(',').filter(Boolean).map(x => +x - 1);
   slides.forEach(s => {
-    if (s.divider) { secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; SCENES[s.id] = { shape: 'ladder:' + (s.level - 1), place: { x: 3.7, y: -.35, s: 1.05, rx: .32, spin: .32 } }; }
-    if (s.act !== 2) secTitle = '';
+    if (s.act === 1 || s.act === 4) { secTitle = ''; secStages = []; }
+    if (s.divider) {
+      secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; secStages = parseSt(s.el.dataset.stages);
+      SCENES[s.id] = { shape: 'pset:' + secStages.join(','), place: { x: 3.9, y: -.3, s: .5, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
+    }
     s.secTitle = secTitle;
+    s.stages = s.el.dataset.stages && !s.divider ? parseSt(s.el.dataset.stages) : secStages;
   });
 
   let short = store.get('short') === '1';
@@ -4493,7 +5161,7 @@ const SCENES = {
       const k = $('.kicker[data-auto]', s.el);
       if (k) {
         let h = `<span class="dot"></span><span class="kn">${pad(s.n)}</span><span>${s.el.dataset.kicker || (s.secTitle ? 'Раздел ' + s.secTitle : ACTS[s.act].split(' · ')[1])}</span>`;
-        if (s.level) h += `<span class="kl">${LEVELS[s.level][0]}</span>`;
+        if (s.stages.length) h += `<span class="kl">${stageLabel(s.stages)}</span>`;
         k.innerHTML = h;
       }
       $$('.r', s.el).forEach((r, i) => r.style.setProperty('--i', i));
@@ -4504,10 +5172,10 @@ const SCENES = {
         const set = (el, v) => { const [x, y] = PX.toStage(v, place); el.style.left = x + 'px'; el.style.top = y + 'px'; };
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
-        $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.25 + +el.dataset.pipe * .5) + 's'; });
+        $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });
-    renderQR(); initShots(); initWidget(); initMap(); initTilt();
+    renderQR(); initShots(); initWidget(); initChecklist(); initTerms(); initTilt();
   }
 
   /* ───────────── навигация ───────────── */
@@ -4567,6 +5235,7 @@ const SCENES = {
   }
 
   function onEnter(s) {
+    const t = TERMS[s.id]; if (t && !t.started) setTimeout(() => t.restart(), 700);
     $$('[data-step], [data-step-only]', s.el).forEach(e => delete e.dataset.fxDone);
     $$('.scr', s.el).forEach(e => scramble(e, 420));
     $$('[data-count]', s.el).filter(e => !e.closest('[data-step]')).forEach(e => setTimeout(() => countUp(e), 500));
@@ -4575,12 +5244,7 @@ const SCENES = {
 
   /* хуки конкретных слайдов */
   const HOOKS = {
-    s4(s, b) {
-      const map = $('.map', s.el), lv = b >= 1 && b <= 4 ? b : 0;
-      map.classList.toggle('focus', !!lv);
-      $$('.lvl', map).forEach(r => r.classList.toggle('hl', +r.dataset.lv === lv));
-    },
-    s18(s, b) { $$('.st3', s.el).forEach(e => { const k = +e.dataset.stp; e.classList.toggle('cur', k === b); e.classList.toggle('done', k < b); }); }
+    ech(s, b) { $$('.st3', s.el).forEach(e => { const k = +e.dataset.stp; e.classList.toggle('cur', k === b); e.classList.toggle('done', k < b); }); }
   };
 
   /* ───────────── HUD ───────────── */
@@ -4591,10 +5255,11 @@ const SCENES = {
     $('#hud-total').textContent = pad(TOTAL);
     $('#hud-build').textContent = s.builds ? Array.from({ length: s.builds + 1 }, (_, k) => k <= build ? '●' : '○').join('') : '';
     $('#hud-bar').style.width = (order.length > 1 ? cur / (order.length - 1) * 100 : 0) + '%';
-    const lad = $('#hud-ladder');
-    lad.classList.toggle('off', !s.level);
-    $$('i', lad).forEach(i => { const l = +i.dataset.l; i.style.setProperty('--c', LEVELS[l][1]); i.classList.toggle('on', l === s.level); });
-    $('#hud-lvl').textContent = s.level ? LEVELS[s.level][0] : '';
+    const hf = $('#hud-flow');
+    hf.classList.toggle('off', !s.stages.length);
+    hf.style.setProperty('--lc', LCOL[s.level] || '#a78bfa');
+    $$('i', hf).forEach((i, k) => i.classList.toggle('on', s.stages.includes(k)));
+    $('#hud-lvl').textContent = s.stages.length ? stageLabel(s.stages) : '';
   }
 
   /* ───────────── эффекты ───────────── */
@@ -4661,17 +5326,34 @@ const SCENES = {
     ['.triad', '.cases', '.lims', '.acts'].forEach(s => $$(s).forEach(e => e.style.perspective = '1200px'));
   }
 
-  /* ───────────── карта (слайд 4): клик по уровню ───────────── */
-  function initMap() {
-    const map = $('#s4 .map'); if (!map) return;
-    $$('.lvl', map).forEach(row => row.addEventListener('click', e => {
-      e.stopPropagation();
-      const lv = +row.dataset.lv, on = !row.classList.contains('hl') || !map.classList.contains('focus');
-      map.classList.toggle('focus', on);
-      $$('.lvl', map).forEach(r => r.classList.toggle('hl', on && r === row));
-      const key = on ? 'ladder:' + (lv - 1) : 'ladder:-1';
-      if (PX.ready && key !== shapeKey) { PX.morph(SH.get(key), COLOR_ONLY); shapeKey = key; }
-    }));
+  /* ───────────── чек-лист 25 вопросов (часть Степана) ───────────── */
+  function initChecklist() {
+    const grid = $('#qgrid'), panel = $('#qpanel'); if (!grid || !window.RQ) return;
+    let sel = 0;
+    const paint = () => {
+      [...grid.children].forEach((c, i) => c.classList.toggle('sel', i === sel));
+      const b = RQ.QB[sel];
+      panel.innerHTML = `<h4>Блок ${b.n}. ${b.t}</h4><ul>` + b.q.map(x => `<li><span class="star">${RQ.KEY10.includes(x[0]) ? '★' : ''}</span><span class="qid">${x[0]}</span><span>${x[1]}</span></li>`).join('') +
+        '</ul><div class="qfoot">★ — ключевой вопрос: его стоит задать обязательно</div>';
+    };
+    RQ.QB.forEach((b, i) => {
+      const d = document.createElement('div');
+      const keys = b.q.filter(x => RQ.KEY10.includes(x[0])).length;
+      d.className = 'qblock';
+      d.innerHTML = `<div class="bn">БЛОК ${b.n}</div><div class="bt">${b.t}</div><div class="bc">${b.q.length} вопр. · <b>${keys}★</b></div>`;
+      d.onclick = e => { e.stopPropagation(); sel = i; paint(); };
+      grid.appendChild(d);
+    });
+    paint();
+  }
+
+  /* ───────────── терминальные демо ───────────── */
+  const TERMS = {};
+  function initTerms() {
+    if (!window.TERM) return;
+    const rq = $('#term-rq'), ech = $('#term-ech');
+    if (rq) TERMS['rq-demo'] = TERM.create(rq, RQ.FLOW, { steps: 6, cmd: 'tclaude --skill bi-requirements-gather', qlist: RQ.qlist, tables: RQ.TABLES });
+    if (ech) TERMS['ech-demo'] = TERM.create(ech, ECH.FLOW, { steps: 5, cmd: 'tclaude --skill proteus-echarts-builder', tables: ECH.TABLES });
   }
 
   /* ───────────── QR ───────────── */
@@ -4832,7 +5514,7 @@ const SCENES = {
     ov.hidden = !show;
     if (!show) return;
     $('#ov-grid').innerHTML = slides.map(s => {
-      const c = s.level ? LEVELS[s.level][1] : s.act === 3 ? '#7dd3fc' : '#a78bfa';
+      const c = s.level ? LCOL[s.level] : s.act === 4 ? '#7dd3fc' : '#a78bfa';
       return `<div class="ov-c ${order[cur] === s ? 'cur' : ''} ${order.includes(s) ? '' : 'skip'}" data-id="${s.id}" style="--lc:${c}"><b>${s.n ? pad(s.n) : '§ ' + s.sec}</b><div>${s.title}</div></div>`;
     }).join('');
   }
@@ -4861,6 +5543,10 @@ const SCENES = {
   function key(e) {
     if (e.target.closest('input, textarea')) return;
     const k = e.key;
+    // терминальные демо: ↑ ↓ ⏎ цифры R уходят в терминал
+    const term = order[cur] && TERMS[order[cur].id];
+    if (term && !gotoBuf && term.key(k)) { e.preventDefault(); return; }
+    if (k === 'l' || k === 'L' || k === 'д' || k === 'Д') { PX.setLite && PX.setLite(!PX.lite); return; }
     if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k) && !(k === 'Enter' && gotoBuf)) { e.preventDefault(); next(); return; }
     if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); return; }
     if (k === 'Home') return go(0);
@@ -4902,14 +5588,14 @@ const SCENES = {
     });
     document.addEventListener('pointerleave', () => PX.mouse(0, 0, false));
     $('#stage').addEventListener('click', e => {
-      if (e.target.closest('a, button, input, .widget, .lvl, [data-shot], .qr')) return;
+      if (e.target.closest('a, button, input, .widget, .term, .qblock, [data-shot], .qr')) return;
       if (getSelection().toString()) return;
       next();
     });
     $('#black').addEventListener('click', () => $('#black').classList.remove('on'));
     $('#help').addEventListener('click', () => { $('#help').hidden = true; });
     addEventListener('resize', fit);
-    addEventListener('wheel', (() => { let t = 0; return e => { if (e.target.closest('.ov, .notes-pop')) return; const n = Date.now(); if (n - t < 700 || Math.abs(e.deltaY) < 30) return; t = n; e.deltaY > 0 ? next() : prev(); }; })(), { passive: true });
+    addEventListener('wheel', (() => { let t = 0; return e => { if (e.target.closest('.ov, .notes-pop, .term-body, .qpanel')) return; const n = Date.now(); if (n - t < 700 || Math.abs(e.deltaY) < 30) return; t = n; e.deltaY > 0 ? next() : prev(); }; })(), { passive: true });
   }
 
   /* ───────────── пульт спикера (отдельное окно) ───────────── */
@@ -4963,11 +5649,15 @@ const SCENES = {
     fit();
     try { await Promise.all([document.fonts.load('800 100px Unbounded'), document.fonts.load('600 60px Unbounded'), document.fonts.ready]); } catch (e) { /* шрифты не критичны */ }
     PX.init($('#gl'));
+    let toastT;
+    PX.onLite = on => { const t = $('#toast'); t.textContent = on ? 'лёгкий режим частиц · L — вернуть полный' : 'полный режим частиц'; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600); };
     prepare(); initInput();
-    const m = location.hash.match(/^#\/([\w]+)(?:\/(\d+))?/);
+    const m = location.hash.match(/^#\/([\w-]+)(?:\/(\d+))?/);
     let i = 0, b = 0;
     if (m) { i = order.findIndex(s => s.id === m[1]); if (i < 0) i = 0; b = +(m[2] || 0); }
     go(i, b);
+    // ручная смена адреса (#/id/шаг) — переход без перезагрузки
+    addEventListener('hashchange', () => { const h = location.hash.match(/^#\/([\w-]+)(?:\/(\d+))?/); if (h) gotoId(h[1], +(h[2] || 0)); });
     // прогреваем все формы заранее, чтобы на выступлении не было подтормаживаний
     if (PX.ready) {
       const keys = [...new Set(Object.values(SCENES).flatMap(s => [].concat(s.shape)))];

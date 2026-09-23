@@ -4,52 +4,59 @@
 
 /* ───────────── НАСТРОЙКИ — поменяйте под себя ───────────── */
 const CONFIG = {
-  speaker: 'Имя Фамилия',                 // [СОБРАТЬ]
+  speaker: 'Роман Казанцев',
+  cospeaker: 'Степан Гришков',
   role: 'Стрим «AI в BI»',
-  team: 'Команда · подразделение',        // [СОБРАТЬ]
   date: 'дата митапа',                    // [СОБРАТЬ]
   contact: 'ник в Time',                  // [СОБРАТЬ]
   durationMin: 30,                        // хронометраж для таймера пульта (короткая версия — 15)
   links: {                                // QR-коды строятся автоматически
     nessySql: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9035808218',
-    proteusSkills: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9264076290',
+    hermes: 'https://personal-agent.t-tech.team/hermes',
     byok: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9112708455',
     n8n: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=8886861056',
     all: ''                               // [СОБРАТЬ] одна ссылка «всё из доклада» для финального QR
   },
   shots: {                                // пути к картинкам рядом с файлом (или перетащите на рамку)
-    photo: '', before1: '', after1: '', before2: '', after2: ''
+    before1: '', after1: '', before2: '', after2: ''
   }
 };
 
 /* ───────────── сцены частиц для каждого слайда ───────────── */
-const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'y' };
+const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'x' };
+const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов
+const DIM = (shape, bright = .3, place = {}) => ({ shape, place, bright });
 const SCENES = {
-  s1: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
-  s2: { shape: 'bridge', place: { y: .4 } },
-  s3: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  s4: { shape: ['ladder:-1', 'ladder:0', 'ladder:1', 'ladder:2', 'ladder:3', 'ladder:-1'],
-        place: { x: 4.75, y: -.3, s: .86, rx: .3, ry: -.6, sway: .06 }, morph: [{ dur: 2.6 }, COLOR_ONLY] },
-  s5: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
-  s6: { shape: 'wave', place: { y: -3.1, rx: .42 }, bright: .5 },
-  s7: { shape: 'galaxy', place: { y: -.3, rx: 1.05, s: 1.15, spin: .04 }, bright: .45 },
-  s8: { shape: 'bars', place: { x: 5.9, y: -2.3, s: .5, rx: .32, ry: -.55, sway: .1 }, bright: .6 },
-  s9: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
-  s10: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
-  s11: { shape: ['ring', 'tube'], place: { y: -.25 }, bright: [.3, .95, .75] },
-  s12: { shape: 'trio', place: { y: 1.15, s: .92 } },
-  s13: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
-  s14: { shape: 'network', place: { y: -.2, s: 1.3, spin: .05 }, bright: .22 },
-  s15: { shape: 'num', place: { y: 1.05, sway: .1 }, morph: { dur: 3 } },
-  s16: { shape: 'voxels', place: { x: 4.5, y: .45, s: .85, rx: .4, ry: -.7, sway: .08 } },
-  s17: { shape: ['pipe:0', 'pipe:6'], place: { y: .55 }, morph: [{}, { dur: 3.6, turb: .25, sweep: 'x', sweepAmt: .97 }] },
-  s18: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
+  title: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
+  who: { shape: 'bridge', place: { y: .4 } },
+  useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
+  flow: { shape: ['pipe:6', 'pset:1,2,3,5', 'pipe:6'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
+  ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
+  proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
+  envs: { shape: 'duo', place: { y: 1.25, s: .75 } },
+  nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
+  tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
+  n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
+  pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
+  skillflow: { shape: 'pset:0,3,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  'rq-problem': DIM('knot', .28, { y: -.8, s: .9, spin: .08 }),
+  'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
+  'rq-not': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  'rq-check': DIM('galaxy', .3, { y: -.6, rx: 1.05, s: 1.2, spin: .04 }),
+  'rq-rules': DIM('core', .22, { y: -.3, s: 1.1, spin: .06 }),
+  'rq-steps': { shape: 'pipe:6', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x', sweepAmt: .95 } },
+  'rq-demo': DIM('wave', .22, { y: -3.6, rx: .42 }),
+  'rq-doc': DIM('wave', .25, { y: -3.6, rx: .42 }),
+  'rq-final': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  ech: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
          place: [{ x: 4.3, y: -.1, s: .95, ry: -.25, sway: .05 }, { x: 4.3, y: -.2, s: .95, rx: .35, spin: .25 }, { x: 4.4, y: -.05, s: 1.05, rx: .35, ry: -.6, sway: .12 }] },
-  s19: { shape: 'wave', place: { y: -3.4, rx: .42 }, bright: .3 },
-  s20: { shape: 'knot', place: { x: 5.4, y: -1.9, s: .75, spin: .12 }, bright: .4 },
-  s21: { shape: 'ring', place: { y: -.2, s: 1.3, rx: .95, spin: .1 }, bright: .4 },
-  s22: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
-  s23: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
+  'ech-demo': DIM('widget', .2, { x: 5.6, y: -1.8, s: .6, rx: .35, ry: -.6, sway: .1 }),
+  'ech-ex': DIM('wave', .3, { y: -3.4, rx: .42 }),
+  dd: DIM('db', .5, { x: 4.6, y: -2.1, s: .6, rx: .35, spin: .2 }),
+  todo: DIM('ring', .4, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  horizon: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
+  final: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
 };
 
 (function () {
@@ -61,8 +68,10 @@ const SCENES = {
     get(k) { try { return localStorage.getItem('aibi.' + k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem('aibi.' + k, v); } catch (e) { /* ignore */ } }
   };
-  const ACTS = { 1: 'Акт I · Инструменты изменились', 2: 'Акт II · Карта инструментов', 3: 'Акт III · Что делать вам' };
-  const LEVELS = { 1: ['Платформы', '#22d3ee'], 2: ['Агенты в платформах', '#a78bfa'], 3: ['Личный агент', '#f472b6'], 4: ['Автоматизация', '#fbbf24'] };
+  const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Что делать вам' };
+  const LCOL = { 1: '#22d3ee', 2: '#a78bfa', 3: '#f472b6', 4: '#fbbf24' };
+  const STAGES = ['Требования', 'Данные', 'Подготовка', 'Дашборд', 'Описание', 'Автоматизация'];
+  const stageLabel = st => st.length === 6 ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
   const PRESENTER = location.hash === '#presenter';
 
   /* ───────────── модель колоды ───────────── */
@@ -75,11 +84,17 @@ const SCENES = {
   // нумерация — по порядку слайдов (разделители не считаются)
   let cnt = 0; slides.forEach(s => { if (!s.divider) s.n = ++cnt; });
   const TOTAL = cnt;
-  let secTitle = '';
+  // раздел и этапы флоу наследуются от ближайшего разделителя; на разделителе частицы — флоу с подсвеченными этапами
+  let secTitle = '', secStages = [];
+  const parseSt = v => (v || '').split(',').filter(Boolean).map(x => +x - 1);
   slides.forEach(s => {
-    if (s.divider) { secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; SCENES[s.id] = { shape: 'ladder:' + (s.level - 1), place: { x: 3.7, y: -.35, s: 1.05, rx: .32, spin: .32 } }; }
-    if (s.act !== 2) secTitle = '';
+    if (s.act === 1 || s.act === 4) { secTitle = ''; secStages = []; }
+    if (s.divider) {
+      secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; secStages = parseSt(s.el.dataset.stages);
+      SCENES[s.id] = { shape: 'pset:' + secStages.join(','), place: { x: 3.9, y: -.3, s: .5, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
+    }
     s.secTitle = secTitle;
+    s.stages = s.el.dataset.stages && !s.divider ? parseSt(s.el.dataset.stages) : secStages;
   });
 
   let short = store.get('short') === '1';
@@ -100,7 +115,7 @@ const SCENES = {
       const k = $('.kicker[data-auto]', s.el);
       if (k) {
         let h = `<span class="dot"></span><span class="kn">${pad(s.n)}</span><span>${s.el.dataset.kicker || (s.secTitle ? 'Раздел ' + s.secTitle : ACTS[s.act].split(' · ')[1])}</span>`;
-        if (s.level) h += `<span class="kl">${LEVELS[s.level][0]}</span>`;
+        if (s.stages.length) h += `<span class="kl">${stageLabel(s.stages)}</span>`;
         k.innerHTML = h;
       }
       $$('.r', s.el).forEach((r, i) => r.style.setProperty('--i', i));
@@ -111,10 +126,10 @@ const SCENES = {
         const set = (el, v) => { const [x, y] = PX.toStage(v, place); el.style.left = x + 'px'; el.style.top = y + 'px'; };
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
-        $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.25 + +el.dataset.pipe * .5) + 's'; });
+        $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });
-    renderQR(); initShots(); initWidget(); initMap(); initTilt();
+    renderQR(); initShots(); initWidget(); initChecklist(); initTerms(); initTilt();
   }
 
   /* ───────────── навигация ───────────── */
@@ -174,6 +189,7 @@ const SCENES = {
   }
 
   function onEnter(s) {
+    const t = TERMS[s.id]; if (t && !t.started) setTimeout(() => t.restart(), 700);
     $$('[data-step], [data-step-only]', s.el).forEach(e => delete e.dataset.fxDone);
     $$('.scr', s.el).forEach(e => scramble(e, 420));
     $$('[data-count]', s.el).filter(e => !e.closest('[data-step]')).forEach(e => setTimeout(() => countUp(e), 500));
@@ -182,12 +198,7 @@ const SCENES = {
 
   /* хуки конкретных слайдов */
   const HOOKS = {
-    s4(s, b) {
-      const map = $('.map', s.el), lv = b >= 1 && b <= 4 ? b : 0;
-      map.classList.toggle('focus', !!lv);
-      $$('.lvl', map).forEach(r => r.classList.toggle('hl', +r.dataset.lv === lv));
-    },
-    s18(s, b) { $$('.st3', s.el).forEach(e => { const k = +e.dataset.stp; e.classList.toggle('cur', k === b); e.classList.toggle('done', k < b); }); }
+    ech(s, b) { $$('.st3', s.el).forEach(e => { const k = +e.dataset.stp; e.classList.toggle('cur', k === b); e.classList.toggle('done', k < b); }); }
   };
 
   /* ───────────── HUD ───────────── */
@@ -198,10 +209,11 @@ const SCENES = {
     $('#hud-total').textContent = pad(TOTAL);
     $('#hud-build').textContent = s.builds ? Array.from({ length: s.builds + 1 }, (_, k) => k <= build ? '●' : '○').join('') : '';
     $('#hud-bar').style.width = (order.length > 1 ? cur / (order.length - 1) * 100 : 0) + '%';
-    const lad = $('#hud-ladder');
-    lad.classList.toggle('off', !s.level);
-    $$('i', lad).forEach(i => { const l = +i.dataset.l; i.style.setProperty('--c', LEVELS[l][1]); i.classList.toggle('on', l === s.level); });
-    $('#hud-lvl').textContent = s.level ? LEVELS[s.level][0] : '';
+    const hf = $('#hud-flow');
+    hf.classList.toggle('off', !s.stages.length);
+    hf.style.setProperty('--lc', LCOL[s.level] || '#a78bfa');
+    $$('i', hf).forEach((i, k) => i.classList.toggle('on', s.stages.includes(k)));
+    $('#hud-lvl').textContent = s.stages.length ? stageLabel(s.stages) : '';
   }
 
   /* ───────────── эффекты ───────────── */
@@ -268,17 +280,34 @@ const SCENES = {
     ['.triad', '.cases', '.lims', '.acts'].forEach(s => $$(s).forEach(e => e.style.perspective = '1200px'));
   }
 
-  /* ───────────── карта (слайд 4): клик по уровню ───────────── */
-  function initMap() {
-    const map = $('#s4 .map'); if (!map) return;
-    $$('.lvl', map).forEach(row => row.addEventListener('click', e => {
-      e.stopPropagation();
-      const lv = +row.dataset.lv, on = !row.classList.contains('hl') || !map.classList.contains('focus');
-      map.classList.toggle('focus', on);
-      $$('.lvl', map).forEach(r => r.classList.toggle('hl', on && r === row));
-      const key = on ? 'ladder:' + (lv - 1) : 'ladder:-1';
-      if (PX.ready && key !== shapeKey) { PX.morph(SH.get(key), COLOR_ONLY); shapeKey = key; }
-    }));
+  /* ───────────── чек-лист 25 вопросов (часть Степана) ───────────── */
+  function initChecklist() {
+    const grid = $('#qgrid'), panel = $('#qpanel'); if (!grid || !window.RQ) return;
+    let sel = 0;
+    const paint = () => {
+      [...grid.children].forEach((c, i) => c.classList.toggle('sel', i === sel));
+      const b = RQ.QB[sel];
+      panel.innerHTML = `<h4>Блок ${b.n}. ${b.t}</h4><ul>` + b.q.map(x => `<li><span class="star">${RQ.KEY10.includes(x[0]) ? '★' : ''}</span><span class="qid">${x[0]}</span><span>${x[1]}</span></li>`).join('') +
+        '</ul><div class="qfoot">★ — ключевой вопрос: его стоит задать обязательно</div>';
+    };
+    RQ.QB.forEach((b, i) => {
+      const d = document.createElement('div');
+      const keys = b.q.filter(x => RQ.KEY10.includes(x[0])).length;
+      d.className = 'qblock';
+      d.innerHTML = `<div class="bn">БЛОК ${b.n}</div><div class="bt">${b.t}</div><div class="bc">${b.q.length} вопр. · <b>${keys}★</b></div>`;
+      d.onclick = e => { e.stopPropagation(); sel = i; paint(); };
+      grid.appendChild(d);
+    });
+    paint();
+  }
+
+  /* ───────────── терминальные демо ───────────── */
+  const TERMS = {};
+  function initTerms() {
+    if (!window.TERM) return;
+    const rq = $('#term-rq'), ech = $('#term-ech');
+    if (rq) TERMS['rq-demo'] = TERM.create(rq, RQ.FLOW, { steps: 6, cmd: 'tclaude --skill bi-requirements-gather', qlist: RQ.qlist, tables: RQ.TABLES });
+    if (ech) TERMS['ech-demo'] = TERM.create(ech, ECH.FLOW, { steps: 5, cmd: 'tclaude --skill proteus-echarts-builder', tables: ECH.TABLES });
   }
 
   /* ───────────── QR ───────────── */
@@ -439,7 +468,7 @@ const SCENES = {
     ov.hidden = !show;
     if (!show) return;
     $('#ov-grid').innerHTML = slides.map(s => {
-      const c = s.level ? LEVELS[s.level][1] : s.act === 3 ? '#7dd3fc' : '#a78bfa';
+      const c = s.level ? LCOL[s.level] : s.act === 4 ? '#7dd3fc' : '#a78bfa';
       return `<div class="ov-c ${order[cur] === s ? 'cur' : ''} ${order.includes(s) ? '' : 'skip'}" data-id="${s.id}" style="--lc:${c}"><b>${s.n ? pad(s.n) : '§ ' + s.sec}</b><div>${s.title}</div></div>`;
     }).join('');
   }
@@ -468,6 +497,10 @@ const SCENES = {
   function key(e) {
     if (e.target.closest('input, textarea')) return;
     const k = e.key;
+    // терминальные демо: ↑ ↓ ⏎ цифры R уходят в терминал
+    const term = order[cur] && TERMS[order[cur].id];
+    if (term && !gotoBuf && term.key(k)) { e.preventDefault(); return; }
+    if (k === 'l' || k === 'L' || k === 'д' || k === 'Д') { PX.setLite && PX.setLite(!PX.lite); return; }
     if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k) && !(k === 'Enter' && gotoBuf)) { e.preventDefault(); next(); return; }
     if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); return; }
     if (k === 'Home') return go(0);
@@ -509,14 +542,14 @@ const SCENES = {
     });
     document.addEventListener('pointerleave', () => PX.mouse(0, 0, false));
     $('#stage').addEventListener('click', e => {
-      if (e.target.closest('a, button, input, .widget, .lvl, [data-shot], .qr')) return;
+      if (e.target.closest('a, button, input, .widget, .term, .qblock, [data-shot], .qr')) return;
       if (getSelection().toString()) return;
       next();
     });
     $('#black').addEventListener('click', () => $('#black').classList.remove('on'));
     $('#help').addEventListener('click', () => { $('#help').hidden = true; });
     addEventListener('resize', fit);
-    addEventListener('wheel', (() => { let t = 0; return e => { if (e.target.closest('.ov, .notes-pop')) return; const n = Date.now(); if (n - t < 700 || Math.abs(e.deltaY) < 30) return; t = n; e.deltaY > 0 ? next() : prev(); }; })(), { passive: true });
+    addEventListener('wheel', (() => { let t = 0; return e => { if (e.target.closest('.ov, .notes-pop, .term-body, .qpanel')) return; const n = Date.now(); if (n - t < 700 || Math.abs(e.deltaY) < 30) return; t = n; e.deltaY > 0 ? next() : prev(); }; })(), { passive: true });
   }
 
   /* ───────────── пульт спикера (отдельное окно) ───────────── */
@@ -570,11 +603,15 @@ const SCENES = {
     fit();
     try { await Promise.all([document.fonts.load('800 100px Unbounded'), document.fonts.load('600 60px Unbounded'), document.fonts.ready]); } catch (e) { /* шрифты не критичны */ }
     PX.init($('#gl'));
+    let toastT;
+    PX.onLite = on => { const t = $('#toast'); t.textContent = on ? 'лёгкий режим частиц · L — вернуть полный' : 'полный режим частиц'; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => { t.hidden = true; }, 2600); };
     prepare(); initInput();
-    const m = location.hash.match(/^#\/([\w]+)(?:\/(\d+))?/);
+    const m = location.hash.match(/^#\/([\w-]+)(?:\/(\d+))?/);
     let i = 0, b = 0;
     if (m) { i = order.findIndex(s => s.id === m[1]); if (i < 0) i = 0; b = +(m[2] || 0); }
     go(i, b);
+    // ручная смена адреса (#/id/шаг) — переход без перезагрузки
+    addEventListener('hashchange', () => { const h = location.hash.match(/^#\/([\w-]+)(?:\/(\d+))?/); if (h) gotoId(h[1], +(h[2] || 0)); });
     // прогреваем все формы заранее, чтобы на выступлении не было подтормаживаний
     if (PX.ready) {
       const keys = [...new Set(Object.values(SCENES).flatMap(s => [].concat(s.shape)))];

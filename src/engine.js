@@ -54,6 +54,7 @@ uniform mat4 uP, uV, uM;
 uniform float uT, uSpan, uTime, uTurb, uKick, uSize, uScale, uBright;
 uniform vec3 uMouse;
 uniform vec4 uLens; // x, y, радиус, сила — автономная «лупа»
+uniform float uWave; // 0 в лёгком режиме
 out vec3 vC; out float vA;
 float ease(float t){ return t<.5 ? 4.*t*t*t : 1.-pow(-2.*t+2.,3.)*.5; }
 vec3 flow(vec3 p, float t){
@@ -78,13 +79,13 @@ void main(){
   w.xy += dq*lf*.5; w.z += lf*1.2;
   // бегущая световая волна по всей сцене
   float wv = sin(w.x*.55 + w.y*.3 - uTime*1.2);
-  float band = smoothstep(.6, 1., wv);
-  w.z += wv*.06;
+  float band = smoothstep(.6, 1., wv)*uWave;
+  w.z += wv*.06*uWave;
   vec4 v = uV*w;
   gl_Position = uP*v;
   float sz = uSize*(.5+aRnd.z)*(1.+bump*.7)*(1.+lf*1.7+band*.25);
   gl_PointSize = clamp(sz*uScale/(-v.z), 1., 64.);
-  float tw = .72+.28*sin(uTime*(1.4+aRnd.y*2.2)+aRnd.x*50.);
+  float tw = .86+.14*sin(uTime*(1.1+aRnd.y*1.6)+aRnd.x*50.);
   vC = mix(aCF, aCT, e)*(1.+bump*.9+m*1.6+lf*1.4+band*.45);
   vA = uBright*tw;
 }`;
@@ -139,7 +140,7 @@ void main(){
       gl.linkProgram(prog);
       if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(prog));
     } catch (e) { console.warn('[PX] shader error', e); return false; }
-    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse', 'uLens']
+    ['uP', 'uV', 'uM', 'uT', 'uSpan', 'uTime', 'uTurb', 'uKick', 'uSize', 'uScale', 'uBright', 'uMouse', 'uLens', 'uWave']
       .forEach(n => U[n] = gl.getUniformLocation(prog, n));
 
     // стартовое облако: широкая сфера
@@ -185,7 +186,7 @@ void main(){
 
   function resize() {
     if (!canvas) return;
-    dpr = Math.min(devicePixelRatio || 1, 2);
+    dpr = Math.min(devicePixelRatio || 1, lite ? 1 : 1.5);
     W = innerWidth; H = innerHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     const ar = W / H;
@@ -269,11 +270,26 @@ void main(){
     lens.str += (want - lens.str) * (1 - Math.pow(.2, dt));
   }
 
+  /* лёгкий режим: половина частиц, без волны, dpr 1. Включается клавишей L
+     или сам, если несколько секунд подряд FPS ниже 40 (например, при шаринге экрана) */
+  let lite = false, fpsAcc = 0, fpsN = 0, slowWin = 0, onLite = null;
+  function setLite(v) { lite = !!v; resize(); onLite && onLite(lite); }
+  function watchFps(dt) {
+    if (lite || !dt) return;
+    fpsAcc += dt; fpsN++;
+    if (fpsAcc >= 2) {
+      slowWin = fpsN / fpsAcc < 40 ? slowWin + 1 : 0;
+      fpsAcc = 0; fpsN = 0;
+      if (slowWin >= 2) setLite(true);
+    }
+  }
+
   function loop(now) {
     if (!running) return;
     requestAnimationFrame(loop);
     if (document.hidden) return;
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now; time += dt;
+    watchFps(dt);
     T = Math.min(1, T + dt / dur);
     kickV *= Math.pow(.12, dt);
     const k = 1 - Math.pow(.02, dt);
@@ -308,13 +324,15 @@ void main(){
     gl.uniform3f(U.uMouse, mouse.x, mouse.y, mouse.str);
     updateLens(m, dt);
     gl.uniform4f(U.uLens, lens.x, lens.y, 1.05, lens.str);
-    gl.bindVertexArray(vaoMain); gl.drawArrays(gl.POINTS, 0, N);
+    gl.uniform1f(U.uWave, lite ? 0 : 1);
+    gl.bindVertexArray(vaoMain); gl.drawArrays(gl.POINTS, 0, lite ? Math.round(N * .5) : N);
   }
 
   window.PX = {
     N, WPP, init, morph, place, toStage,
     bright: b => { brightTgt = b; },
     kick: a => { kickV = Math.max(kickV, a); },
+    setLite, get lite() { return lite; }, set onLite(f) { onLite = f; },
     settle: () => { T = 1; Object.assign(cur, tgt); brightCur = brightTgt; },
     mouse: setMouse,
     get ready() { return !!gl; }

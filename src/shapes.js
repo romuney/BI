@@ -352,7 +352,7 @@
   // пайплайн MR: ось + 6 колец; lit — сколько колец горит.
   // tag = кольцо + 8 * вид (0 — ось, 1 — кольцо, 2 — ядро)
   const PIPE_X = [-5.5, -3.3, -1.1, 1.1, 3.3, 5.5];
-  const PIPE_C = [C.l2, C.l2, C.l3, C.l3, C.l4, C.ok];
+  const PIPE_C = [C.l1, C.blue, C.l2, C.l3, C.coral, C.l4];
   function pipeBase() {
     const b = new B();
     for (let k = 0; k < N * .16; k++) {
@@ -365,13 +365,34 @@
     });
     return b.done({ dim: .2 });
   }
-  function pipeline(lit) {
+  function pipeLit(isOn) {
     return variant(SH.get('pipeBase'), (t, c) => {
-      const i = t % 8, kind = t >> 3, on = i < lit;
+      const i = t % 8, kind = t >> 3, on = isOn(i);
       if (kind === 2) return on ? mul(c, 1.2) : [0, 0, 0];
       if (kind === 1) return on ? mul(c, 1.4) : mix(C.dim, c, .25);
       return on ? mul(c, .9) : C.dim;
     });
+  }
+  const pipeline = lit => pipeLit(i => i < lit);
+  // горят только перечисленные кольца: 'pset:0,3,4'
+  const pipeSet = list => { const on = new Set(String(list).split(',').filter(x => x !== '').map(Number)); return pipeLit(i => on.has(i)); };
+
+  // две агентские среды (Nessy и Hermes) и общие MCP-инструменты между ними
+  function duo() {
+    const b = new B(), xs = [-3.7, 3.7], cs = [C.l2, C.l1];
+    xs.forEach((x0, i) => {
+      for (let k = 0; k < N * .19; k++) { const p = spherePt(.78); const band = Math.sin(p[1] * 13 + i * 2) * .5 + .5; b.add(x0 + p[0], p[1], p[2], mul(cs[i], .55 + band * .9)); }
+      for (let k = 0; k < N * .08; k++) {
+        const a = rn() * TAU, r = 1.2 + rn() * .3, tilt = .45 + i * .2, x = Math.cos(a) * r, z = Math.sin(a) * r;
+        b.add(x0 + x, z * Math.sin(tilt), z * Math.cos(tilt), mul(cs[i], .55));
+      }
+    });
+    const nodes = [-1.3, -.65, 0, .65, 1.3].map((y, j) => [Math.cos(j) * .25, y * .95, 0]);
+    nodes.forEach(n => { for (let k = 0; k < N * .025; k++) { const p = ballPt(.16); b.add(n[0] + p[0], n[1] + p[1], p[2], mul(C.l4, 1.4)); } });
+    nodes.forEach(n => xs.forEach((x0, i) => {
+      for (let k = 0; k < N * .012; k++) { const t = rn(); b.add(x0 + (n[0] - x0) * t + gauss() * .012, n[1] * t + Math.sin(t * Math.PI) * .15 + gauss() * .012, gauss() * .02, mul(mix(cs[i], C.l4, t), .5)); }
+    }));
+    return b.done({ dim: .2 });
   }
 
   // HTML-макет → SQL → виджет
@@ -455,7 +476,7 @@
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
     ladderBase, pipeBase, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
-    pipe: a => pipeline(+a), html: htmlFrame, db, horizon, ring, knot
+    pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
   const cache = {};
   window.SH = {
