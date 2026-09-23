@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Сбор BI-требований за 6 шагов · короткая версия (15 слайдов)</title>
+<style>
+:root{
+  --plane:#0d0d0d; --surface:#1a1a19; --surface-2:#222220; --surface-3:#2b2b28;
+  --ink:#ffffff; --ink-2:#c3c2b7; --ink-3:#898781;
+  --line:rgba(255,255,255,0.10); --line-2:rgba(255,255,255,0.20);
+  --blue:#3987e5; --blue-dim:#256abf; --orange:#d95926; --aqua:#199e70; --violet:#9085e9;
+  --good:#0ca30c; --warning:#fab219; --serious:#ec835a; --critical:#d03b3b;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:var(--plane);color:var(--ink);font-family:var(--sans);overflow:hidden;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(1100px 700px at 12% -12%,rgba(57,135,229,.14),transparent 60%),
+             radial-gradient(900px 620px at 96% 112%,rgba(144,133,233,.11),transparent 60%)}
+
+/* ---------- сцена ---------- */
+#stage{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center center;
+  background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  box-shadow:0 40px 120px rgba(0,0,0,.65);z-index:1}
+.slide{position:absolute;inset:0;padding:58px 70px 64px;opacity:0;visibility:hidden;
+  transform:translateY(14px);transition:opacity .34s ease,transform .34s ease,visibility .34s;
+  display:flex;flex-direction:column}
+.slide.active{opacity:1;visibility:visible;transform:none}
+.slide.past{transform:translateY(-14px)}
+
+/* ---------- типографика ---------- */
+.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);font-weight:650;margin-bottom:14px}
+.eyebrow.warn{color:var(--serious)}
+h1{font-size:60px;line-height:1.05;letter-spacing:-.025em;font-weight:760}
+h2{font-size:34px;line-height:1.14;letter-spacing:-.02em;font-weight:720;margin-bottom:6px}
+.sub{font-size:16px;color:var(--ink-2);line-height:1.5;margin-top:10px;max-width:940px}
+.rule{height:1px;background:var(--line);margin:18px 0 22px}
+.big-quote{font-size:46px;line-height:1.16;letter-spacing:-.02em;font-weight:700;max-width:1000px}
+.big-quote em{font-style:normal;color:var(--blue)}
+.dim{color:var(--ink-3)}
+.mono{font-family:var(--mono)}
+
+/* ---------- фрагменты ---------- */
+[data-frag]{opacity:0;transform:translateY(8px);transition:opacity .3s ease,transform .3s ease}
+[data-frag].shown{opacity:1;transform:none}
+
+/* ---------- хром ---------- */
+#topbar{position:absolute;left:0;right:0;top:0;height:3px;background:rgba(255,255,255,.06);z-index:20}
+#topbar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--violet));width:0;transition:width .35s ease}
+#hud{position:absolute;right:20px;bottom:16px;z-index:20;display:flex;align-items:center;gap:14px;
+  font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+#hud b{color:var(--ink-2);font-weight:600}
+#sectionTag{position:absolute;left:70px;bottom:18px;z-index:20;font-family:var(--mono);font-size:11px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- карточки ---------- */
+.cards{display:grid;gap:14px}
+.card{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:18px 20px;position:relative}
+.card h3{font-size:17px;font-weight:680;margin-bottom:6px;letter-spacing:-.01em}
+.card p{font-size:14px;line-height:1.5;color:var(--ink-2)}
+.card .num{font-family:var(--mono);font-size:12px;color:var(--blue);font-weight:700;margin-bottom:8px;display:block}
+.card.accent-critical{border-left:3px solid var(--critical)}
+.card.accent-warning{border-left:3px solid var(--warning)}
+.card.accent-blue{border-left:3px solid var(--blue)}
+.card.accent-aqua{border-left:3px solid var(--aqua)}
+.card.accent-violet{border-left:3px solid var(--violet)}
+
+/* ---------- таблицы ---------- */
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;font-weight:650;color:var(--ink-3);font-size:11px;letter-spacing:.08em;
+  text-transform:uppercase;padding:0 12px 9px;border-bottom:1px solid var(--line-2)}
+table.t td{padding:11px 12px;border-bottom:1px solid var(--line);color:var(--ink-2);line-height:1.45;vertical-align:top}
+table.t tr:last-child td{border-bottom:none}
+table.t td b{color:var(--ink);font-weight:640}
+table.t td.k{color:var(--blue);font-family:var(--mono);font-size:12px;font-weight:700;white-space:nowrap}
+
+/* ---------- чипы ---------- */
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:620;padding:4px 10px;
+  border-radius:999px;border:1px solid var(--line-2);color:var(--ink-2);font-family:var(--mono)}
+.chip.crit{color:var(--critical);border-color:rgba(208,59,59,.45);background:rgba(208,59,59,.10)}
+.chip.warn{color:var(--warning);border-color:rgba(250,178,25,.40);background:rgba(250,178,25,.09)}
+.chip.good{color:var(--good);border-color:rgba(12,163,12,.45);background:rgba(12,163,12,.10)}
+.chip.blue{color:var(--blue);border-color:rgba(57,135,229,.45);background:rgba(57,135,229,.10)}
+
+/* ---------- воронка потерь ---------- */
+.funnel{display:flex;flex-direction:column;gap:7px;align-items:center;margin-top:6px}
+.fstage{height:50px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-size:14.5px;font-weight:620;color:#05070a;letter-spacing:-.01em;white-space:nowrap;padding:0 18px;
+  transform:scaleX(.55);opacity:0;transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .4s ease}
+.fstage.on{transform:none;opacity:1}
+.fstage.last{color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset}
+
+/* ---------- схема шагов ---------- */
+.flow{display:flex;align-items:stretch;gap:10px;margin-top:8px}
+.fbox{flex:1;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:13px 12px;text-align:center}
+.fbox .n{font-family:var(--mono);font-size:11px;color:var(--blue);font-weight:700}
+.fbox .t{font-size:13px;font-weight:620;margin-top:5px;line-height:1.3}
+.fbox.b-new{border-color:rgba(57,135,229,.45);background:rgba(57,135,229,.07)}
+.fbox.b-mat{border-color:rgba(217,89,38,.45);background:rgba(217,89,38,.07)}
+.fbox.b-new .n{color:var(--blue)} .fbox.b-mat .n{color:var(--orange)}
+.arrow{align-self:center;color:var(--ink-3);font-size:16px}
+
+/* ---------- интерактивный список вопросов ---------- */
+.qgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:9px;margin-top:4px}
+.qblock{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:12px 10px;
+  cursor:pointer;transition:.18s;text-align:center}
+.qblock:hover{border-color:var(--line-2);background:var(--surface-3);transform:translateY(-2px)}
+.qblock.sel{border-color:var(--blue);background:rgba(57,135,229,.12)}
+.qblock .bn{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:.06em}
+.qblock .bt{font-size:12.5px;font-weight:640;margin:6px 0 8px;line-height:1.25;min-height:32px}
+.qblock .bc{font-family:var(--mono);font-size:11px;color:var(--ink-2)}
+.qblock .bc b{color:var(--blue)}
+.qpanel{margin-top:14px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;
+  padding:16px 18px;min-height:150px}
+.qpanel h4{font-size:14px;font-weight:680;margin-bottom:10px}
+.qpanel ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.qpanel li{font-size:13.5px;color:var(--ink-2);line-height:1.4;display:flex;gap:9px;align-items:flex-start}
+.qpanel li .star{color:var(--warning);width:12px;flex:none;font-size:12px}
+.qpanel li .qid{font-family:var(--mono);color:var(--blue);font-size:12px;font-weight:700;width:38px;flex:none}
+
+/* ---------- шаги: селектор ---------- */
+.steps-wrap{display:grid;grid-template-columns:230px 1fr;gap:18px;margin-top:4px;flex:1;min-height:0}
+.steplist{display:flex;flex-direction:column;gap:6px}
+.stepitem{background:var(--surface-2);border:1px solid var(--line);border-radius:9px;padding:9px 12px;
+  cursor:pointer;transition:.15s;display:flex;align-items:center;gap:9px}
+.stepitem:hover{background:var(--surface-3)}
+.stepitem.sel{border-color:var(--blue);background:rgba(57,135,229,.13)}
+.stepitem .sn{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--blue);width:26px;flex:none}
+.stepitem .st{font-size:13px;font-weight:600}
+.stepitem.br-n .sn{color:var(--blue)} .stepitem.br-m .sn{color:var(--orange)}
+.stepdetail{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:20px 22px;
+  display:flex;flex-direction:column;gap:14px}
+.sd-row .lab{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;font-weight:680;margin-bottom:6px}
+.sd-row .val{font-size:14.5px;line-height:1.5;color:var(--ink-2)}
+.sd-row .val b{color:var(--ink);font-weight:640}
+.lab-skill{color:var(--ink-3)} .lab-you{color:var(--warning)} .lab-out{color:var(--aqua)}
+
+/* ---------- KPI-плитки ---------- */
+.tiles{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:6px}
+.tile{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:20px 18px}
+.tile .v{font-size:44px;font-weight:740;letter-spacing:-.035em;line-height:1}
+.tile .l{font-size:12.5px;color:var(--ink-2);margin-top:10px;line-height:1.35}
+.tile.c-blue .v{color:var(--blue)} .tile.c-aqua .v{color:var(--aqua)}
+.tile.c-warn .v{color:var(--warning)} .tile.c-crit .v{color:var(--critical)}
+.tile.c-violet .v{color:var(--violet)}
+
+/* ---------- артефакт ---------- */
+.art-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:20px;flex:1;min-height:0;margin-top:4px}
+.md-prev{background:#141413;border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  font-family:var(--mono);font-size:11.5px;line-height:1.68;color:var(--ink-2);overflow:hidden}
+.md-prev .h{color:var(--ink);font-weight:700;font-size:13px}
+.md-prev .q{color:var(--serious)}
+.md-prev .sec{color:var(--blue);font-weight:700}
+.md-prev .mk{color:var(--aqua)}
+.md-prev .cr{color:var(--critical)}
+.md-prev .wa{color:var(--warning)}
+.ann{display:flex;flex-direction:column;gap:11px}
+.ann .a{background:var(--surface-2);border:1px solid var(--line);border-left:3px solid var(--blue);
+  border-radius:9px;padding:12px 15px}
+.ann .a h5{font-size:13.5px;font-weight:660;margin-bottom:4px}
+.ann .a p{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+
+/* ---------- две колонки ---------- */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px;flex:1;min-height:0}
+.panel{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.panel h4{font-size:14px;font-weight:700;margin-bottom:14px;letter-spacing:.01em}
+.panel ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.panel li{font-size:13.5px;color:var(--ink-2);line-height:1.45;padding-left:18px;position:relative}
+.panel li::before{content:"—";position:absolute;left:0;color:var(--ink-3)}
+.panel li b{color:var(--ink);font-weight:640}
+
+/* ---------- оверлеи ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(8,8,8,.93);backdrop-filter:blur(6px);
+  display:none;padding:44px 56px;overflow:auto}
+.overlay.open{display:block}
+.overlay h3{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:20px}
+#mapGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.mapcard{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px 15px;cursor:pointer;transition:.15s}
+.mapcard:hover{border-color:var(--blue);background:rgba(57,135,229,.10)}
+.mapcard.cur{border-color:var(--blue);background:rgba(57,135,229,.16)}
+.mapcard .mi{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.mapcard .mt{font-size:13.5px;font-weight:640;margin-top:6px;line-height:1.3}
+.mapcard .ms{font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;margin-top:8px;color:var(--blue);font-weight:650}
+
+#notes{position:fixed;left:0;right:0;bottom:0;z-index:40;max-height:44vh;overflow:auto;
+  background:rgba(14,14,13,.97);border-top:1px solid var(--line-2);padding:22px 34px;display:none}
+#notes.open{display:block}
+#notes .nt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:680;margin-bottom:10px}
+#notes .nb{font-size:14.5px;line-height:1.62;color:var(--ink-2);max-width:1100px}
+#notes .nb b{color:var(--ink)}
+#notes .nb em{color:var(--warning);font-style:normal}
+
+#help{position:fixed;inset:0;z-index:60;background:rgba(8,8,8,.95);display:none;
+  align-items:center;justify-content:center}
+#help.open{display:flex}
+#help .box{background:var(--surface);border:1px solid var(--line-2);border-radius:14px;padding:32px 40px;min-width:440px}
+#help h3{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:18px}
+#help dl{display:grid;grid-template-columns:auto 1fr;gap:11px 22px;align-items:center}
+#help dt{font-family:var(--mono);font-size:12px;background:var(--surface-3);border:1px solid var(--line-2);
+  border-radius:6px;padding:3px 9px;text-align:center;color:var(--ink)}
+#help dd{font-size:13.5px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="topbar"><i></i></div>
+  <style>
+/* ---------- терминал ---------- */
+.term{flex:1;display:flex;flex-direction:column;min-height:0;background:#0f0f0e;
+  border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:10px}
+.term-bar{height:34px;display:flex;align-items:center;gap:10px;padding:0 13px;background:#191918;
+  border-bottom:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-3);flex:none}
+.term-bar .dots i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;background:#3a3a37}
+.term-bar .tctl{margin-left:auto;display:flex;gap:7px}
+.term-bar button{font-family:var(--mono);font-size:10.5px;color:var(--ink-2);background:var(--surface-3);
+  border:1px solid var(--line-2);border-radius:6px;padding:3px 9px;cursor:pointer;transition:.15s}
+.term-bar button:hover{color:var(--ink);border-color:var(--blue)}
+.term-body{flex:1;overflow:auto;padding:14px 20px 20px;font-family:var(--mono);font-size:12.5px;
+  line-height:1.6;color:var(--ink-2)}
+.term-body::-webkit-scrollbar{width:8px}
+.term-body::-webkit-scrollbar-thumb{background:#2e2e2b;border-radius:4px}
+.tl{opacity:0;transform:translateY(4px);animation:tin .2s forwards}
+@keyframes tin{to{opacity:1;transform:none}}
+.t-assist{color:var(--ink)}
+.t-assist::before{content:"✦ ";color:var(--violet)}
+.t-dim{color:var(--ink-3)}
+.t-bar{color:var(--ink);font-weight:700}
+.t-prog{letter-spacing:.14em;color:var(--blue);font-weight:700}
+.t-path{color:var(--aqua)}
+.t-user::before{content:"› ";color:var(--ink-3)}
+.t-user{color:var(--warning)}
+.t-ok::before{content:"✓ ";color:var(--good)}
+.t-blank{height:9px}
+.t-warnline{color:var(--serious)}
+.ask{border:1px solid var(--line-2);border-radius:9px;margin:10px 0 4px;padding:11px 13px;background:#141413}
+.ask .aq-top{color:var(--warning);margin-bottom:9px}
+.ask .aq-head{display:inline-block;border:1px solid var(--line-2);border-radius:5px;padding:1px 8px;
+  color:var(--blue);font-size:11px;margin-bottom:8px}
+.ask .aq-q{color:var(--ink);margin-bottom:8px}
+.opt{display:flex;gap:9px;padding:5px 8px;border-radius:6px;cursor:pointer;transition:.12s}
+.opt:hover{background:rgba(255,255,255,.04)}
+.opt.sel{background:rgba(57,135,229,.15);box-shadow:inset 0 0 0 1px rgba(57,135,229,.45)}
+.opt .car{width:11px;flex:none;color:var(--blue)}
+.opt .ob .ol{color:var(--ink)}
+.opt .ob .od{color:var(--ink-3);font-size:11.5px}
+.ask .hint{color:var(--ink-3);font-size:10.5px;margin-top:9px;padding-left:8px}
+.ttab{border-collapse:collapse;margin:8px 0 4px;font-size:11.5px;width:100%}
+.ttab th,.ttab td{border:1px solid #2f2f2c;padding:4px 9px;text-align:left;color:var(--ink-2);vertical-align:top}
+.ttab th{color:var(--ink-3);font-weight:600;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase}
+.qline{white-space:pre;color:var(--ink-2)}
+.qline .m-full{color:var(--good)} .qline .m-part{color:var(--warning)} .qline .m-none{color:#5a5a55}
+.qline .m-star{color:var(--warning)} .qline .qid{color:var(--blue)}
+.qline .bhead{color:var(--ink);font-weight:700}
+.caret{display:inline-block;width:8px;height:14px;background:var(--ink-2);vertical-align:-2px;animation:bl 1s steps(1) infinite}
+@keyframes bl{50%{opacity:0}}
+.demo-legend{display:flex;gap:16px;font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px;flex:none}
+.demo-legend b{color:var(--ink-2);font-weight:600}
+</style>
+
+<!-- ============ 1. ТИТУЛ ============ -->
+<section class="slide" data-sec="Вступление">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div class="eyebrow">BI Meetup · доклад</div>
+    <h1>Сбор BI-требований<br>за <span style="color:var(--blue)">6 шагов</span></h1>
+    <div class="sub" style="font-size:19px;max-width:820px;margin-top:22px">
+      Скилл <span class="mono" style="color:var(--aqua)">bi-requirements-gather</span> — процесс, который делает
+      сбор требований к дашборду одинаковым у всех и оставляет после себя проверяемый артефакт.
+    </div>
+    <div style="margin-top:44px;display:flex;gap:10px">
+      <span class="chip blue">25 вопросов · 7 блоков</span>
+      <span class="chip">2 ветки входа</span>
+      <span class="chip">проверка пробелов 🔴 / 🟡</span>
+      <span class="chip good">v5.0 · есть тесты</span>
+    </div>
+  </div>
+  <div class="mono" style="font-size:12px;color:var(--ink-3)">
+    → или пробел — дальше &nbsp;·&nbsp; <b style="color:var(--ink-2)">S</b> — заметки спикера
+    &nbsp;·&nbsp; <b style="color:var(--ink-2)">O</b> — карта слайдов &nbsp;·&nbsp; <b style="color:var(--ink-2)">?</b> — все клавиши
+  </div>
+</section>
+
+<!-- ============ 2. МАРШРУТ ============ -->
+<section class="slide" data-sec="Вступление">
+  <div class="eyebrow">Маршрут</div>
+  <h2>О чём поговорим</h2>
+  <div class="rule"></div>
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card accent-critical" data-frag><span class="num">01</span><h3>Где на самом деле теряются требования</h3><p>Пять корневых причин и четыре механики, по которым требования меняются уже после «мы обо всём договорились».</p></div>
+    <div class="card accent-blue" data-frag><span class="num">02</span><h3>Какую джобу закрывает скилл</h3><p>Пять JTBD-формулировок, выведенных из того, что скилл реально умеет, — и честный список того, чего он не делает.</p></div>
+    <div class="card accent-violet" data-frag><span class="num">03</span><h3>Принципы: почему агент не выдумывает</h3><p>Гипотеза ≠ ответ, противоречие не разрешается самостоятельно, в документе нет пустоты.</p></div>
+    <div class="card accent-aqua" data-frag><span class="num">04</span><h3>6 шагов: что нужно от вас</h3><p>По каждому шагу — что делает скилл, что требуется от человека и какой артефакт остаётся.</p></div>
+    <div class="card accent-warning" data-frag style="grid-column:1 / -1"><span class="num">05</span><h3>Живое демо в терминале + реальный кейс</h3><p>Прогон на настоящем интервью по дашборду «Эффективность обзвона» — с цифрами, пробелами и итоговым документом.</p></div>
+  </div>
+</section>
+
+<!-- ============ 3. ПРОВОКАЦИЯ ============ -->
+<section class="slide" data-sec="Проблематика" style="justify-content:center">
+  <div class="eyebrow warn">Проблематика</div>
+  <div class="big-quote">Каждый BI-аналитик собирает требования <em>заново</em> —<br>и каждый <em>по-своему</em></div>
+  <div class="sub" style="margin-top:38px;font-size:17px;max-width:860px">
+    Требования к дашборду — единственный артефакт, который мы делаем каждый раз с нуля,
+    без шаблона. И потом удивляемся, что результат получается разный.
+  </div>
+</section>
+
+<!-- ============ 4. ПОЧЕМУ СЛОЖНО ============ -->
+<section class="slide" data-sec="Проблематика">
+  <div class="eyebrow warn">Проблематика · 1/2</div>
+  <h2>Почему собрать требования сложно</h2>
+  <div class="rule" style="margin:14px 0 18px"></div>
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:13px">
+    <div class="card accent-critical" data-frag><span class="num">01</span><h3>Заказчик не мыслит в терминах дашборда</h3><p>Он знает боль — «не понимаю, как прошла акция». Не метрики, не разрезы, не частоту обновления. Перевод боли в спецификацию — наша работа, но её никто не структурирует.</p></div>
+    <div class="card accent-critical" data-frag><span class="num">02</span><h3>Источники разбросаны</h3><p>Бриф в почте, встреча в Zoom, транскрипт в файле, уточнения в мессенджере, правки на планёрке. Единого места с ответами не существует.</p></div>
+    <div class="card accent-critical" data-frag><span class="num">03</span><h3>Нет процесса — есть личный стиль</h3><p>Один спросит про RLS, другой забудет. Один уточнит формулу метрики, другой домыслит. Полнота сбора зависит от опыта конкретного человека.</p></div>
+    <div class="card accent-critical" data-frag><span class="num">04</span><h3>Ответы не фиксируются в момент получения</h3><p>Договорились голосом — записали «потом». Потом собираем документ по памяти, теряя половину нюансов и все источники.</p></div>
+    <div class="card accent-critical" data-frag style="grid-column:1 / -1;border-left-width:4px">
+      <span class="num" style="color:var(--critical)">05 · самая дорогая</span>
+      <h3>Пробелы не видны: мы не знаем, чего не знаем</h3>
+      <p>Дырка «а откуда, собственно, данные?» всплывает на этапе проектирования — когда макет уже нарисован и согласован.</p></div>
+  </div>
+</section>
+
+<!-- ============ 5. ПОЧЕМУ МЕНЯЮТСЯ ============ -->
+<section class="slide" data-sec="Проблематика">
+  <div class="eyebrow warn">Проблематика · 2/2</div>
+  <h2>Почему требования ещё и меняются</h2>
+  <div class="rule" style="margin:14px 0 18px"></div>
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:13px">
+    <div class="card accent-warning" data-frag><h3>Дозревание</h3><p>Заказчик увидел первую версию — и только тогда понял, чего хотел. Это норма, а не саботаж.</p></div>
+    <div class="card accent-warning" data-frag><h3>Противоречия между источниками</h3><p>В брифе «отчёт разовый», на встрече «нужна динамика по ходу акции». Кто прав — неизвестно, а в документ попадает то, что аналитик услышал последним.</p></div>
+    <div class="card accent-warning" data-frag><h3>Смена контекста</h3><p>Акция продлилась, добавился второй тип пользователей, поменялся спонсор — часть требований протухла молча.</p></div>
+    <div class="card accent-warning" data-frag><h3>Замена источника</h3><p>«Забудь тот файл, вот актуальный». Что делать с ответами, извлечёнными из старого, обычно не делает никто.</p></div>
+  </div>
+  <div data-frag style="margin-top:20px;background:rgba(208,59,59,.09);border:1px solid rgba(208,59,59,.35);
+       border-radius:12px;padding:18px 22px">
+    <div style="font-size:17px;line-height:1.45;font-weight:620">
+      Проблема не в том, что требования меняются — они будут меняться всегда.
+      Проблема в том, что <span style="color:var(--critical)">нет механизма отследить изменение</span>:
+      какой факт откуда взялся, какой уже устарел и что сломается, если его поменять.
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 7. ДЖОБЫ ============ -->
+<section class="slide" data-sec="Джобы">
+  <div class="eyebrow">Jobs to be done</div>
+  <h2>Пять джоб, которые закрывает скилл</h2>
+  <div class="rule" style="margin:12px 0 14px"></div>
+  <table class="t">
+    <thead><tr><th style="width:44px"></th><th style="width:30%">Когда…</th><th style="width:32%">…я хочу…</th><th>…чтобы</th></tr></thead>
+    <tbody>
+      <tr data-frag><td class="k">J1</td><td>иду на встречу с заказчиком дашборда</td><td><b>получить гайд с правильными вопросами</b> под мой случай</td><td>не забыть про источники, права доступа и сроки — и не ходить на вторую встречу за тем же</td></tr>
+      <tr data-frag><td class="k">J2</td><td>у меня уже есть транскрипт, бриф или заметки</td><td><b>автоматически разложить их по чек-листу</b> требований</td><td>не перечитывать простыню и не переспрашивать то, что заказчик уже сказал</td></tr>
+      <tr data-frag><td class="k">J3</td><td>сбор закончен и кажется, что всё есть</td><td><b>увидеть, чего реально не хватает</b>, с приоритетом</td><td>не начинать проектирование с дырой в фундаменте</td></tr>
+      <tr data-frag><td class="k">J4</td><td>требования собраны</td><td><b>документ с указанием источника каждого факта</b></td><td>передать в разработку, вернуться через месяц и понимать, откуда что взялось</td></tr>
+      <tr data-frag><td class="k">J5</td><td>процесс прервался: встреча через неделю, заказчик пропал</td><td><b>сохранить прогресс и продолжить</b> с того же места</td><td>не собирать всё заново и не терять уже полученные ответы</td></tr>
+    </tbody>
+  </table>
+  <div data-frag style="margin-top:auto;font-size:14.5px;color:var(--ink-3);line-height:1.5">
+    Самые недооценённые — <b style="color:var(--ink-2)">J2</b> и <b style="color:var(--ink-2)">J3</b>:
+    разбор материалов и проверка полноты руками почти никто не делает системно, потому что это скучно и долго.
+    Именно их и имеет смысл отдать агенту.
+  </div>
+</section>
+
+<!-- ============ 8. ЧЕГО НЕ ДЕЛАЕТ ============ -->
+<section class="slide" data-sec="Джобы">
+  <div class="eyebrow">Границы</div>
+  <h2>Чего скилл <span style="color:var(--critical)">не</span> делает</h2>
+  <div class="rule" style="margin:12px 0 20px"></div>
+  <div class="cards" style="grid-template-columns:repeat(3,1fr);gap:16px">
+    <div class="card accent-critical" data-frag style="padding:24px 22px">
+      <h3 style="font-size:19px">Не проводит встречу за вас</h3>
+      <p style="margin-top:10px">Разговаривать с заказчиком всё равно вам. Скилл готовит к встрече и разбирает её результат, но на созвон не ходит.</p></div>
+    <div class="card accent-critical" data-frag style="padding:24px 22px">
+      <h3 style="font-size:19px">Не проектирует дашборд</h3>
+      <p style="margin-top:10px">На выходе требования, а не макет. Прототип — отдельный скилл, вызывается опционально на последнем шаге.</p></div>
+    <div class="card accent-critical" data-frag style="padding:24px 22px">
+      <h3 style="font-size:19px">Не решает за заказчика</h3>
+      <p style="margin-top:10px">Противоречие в источниках подсветит — но версию не выберет. На этом держится вся конструкция.</p></div>
+  </div>
+  <div data-frag style="margin-top:auto;font-size:16px;color:var(--ink-2);line-height:1.5;max-width:880px">
+    Инструмент, который обещает всё, обычно не делает ничего. Этот закрывает узкий кусок:
+    <b style="color:var(--ink)">подготовка → разбор → проверка полноты → документ</b>.
+  </div>
+</section>
+
+<!-- ============ 9. МЕТОДОЛОГИЯ + 25 ВОПРОСОВ ============ -->
+<section class="slide" data-sec="Принципы">
+  <div class="eyebrow">Методология</div>
+  <h2>На чём стоит чек-лист</h2>
+  <div class="sub" style="margin-top:8px;font-size:15px">
+    <b style="color:var(--ink)">Dashboard Canvas</b> — структура блоков дашборда становится структурой требований.
+    <b style="color:var(--ink)">BABOK</b> — классификация и трассируемость: каждый ответ привязан к вопросу и источнику.
+    Формулировки <b style="color:var(--ink)">канонические</b>: агенту запрещено их пересказывать, сокращать и «улучшать».
+  </div>
+  <div class="rule" style="margin:16px 0 14px"></div>
+  <div class="qgrid" id="qgrid"></div>
+  <div class="qpanel" id="qpanel"></div>
+</section>
+
+<!-- ============ 10. ПРИНЦИПЫ ============ -->
+<section class="slide" data-sec="Принципы">
+  <div class="eyebrow">Принципы</div>
+  <h2>Пять правил, которые держат качество</h2>
+  <div class="rule" style="margin:12px 0 16px"></div>
+  <div class="cards" style="grid-template-columns:1fr 1fr;gap:13px">
+    <div class="card accent-blue" data-frag><span class="num">01</span><h3>Wizard, а не анкета</h3>
+      <p>Один шаг = одно сообщение. Задал вопрос — остановился и ждёт.<br><span class="dim">Анкета из 25 пунктов возвращается незаполненной. Разговор по шагу — доходит до конца.</span></p></div>
+    <div class="card accent-violet" data-frag><span class="num">02 · ключевое</span><h3>Гипотеза ≠ ответ</h3>
+      <p>🎤 сказал пользователь · ✍️ уточнено вручную · 🤖 предположение агента.<br><span class="dim">🤖 не засчитывается как ответ и не повышает заполненность, пока человек его не подтвердил.</span></p></div>
+    <div class="card accent-warning" data-frag><span class="num">03</span><h3>Противоречие не разрешается само</h3>
+      <p>Два источника говорят разное → «ответ есть, но недостаточен» и в открытые вопросы.<br><span class="dim">Здесь обычно и рождается «мы же договаривались по-другому».</span></p></div>
+    <div class="card accent-aqua" data-frag><span class="num">04</span><h3>Пробелы — только по выбранному набору</h3>
+      <p>Не выбрали вопрос — он нигде не появится как «нет данных».<br><span class="dim">Цель — достаточность для задачи, а не 100% ради 100%.</span></p></div>
+    <div class="card accent-blue" data-frag style="grid-column:1 / -1"><span class="num">05</span><h3>В документе нет пустоты</h3>
+      <p>В основном теле запрещены пустые секции, заглушки и <span class="mono">[НЕТ ДАННЫХ]</span>. Всё незакрытое живёт ровно в одном месте — в разделе «Открытые вопросы».
+      <span class="dim">Документ из прочерков не читают. Документ с известным плюс честным списком неизвестного — читают.</span></p></div>
+  </div>
+</section>
+
+<!-- ============ 11. СХЕМА ШАГОВ ============ -->
+<section class="slide" data-sec="Как устроено">
+  <div class="eyebrow">Как устроено</div>
+  <h2>6 шагов, две ветки входа</h2>
+  <div class="rule" style="margin:12px 0 18px"></div>
+
+  <div style="display:flex;align-items:center;gap:12px" data-frag>
+    <div class="fbox" style="flex:0 0 150px"><div class="n">ШАГ 1</div><div class="t">Старт<br><span class="dim" style="font-size:11px">выбор входа</span></div></div>
+    <div class="arrow">→</div>
+    <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="chip blue" style="flex:0 0 auto">new · новый дашборд</span>
+        <div class="fbox b-new"><div class="n">ШАГ 2N</div><div class="t">Выбор набора вопросов</div></div>
+        <div class="arrow">→</div>
+        <div class="fbox b-new"><div class="n">ШАГ 3N</div><div class="t">Гайд для встречи и сбор</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span class="chip" style="flex:0 0 auto;color:var(--orange);border-color:rgba(217,89,38,.45);background:rgba(217,89,38,.10)">materials · есть материалы</span>
+        <div class="fbox b-mat"><div class="n">ШАГ 2M</div><div class="t">Материалы и разбор</div></div>
+        <div class="arrow">→</div>
+        <div class="fbox b-mat"><div class="n">ШАГ 3M</div><div class="t">Выбор набора вопросов</div></div>
+      </div>
+    </div>
+    <div class="arrow">→</div>
+    <div style="flex:0 0 380px;display:flex;gap:10px">
+      <div class="fbox"><div class="n">ШАГ 4</div><div class="t">Проверка пробелов</div></div>
+      <div class="fbox"><div class="n">ШАГ 5</div><div class="t">Итоговый артефакт</div></div>
+      <div class="fbox"><div class="n">ШАГ 6</div><div class="t">Завершение</div></div>
+    </div>
+  </div>
+
+  <div data-frag style="margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="card accent-blue"><h3>Почему в ветке materials набор выбирается вторым</h3>
+      <p>Сначала разбираем материал по всем 25 вопросам, и только потом выбираем обязательный набор — уже видя, что и так закрыто. Выбор по фактам, а не вслепую.</p></div>
+    <div class="card accent-aqua"><h3>Ветка не бетонная</h3>
+      <p>Начали как «новый дашборд», но по ходу принесли транскрипт — скилл переключится и не потеряет уже собранное. Перезапуск не нужен.</p></div>
+  </div>
+
+  <div data-frag style="margin-top:auto;font-family:var(--mono);font-size:13px;color:var(--ink-3)">
+    Прогресс-бар в каждом сообщении: <span style="color:var(--ink-2)">Шаг 3 из 6</span>
+    <span style="color:var(--blue);letter-spacing:.14em">▓▓▓░░░</span> — ровно шесть кирпичиков, без процентов и дробей.
+  </div>
+</section>
+
+<!-- ============ 12. ЧТО ТРЕБУЕТСЯ ОТ ВАС ============ -->
+<section class="slide" data-sec="Как устроено">
+  <div class="eyebrow">Как устроено</div>
+  <h2>Что требуется от вас на каждом шаге</h2>
+  <div class="rule" style="margin:12px 0 16px"></div>
+  <div class="steps-wrap">
+    <div class="steplist" id="steplist"></div>
+    <div class="stepdetail" id="stepdetail"></div>
+  </div>
+</section>
+
+
+<!-- ============ 14. ДЕМО ============ -->
+<section class="slide" data-sec="Демо" style="padding:36px 44px 52px">
+  <div style="display:flex;align-items:baseline;gap:16px">
+    <div>
+      <div class="eyebrow" style="margin-bottom:6px">Живое демо</div>
+      <h2 style="font-size:26px;margin-bottom:0">Прогон в терминале: дашборд «Эффективность обзвона»</h2>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <span class="chip blue">↑ ↓ ⏎ — выбор</span>
+      <span class="chip">R — заново</span>
+    </div>
+  </div>
+  <div class="term">
+    <div class="term-bar">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span>~/projects/obzvon — bi-requirements-gather v5.0</span>
+      <span class="tctl">
+        <button data-act="restart">⟲ заново</button>
+        <button data-act="skip">⏭ пропустить вывод</button>
+      </span>
+    </div>
+    <div class="term-body" id="termBody"></div>
+  </div>
+  <div class="demo-legend">
+    <span><b style="color:var(--good)">●</b> ответ есть</span>
+    <span><b style="color:var(--warning)">◐</b> частичный</span>
+    <span><b style="color:#5a5a55">○</b> пусто</span>
+    <span><b style="color:var(--warning)">★</b> входит в набор из 10 ключевых</span>
+    <span style="margin-left:auto">выбор мышью или клавишами — ветка меняется по-настоящему</span>
+  </div>
+</section>
+
+<!-- ============ 15. КЕЙС В ЦИФРАХ ============ -->
+<section class="slide" data-sec="Кейс">
+  <div class="eyebrow">Кейс «Эффективность обзвона»</div>
+  <h2>Что дал прогон в цифрах</h2>
+  <div class="rule" style="margin:12px 0 18px"></div>
+  <div class="tiles" id="tiles">
+    <div class="tile c-blue"><div class="v" data-count="25">0</div><div class="l">вопросов чек-листа разобрано в транскрипте</div></div>
+    <div class="tile c-violet"><div class="v" data-count="10">0</div><div class="l">вопросов выбрано как обязательный набор</div></div>
+    <div class="tile c-warn"><div class="v" data-count="60" data-suffix="%">0</div><div class="l">заполненность набора — 6 из 10</div></div>
+    <div class="tile c-crit"><div class="v" data-count="4">0</div><div class="l">открытых вопроса: 1 критичный, 3 желательных</div></div>
+    <div class="tile c-aqua"><div class="v" data-count="12">0</div><div class="l">находок <b style="color:var(--ink)">вне</b> набора — сохранены, не выброшены</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px">
+    <div class="card accent-critical" data-frag>
+      <h3>Статус документа — «Черновик», а не «Готово»</h3>
+      <p style="margin-top:8px">Потому что остался один 🔴. Жёсткое правило скилла: статус
+      <b style="color:var(--ink)">«Готово к проектированию» запрещён при наличии хотя бы одного критичного пробела</b>.
+      Инструмент не умеет говорить приятное.</p></div>
+    <div class="card accent-aqua" data-frag>
+      <h3>12 находок вне выбранного набора</h3>
+      <p style="margin-top:8px">Формулы, план 50%, референсы визуализаций, что заказчик отверг. В подсчёт полноты не входят — они не обязательны.
+      Но и не выброшены: лежат в разделе 10. <b style="color:var(--ink)">Именно это при ручном сборе теряется первым</b> — «в чек-листе такого пункта не было».</p></div>
+  </div>
+  <div data-frag style="margin-top:auto;font-size:16px;color:var(--ink-2);line-height:1.5">
+    🔴 остался на вопросе <b class="mono" style="color:var(--critical)">Q5.1 «Из каких систем берутся данные?»</b> —
+    после полноценного интервью с заказчиком. Это не редкость, это типовой случай.
+  </div>
+</section>
+
+<!-- ============ 16. АРТЕФАКТ ============ -->
+<section class="slide" data-sec="Кейс">
+  <div class="eyebrow">Выход</div>
+  <h2>Итоговый документ</h2>
+  <div class="rule" style="margin:12px 0 14px"></div>
+  <div class="art-wrap">
+    <div class="md-prev">
+<div class="h"># Требования к дашборду: Эффективность обзвона</div>
+<div class="t-blank"></div>
+<div class="q">&gt; ⚠️ Документ сформирован LLM-ассистентом на основе собранных</div>
+<div class="q">&gt; материалов, может содержать ошибки. Требует проверки аналитиком.</div>
+<div class="t-blank"></div>
+<div>&gt; Статус: <span class="wa">**Черновик**</span> · Заполненность: <span class="wa">60% (6/10)</span></div>
+<div>&gt; Легенда: <span class="mk">🎤</span> из интервью · <span class="mk">✍️</span> вручную · <span class="mk">🤖</span> предположение</div>
+<div class="t-blank"></div>
+<div><span class="sec">## 1.</span> Общая информация <span class="t-dim">(таблица)</span></div>
+<div><span class="sec">## 2.</span> Бизнес-цель и контекст <span class="t-dim">(боль / цель / решение)</span></div>
+<div><span class="sec">## 3.</span> Целевая аудитория <span class="t-dim">(роль → зачем → частота)</span></div>
+<div><span class="sec">## 4.</span> Метрики и показатели <span class="t-dim">(формула → план)</span></div>
+<div><span class="sec">## 5.</span> Измерения, фильтры, детализация</div>
+<div><span class="sec">## 6.</span> Источники данных и обновление</div>
+<div><span class="sec">## 7.</span> Требования к визуализации и макет</div>
+<div><span class="sec">## 8.</span> Ограничения и допущения</div>
+<div><span class="sec">## 9.</span> Открытые вопросы</div>
+<div class="t-dim">   | № | Вопрос                        | Приоритет     |</div>
+<div class="t-dim">   | 1 | Q5.1 Из каких систем данные?  | <span class="cr">🔴 Критично</span>   |</div>
+<div class="t-dim">   | 2 | Q5.2 Частота обновления       | <span class="wa">🟡 Желательно</span> |</div>
+<div><span class="sec">## 10.</span> Дополнительно выявлено вне набора <span class="t-dim">(12)</span></div>
+    </div>
+    <div class="ann">
+      <div class="a" data-frag><h5>⚠️ Дисклеймер сверху — обязателен</h5><p>В каждом артефакте. Документ сделала модель, проверять человеку. Без этой строки документ считается незавершённым.</p></div>
+      <div class="a" data-frag style="border-left-color:var(--aqua)"><h5>У каждого факта — маркер источника</h5><p>Через месяц видно, что заказчик сказал сам (🎤), а что вы дописали руками (✍️).</p></div>
+      <div class="a" data-frag style="border-left-color:var(--warning)"><h5>Раздел 5 разделяет разрез и фильтр</h5><p>«По региону надо смотреть» ≠ «нужен выпадающий фильтр по региону». Их смешение — классический источник переделок.</p></div>
+      <div class="a" data-frag style="border-left-color:var(--critical)"><h5>Раздел 9 — единственное место с неизвестным</h5><p>По всему остальному документу прочерков нет. Пустые секции удаляются целиком.</p></div>
+      <div class="a" data-frag style="border-left-color:var(--violet)"><h5>Внутри документа нет призывов</h5><p>Ни «следующих шагов», ни «рекомендуем создать задачу». Документ — это требования, а не переписка.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ 18. ФИНАЛ ============ -->
+<section class="slide" data-sec="Финал">
+  <div style="flex:1;display:flex;flex-direction:column;justify-content:center">
+    <div class="big-quote" style="font-size:42px">Требования собираются <em>один раз</em> —<br>и остаются <em>проверяемыми</em></div>
+    <div class="rule" style="margin:34px 0 26px"></div>
+    <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);font-weight:680;margin-bottom:16px">Что забрать с собой, даже без скилла</div>
+    <div class="cards" style="grid-template-columns:repeat(4,1fr);gap:13px">
+      <div class="card accent-blue" data-frag><h3 style="font-size:15px">Чек-лист 25 вопросов</h3><p style="font-size:13px;margin-top:6px">7 блоков, 10 ключевых. Работает и без агента — хоть в Notion.</p></div>
+      <div class="card accent-aqua" data-frag><h3 style="font-size:15px">Маркер источника у факта</h3><p style="font-size:13px;margin-top:6px">🎤 / ✍️ / 🤖 — привычка, которая окупается на первой переделке.</p></div>
+      <div class="card accent-warning" data-frag><h3 style="font-size:15px">Проверка пробелов 🔴 / 🟡</h3><p style="font-size:13px;margin-top:6px">До начала проектирования, а не после демо.</p></div>
+      <div class="card accent-critical" data-frag><h3 style="font-size:15px">Противоречие → вопрос</h3><p style="font-size:13px;margin-top:6px">Не повод выбрать версию. Повод вернуться к заказчику.</p></div>
+    </div>
+  </div>
+  <div data-frag style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3);line-height:1.55">
+    <b style="color:var(--ink-2)">Честно об ограничениях:</b> качество выхода = качество входа — плохое интервью скилл не спасёт, только честно покажет, что оно плохое · документ требует вычитки аналитиком · чек-лист универсальный, не отраслевой.<br>
+    <b style="color:var(--ink-2)">Как проверяется:</b> регрессионные прогоны на трёх сценариях (<span class="mono">transcript_sparse</span>, <span class="mono">resume_session</span>, <span class="mono">user_refusal</span>) плюс механический валидатор: нет выдуманных ID, у каждого ответа есть источник, полнота согласована с ответами.
+  </div>
+  <div style="display:flex;align-items:baseline;gap:20px">
+    <div style="font-size:17px;color:var(--ink-2)">Вопросы?</div>
+    <div class="mono" style="font-size:13px;color:var(--ink-3)">bi-requirements-gather · v5.0 · SKILL.md + 3 справочных файла + тесты</div>
+  </div>
+</section>
+
+  <div id="sectionTag"></div>
+  <div id="hud"><span id="hudHint">? — помощь</span><span><b id="cur">1</b> / <span id="tot">18</span></span></div>
+</div>
+
+<div class="overlay" id="map"><h3>Карта слайдов</h3><div id="mapGrid"></div></div>
+<div id="notes"><div class="nt">Заметки спикера</div><div class="nb" id="notesBody"></div></div>
+<div id="help"><div class="box"><h3>Управление</h3><dl>
+  <dt>→ ␣</dt><dd>дальше (по фрагментам)</dd>
+  <dt>←</dt><dd>назад</dd>
+  <dt>↑ ↓ ⏎</dt><dd>выбор в терминале на слайде «Демо»</dd>
+  <dt>S</dt><dd>заметки спикера</dd>
+  <dt>O</dt><dd>карта слайдов</dd>
+  <dt>F</dt><dd>полный экран</dd>
+  <dt>R</dt><dd>перезапустить демо</dd>
+  <dt>Esc</dt><dd>закрыть</dd>
+</dl></div></div>
+<script>
+(function(){
+"use strict";
+
+/* ========================================================
+   1. СЦЕНА
+   ======================================================== */
+var stage=document.getElementById('stage');
+function fit(){
+  var s=Math.min(window.innerWidth/1280,(window.innerHeight-(notesEl.classList.contains('open')?window.innerHeight*0.44:0))/720);
+  s=Math.min(s,1.6);
+  stage.style.transform='translate(-50%,-50%) scale('+s+')';
+  if(notesEl.classList.contains('open')) stage.style.top='28%'; else stage.style.top='50%';
+}
+
+/* ========================================================
+   2. ДАННЫЕ: 25 ВОПРОСОВ
+   ======================================================== */
+var KEY10=['Q1.1','Q1.2','Q2.1','Q3.1','Q3.4','Q4.1','Q5.1','Q5.2','Q7.1','Q7.3'];
+var QB=[
+ {n:1,t:'Цель и контекст',q:[
+   ['Q1.1','Какую бизнес-задачу решает дашборд? Какое решение будет приниматься на его основе?','full'],
+   ['Q1.2','Что происходит сейчас без дашборда? В чём боль?','part'],
+   ['Q1.3','Как поймём, что дашборд успешен? (критерий успеха)','none']]},
+ {n:2,t:'Аудитория и роли',q:[
+   ['Q2.1','Кто основные пользователи? Роли/должности?','full'],
+   ['Q2.2','Кто заказчик и спонсор? Кто принимает финальное решение по приёмке?','full'],
+   ['Q2.3','Как часто и в каком контексте смотрят? (ежедневно/еженедельно, планёрка/самостоятельно)','part'],
+   ['Q2.4','С какого устройства? (десктоп / мобайл / ТВ-панель)','none']]},
+ {n:3,t:'Метрики и показатели',q:[
+   ['Q3.1','Какие ключевые KPI/метрики нужны?','full'],
+   ['Q3.2','Формула расчёта каждой метрики?','part'],
+   ['Q3.3','Целевые/плановые значения, бенчмарки?','part'],
+   ['Q3.4','На какие вопросы должен отвечать дашборд? Какой главный вопрос должен закрывать дашборд одним взглядом?','full']]},
+ {n:4,t:'Разрезы и фильтры',q:[
+   ['Q4.1','По каким измерениям смотреть? (регион, продукт, менеджер, канал…)','part'],
+   ['Q4.2','Нужные фильтры и их значения по умолчанию?','none'],
+   ['Q4.3','Глубина детализации (drill-down до какого уровня)?','none'],
+   ['Q4.4','Период по умолчанию и доступные периоды сравнения (YoY, MoM)?','none']]},
+ {n:5,t:'Источники данных',q:[
+   ['Q5.1','Из каких систем берутся данные?','none'],
+   ['Q5.2','Требуемая частота обновления? (real-time / раз в час / раз в сутки)','part'],
+   ['Q5.3','Глубина исторических данных?','part'],
+   ['Q5.4','Известные проблемы качества/полноты данных?','none']]},
+ {n:6,t:'Визуализация и UX',q:[
+   ['Q6.1','Предпочтительные типы визуализаций? Есть ли референсы?','full'],
+   ['Q6.2','Приоритет элементов на экране (что важнее всего сверху)?','part'],
+   ['Q6.3','Формат вывода/выгрузки (экспорт в Excel, PDF, рассылка)?','full']]},
+ {n:7,t:'Ограничения',q:[
+   ['Q7.1','Требования к доступам и разграничению прав (row-level security)?','part'],
+   ['Q7.2','Требования безопасности / конфиденциальности данных?','none'],
+   ['Q7.3','Срок готовности (deadline)?','none']]}
+];
+
+/* ========================================================
+   3. СЛАЙД 9 — интерактивный чек-лист
+   ======================================================== */
+var qgrid=document.getElementById('qgrid'), qpanel=document.getElementById('qpanel'), qsel=0;
+QB.forEach(function(b,i){
+  var keys=b.q.filter(function(x){return KEY10.indexOf(x[0])>-1;}).length;
+  var d=document.createElement('div');
+  d.className='qblock'+(i===0?' sel':'');
+  d.innerHTML='<div class="bn">БЛОК '+b.n+'</div><div class="bt">'+b.t+'</div>'+
+              '<div class="bc">'+b.q.length+' вопр. · <b>'+keys+'★</b></div>';
+  d.onclick=function(){qsel=i;paintQ();};
+  qgrid.appendChild(d);
+});
+function paintQ(){
+  [].forEach.call(qgrid.children,function(c,i){c.classList.toggle('sel',i===qsel);});
+  var b=QB[qsel];
+  qpanel.innerHTML='<h4>Блок '+b.n+'. '+b.t+'</h4><ul>'+b.q.map(function(x){
+    var star=KEY10.indexOf(x[0])>-1?'★':'';
+    return '<li><span class="star">'+star+'</span><span class="qid">'+x[0]+'</span><span>'+x[1]+'</span></li>';
+  }).join('')+'</ul><div style="margin-top:12px;font-size:12px;color:var(--ink-3)">★ — входит в набор из 10 ключевых вопросов</div>';
+}
+paintQ();
+
+/* ========================================================
+   4. СЛАЙД 12 — шаги
+   ======================================================== */
+var STEPS=[
+ {n:'1',br:'',t:'Старт и выбор входа',
+  skill:'Сам определяет режим работы (файлы или чат) — не спрашивает. Создаёт <b>input/</b> и <b>output/</b>, проверяет запись, ищет <b>state.json</b> от прошлой сессии.',
+  you:'Указать рабочую папку. Выбрать: «Новый дашборд» или «Уже есть материалы». Два действия.',
+  out:'Рабочее пространство и восстановленный прогресс, если сессия уже была.'},
+ {n:'2N',br:'br-n',t:'Выбор набора вопросов',
+  skill:'Показывает <b>все 25 вопросов</b> текстом, по 7 блокам, с отметкой ✓ у десяти ключевых. Формулировки дословные.',
+  you:'Выбрать один из трёх вариантов: 10 ключевых / все 25 / настроить по блокам (один экран на блок).',
+  out:'Зафиксированный состав требований. По нему дальше считаются заполненность и пробелы.'},
+ {n:'3N',br:'br-n',t:'Гайд для встречи и сбор',
+  skill:'Собирает интервью-гайд <b>только из выбранных вопросов</b> и останавливается. Ждёт сколько угодно — хоть неделю.',
+  you:'Сходить на встречу. Вернуться с чем угодно: файл, транскрипт, заметки, текст в чат, ответы прямо в диалоге.',
+  out:'<b>Артефакт 1:</b> <span class="mono">Вопросы_для_интервью_&lt;название&gt;.md</span> — файл, с которым идёте к заказчику.'},
+ {n:'2M',br:'br-m',t:'Материалы и разбор',
+  skill:'Разбирает материал <b>по всем 25 вопросам</b> сразу — набор ещё не выбран. Каждому ставит статус: закрыт / частично / пусто. Догадка ответом не считается.',
+  you:'Дать материал любым способом. Всё.',
+  out:'Короткая сводка по статусам: сколько закрыто полностью, сколько частично, сколько пусто.'},
+ {n:'3M',br:'br-m',t:'Набор вопросов',
+  skill:'Показывает 25 вопросов с <b>двумя разметками</b>: покрытие (● ◐ ○) и вхождение в ключевой набор (★).',
+  you:'Выбрать набор — уже видя, что закрыто материалом, а что нет.',
+  out:'Состав обязательных требований, выбранный по фактам, а не вслепую. Остальное уходит в <span class="mono">unselected_findings</span>.'},
+ {n:'4',br:'',t:'Проверка пробелов',
+  skill:'Считает пробелы <b>только по выбранному набору</b> и приоритизирует: 🔴 критично / 🟡 желательно. Вопросы вне набора не показываются как «нет данных».',
+  you:'Выбрать: уточнить сейчас / сделать черновик для доуточнения / продолжить как есть.',
+  out:'Таблица пробелов и — по выбору — <b>Артефакт 2:</b> <span class="mono">Черновик_для_доуточнения_&lt;название&gt;.md</span>'},
+ {n:'5',br:'',t:'Итоговый артефакт',
+  skill:'Собирает документ <b>только из реально собранного</b>. Присваивает статус: Черновик / MVP-требования / Готово к проектированию.',
+  you:'Ничего.',
+  out:'<b>Артефакт 3:</b> <span class="mono">Требования_&lt;название&gt;.md</span> — с маркерами источников и разделом «Открытые вопросы».'},
+ {n:'6',br:'',t:'Завершение',
+  skill:'Показывает точный путь к файлу и предлагает следующий шаг. Ничего не запускает до ответа.',
+  you:'Выбрать: уточнить открытые вопросы / создать задачу / сгенерировать прототип / завершить.',
+  out:'Готовый вход для следующего этапа работы.'}
+];
+var steplist=document.getElementById('steplist'), stepdetail=document.getElementById('stepdetail'), ssel=0;
+STEPS.forEach(function(s,i){
+  var d=document.createElement('div');
+  d.className='stepitem '+s.br+(i===0?' sel':'');
+  d.innerHTML='<span class="sn">'+s.n+'</span><span class="st">'+s.t+'</span>';
+  d.onclick=function(){ssel=i;paintS();};
+  steplist.appendChild(d);
+});
+function paintS(){
+  [].forEach.call(steplist.children,function(c,i){c.classList.toggle('sel',i===ssel);});
+  var s=STEPS[ssel];
+  stepdetail.innerHTML=
+   '<div style="font-size:19px;font-weight:700;letter-spacing:-.015em">Шаг '+s.n+'. '+s.t+'</div>'+
+   '<div class="sd-row"><div class="lab lab-skill">Что делает скилл</div><div class="val">'+s.skill+'</div></div>'+
+   '<div class="sd-row"><div class="lab lab-you">Что требуется от вас</div><div class="val">'+s.you+'</div></div>'+
+   '<div class="sd-row"><div class="lab lab-out">Что вы получаете</div><div class="val">'+s.out+'</div></div>';
+}
+paintS();
+
+/* ========================================================
+   5. ТЕРМИНАЛЬНОЕ ДЕМО
+   ======================================================== */
+var BARS=['','▓░░░░░','▓▓░░░░','▓▓▓░░░','▓▓▓▓░░','▓▓▓▓▓░','▓▓▓▓▓▓'];
+function qlistLines(mode){
+  var out=[];
+  QB.forEach(function(b){
+    out.push('<span class="bhead">Блок '+b.n+'. '+b.t+'</span>');
+    b.q.forEach(function(x){
+      var star=KEY10.indexOf(x[0])>-1;
+      var pre;
+      if(mode==='new'){ pre=(star?'  <span class="m-star">✓</span> ':'    '); }
+      else{
+        var m=x[2]==='full'?'<span class="m-full">●</span>':x[2]==='part'?'<span class="m-part">◐</span>':'<span class="m-none">○</span>';
+        pre=(star?'  <span class="m-star">★</span> ':'    ')+m+' ';
+      }
+      out.push(pre+'<span class="qid">'+x[0]+'</span> '+x[1]);
+    });
+  });
+  return out;
+}
+var GAPS1={head:['Приоритет','Вопрос','Чего не хватает'],rows:[
+ ['<span style="color:var(--critical)">🔴 Критично</span>','Q5.1 Источники данных','не названы системы-источники (откуда данные обзвона, затрат, времени звонков)'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q1.2 Боль / контекст','есть частичный ответ — «неинформативный дашборд»; нужна конкретика'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q4.1 Разрезы','есть частичный ответ (по сотруднику); другие измерения не оговорены'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q5.2 Частота обновления','единоразовый / регулярная рассылка; интервал не задан'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q7.1 Доступы','сотрудник видит себя; полное разграничение прав не описано'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q7.3 Срок готовности','не указан deadline']]};
+var GAPS2={head:['Приоритет','Вопрос','Чего не хватает'],rows:[
+ ['<span style="color:var(--critical)">🔴 Критично</span>','Q5.1 Источники данных','не названы системы-источники'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q5.2 Частота обновления','<span style="color:var(--serious)">противоречие источников</span> (единоразовый отчёт vs динамика в течение акции)'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q7.1 Доступы','полное разграничение прав не описано'],
+ ['<span style="color:var(--warning)">🟡 Желательно</span>','Q7.3 Срок готовности','не указан deadline']]};
+
+var SETCHOICE=[
+ {l:'Взять предложенный набор — 10 отмеченных вопросов',d:'Сокращённый набор для небольшого дашборда'},
+ {l:'Взять все 25 вопросов',d:'Полный чек-лист'},
+ {l:'Настроить по блокам',d:'Отметить нужные вопросы по блокам вручную'}];
+
+var FLOW={
+ start:[
+  {k:'a',x:'Помогу собрать требования к BI-дашборду небольшими шагами и сохранить прогресс.'},
+  {k:'blank'},
+  {k:'bar',s:1,t:'Старт'},
+  {k:'p',x:'Укажи путь к рабочей папке, где сохранить прогресс и итоговый файл.'},
+  {k:'u',x:'~/projects/obzvon'},
+  {k:'ok',x:'Созданы input/ и output/ · запись проверена · сохранённой сессии не найдено'},
+  {k:'blank'},
+  {k:'ask',h:'Старт',q:'Что у тебя есть на старте?',o:[
+    {l:'Новый дашборд',d:'Материалов пока нет',n:'newA'},
+    {l:'Уже есть материалы',d:'Транскрипт, заметки, бриф',n:'matA'}]}
+ ],
+
+ newA:[
+  {k:'bar',s:2,t:'Выбор набора'},
+  {k:'p',x:'Ниже — весь чек-лист из 25 вопросов по 7 блокам. ✓ отмечены десять ключевых.'},
+  {k:'blank'},
+  {k:'ql',mode:'new'},
+  {k:'blank'},
+  {k:'p',x:'Отмеченные ✓ — сокращённый набор для небольшого дашборда. Можно взять его, пройти все вопросы или настроить набор по блокам.'},
+  {k:'ask',h:'Набор',q:'Как будем собирать требования?',o:[
+    {l:SETCHOICE[0].l,d:SETCHOICE[0].d,n:'newB'},
+    {l:SETCHOICE[1].l,d:SETCHOICE[1].d,n:'newB'},
+    {l:SETCHOICE[2].l,d:SETCHOICE[2].d,n:'newB'}]}
+ ],
+ newB:[
+  {k:'bar',s:3,t:'Подготовка и сбор'},
+  {k:'ok',x:'Интервью-гайд собран только из выбранных вопросов:'},
+  {k:'path',x:'~/projects/obzvon/output/Вопросы_для_интервью_Эффективность_обзвона.md'},
+  {k:'p',x:'Можно идти с ним на встречу. Вернись с чем угодно: файл, транскрипт, заметки, текст в чат или ответы прямо здесь.'},
+  {k:'blank'},
+  {k:'d',x:'— ожидание — прогресс в output/state.json, можно вернуться хоть через неделю —'},
+  {k:'blank'},
+  {k:'u',x:'input/interview_raw.txt  # вернулся со встречи, транскрипт 38 мин'},
+  {k:'a',x:'Материалы получены и разобраны по выбранным вопросам. Неотвеченные переходят в проверку пробелов.'},
+  {k:'go',n:'step4'}
+ ],
+
+ matA:[
+  {k:'bar',s:2,t:'Материалы и разбор'},
+  {k:'p',x:'Передай материалы любым способом: загрузи файл, вставь текст в чат или укажи путь.'},
+  {k:'u',x:'input/interview_raw.txt  # транскрипт встречи с владельцем продукта, 38 мин'},
+  {k:'ok',x:'Сохранено в input/ · active_source зафиксирован'},
+  {k:'blank'},
+  {k:'a',x:'Материал разобран по всем 25 вопросам чек-листа требований: по каждому вопросу проверено, есть ли ответ в материале и достаточно ли его для проектирования дашборда. Ниже — сводка по статусам.'},
+  {k:'blank'},
+  {k:'p',x:'Сводка: закрыто полностью — <b style="color:var(--good)">7</b>, частично — <b style="color:var(--warning)">9</b>, пусто — <b style="color:#5a5a55">9</b>.'},
+  {k:'blank'},
+  {k:'bar',s:3,t:'Набор вопросов'},
+  {k:'ql',mode:'mat'},
+  {k:'blank'},
+  {k:'d',x:'● ответ есть · ◐ частичный, нужна конкретика · ○ в материалах ничего нет · ★ входит в предложенный набор из 10 ключевых'},
+  {k:'blank'},
+  {k:'p',x:'Часть вопросов уже закрыта материалами. Выбери, какой набор считаем обязательным: по нему будет считаться заполненность и проверка пробелов.'},
+  {k:'ask',h:'Набор',q:'Как будем собирать требования?',o:[
+    {l:SETCHOICE[0].l,d:SETCHOICE[0].d,n:'step4'},
+    {l:SETCHOICE[1].l,d:SETCHOICE[1].d,n:'step4'},
+    {l:SETCHOICE[2].l,d:SETCHOICE[2].d,n:'step4'}]}
+ ],
+
+ step4:[
+  {k:'bar',s:4,t:'Проверка пробелов'},
+  {k:'d',x:'Проверка пробелов — это сравнение между тем, что мы хотели узнать, и тем, что реально удалось узнать.'},
+  {k:'d',x:'Ответа достаточно → пробела нет. Ответ есть, но не хватает конкретики → пробел. Ответа нет → пробел.'},
+  {k:'d',x:'Вопрос не выбирали → он вообще не участвует в проверке. Цель — не формальные 100%, а понимание, чего не хватает.'},
+  {k:'blank'},
+  {k:'p',x:'<span style="color:var(--critical)">🔴 1</span> / <span style="color:var(--warning)">🟡 5</span>'},
+  {k:'tab',d:'GAPS1'},
+  {k:'ask',h:'Пробелы',q:'Что сделать дальше?',o:[
+    {l:'Уточнить открытые вопросы сейчас',d:'Добавить материал или ответить в диалоге',n:'clarify'},
+    {l:'Сформировать черновой артефакт для доуточнения',d:'Забрать список открытых вопросов и вернуться позже',n:'draft'},
+    {l:'Продолжить без уточнений',d:'Перенести пробелы в «Открытые вопросы» и перейти к финалу',n:'step5'}]}
+ ],
+
+ clarify:[
+  {k:'ask',h:'Способ',q:'Как хочешь уточнять?',o:[
+    {l:'Добавить новый материал',d:'Файл, транскрипт, заметки или текст',n:'more'},
+    {l:'Ответить на вопросы отдельно',d:'По одному, сначала все 🔴',n:'more2'}]}
+ ],
+ more:[
+  {k:'u',x:'заметки_после_уточняющего_звонка.md'},
+  {k:'a',x:'Второй материал разобран и объединён с первым. Q1.2 (боль) и Q4.1 (разрезы) стали достаточными. Добавлены: формула эффективности, план 50%, состав фильтров, типы визуализаций.'},
+  {k:'warn',x:'Отмечено противоречие источников по частоте обновления: «единоразовый отчёт» vs «динамика в течение длительной акции». Версию не выбираю — выношу в открытые вопросы.'},
+  {k:'blank'},
+  {k:'p',x:'<span style="color:var(--critical)">🔴 1</span> / <span style="color:var(--warning)">🟡 3</span>'},
+  {k:'tab',d:'GAPS2'},
+  {k:'ask',h:'Пробелы',q:'Что сделать дальше?',o:[
+    {l:'Перейти к итоговому документу',d:'Оставшиеся пробелы уедут в «Открытые вопросы»',n:'step5'},
+    {l:'Ещё уточнить открытые вопросы',d:'Ответить на оставшиеся',n:'more2'}]}
+ ],
+ more2:[
+  {k:'a',x:'Задаю только реальные пробелы, сначала критичные. По одному.'},
+  {k:'blank'},
+  {k:'p',x:'<span style="color:var(--critical)">🔴</span> Q5.1 Из каких систем берутся данные?'},
+  {k:'u',x:'не знаю, надо спрашивать у дата-инженеров'},
+  {k:'ok',x:'Принято. Вопрос остаётся открытым, в ответ ничего не дописываю. Не настаиваю.'},
+  {k:'blank'},
+  {k:'p',x:'<span style="color:var(--critical)">🔴 1</span> / <span style="color:var(--warning)">🟡 3</span>'},
+  {k:'ask',h:'Пробелы',q:'Что сделать дальше?',o:[
+    {l:'Перейти к итоговому документу',d:'Пробелы уедут в «Открытые вопросы»',n:'step5'},
+    {l:'Сформировать черновик для доуточнения',d:'Вернуться к этому позже',n:'draft'}]}
+ ],
+ draft:[
+  {k:'ok',x:'Черновик для доуточнения готов:'},
+  {k:'path',x:'~/projects/obzvon/output/Черновик_для_доуточнения_Эффективность_обзвона.md'},
+  {k:'p',x:'Открытые вопросы вынесены отдельно. Принесёшь уточнения — обновлю ответы, пересчитаю пробелы и доработаю артефакт.'},
+  {k:'ask',h:'Пробелы',q:'Что дальше?',o:[
+    {l:'Добавить уточнения сейчас',d:'Второй материал после звонка',n:'more'},
+    {l:'Перейти к итоговому документу',d:'Зафиксировать как есть',n:'step5'}]}
+ ],
+
+ step5:[
+  {k:'bar',s:5,t:'Итоговый артефакт'},
+  {k:'p',x:'Собираю документ только из реально собранной информации.'},
+  {k:'warn',x:'Статус: Черновик. «Готово к проектированию» присвоить нельзя — остался критичный пробел Q5.1.'},
+  {k:'ok',x:'Сохранено:'},
+  {k:'path',x:'~/projects/obzvon/output/Требования_Эффективность_обзвона.md'},
+  {k:'d',x:'заполненность выбранного набора 60% (6/10) · открытых вопросов 4 · находок вне набора 12'},
+  {k:'go',n:'step6'}
+ ],
+ step6:[
+  {k:'blank'},
+  {k:'bar',s:6,t:'Завершение'},
+  {k:'a',x:'Сбор требований завершён. Прогресс сохранён в output/state.json — сессию можно продолжить позже.'},
+  {k:'ask',h:'Дальше',q:'Что сделать следующим шагом?',o:[
+    {l:'A. Уточнить открытые вопросы',d:'Закрыть критичный пробел — источники данных',n:'clarify'},
+    {l:'B. Создать задачу',d:'Задача по реализации дашборда',n:'endB'},
+    {l:'C. Сгенерировать прототип',d:'Передать артефакт в skill bi-analyst-prototype',n:'endC'},
+    {l:'D. Ничего, работа завершена',d:'Завершить сценарий',n:'endD'}]}
+ ],
+ endB:[{k:'ok',x:'Задача создана из артефакта требований.'},{k:'go',n:'endD'}],
+ endC:[{k:'ok',x:'Передаю сохранённый артефакт в skill bi-analyst-prototype как входные требования.'},{k:'go',n:'endD'}],
+ endD:[
+  {k:'blank'},
+  {k:'a',x:'Готово. Удачи с дашбордом.'},
+  {k:'d',x:'сессия завершена · R или «⟲ заново» — пройти ещё раз, ветка может быть другой'}
+ ]
+};
+
+var termBody=document.getElementById('termBody');
+var queue=[], pend=null, optIdx=0, skipping=false, started=false, timer=null;
+
+function addLine(html,cls){
+  var d=document.createElement('div');
+  d.className='tl '+(cls||'');
+  d.innerHTML=html;
+  termBody.appendChild(d);
+  termBody.scrollTop=termBody.scrollHeight;
+  return d;
+}
+function renderTab(def){
+  var g=def==='GAPS1'?GAPS1:GAPS2;
+  var h='<table class="ttab"><thead><tr>'+g.head.map(function(x){return '<th>'+x+'</th>';}).join('')+'</tr></thead><tbody>'+
+    g.rows.map(function(r){return '<tr>'+r.map(function(c){return '<td>'+c+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';
+  var d=document.createElement('div'); d.className='tl'; d.innerHTML=h;
+  termBody.appendChild(d); termBody.scrollTop=termBody.scrollHeight;
+}
+function renderAsk(b){
+  pend=b; optIdx=0;
+  var box=document.createElement('div');
+  box.className='tl ask';
+  box.innerHTML='<div class="aq-top">?  AskUserQuestion — ask user 1 question</div>'+
+    '<div class="aq-head">'+b.h+'</div>'+
+    '<div class="aq-q">'+b.q+'</div>'+
+    b.o.map(function(o,i){
+      return '<div class="opt'+(i===0?' sel':'')+'" data-i="'+i+'"><span class="car">'+(i===0?'❯':' ')+'</span>'+
+             '<span class="ob"><span class="ol">'+(i+1)+'. '+o.l+'</span><br><span class="od">'+o.d+'</span></span></div>';
+    }).join('')+
+    '<div class="hint">↑/↓: навигация · Enter: выбор · или просто кликни мышью</div>';
+  termBody.appendChild(box);
+  termBody.scrollTop=termBody.scrollHeight;
+  [].forEach.call(box.querySelectorAll('.opt'),function(el){
+    el.onmouseenter=function(){optIdx=+el.dataset.i;paintOpts(box);};
+    el.onclick=function(){optIdx=+el.dataset.i;chooseOpt();};
+  });
+  pend._box=box;
+}
+function paintOpts(box){
+  [].forEach.call(box.querySelectorAll('.opt'),function(el,i){
+    el.classList.toggle('sel',i===optIdx);
+    el.querySelector('.car').textContent=(i===optIdx?'❯':' ');
+  });
+}
+function chooseOpt(){
+  if(!pend) return;
+  var b=pend, o=b.o[optIdx];
+  var chosen=null;
+  b._box.querySelectorAll('.opt').forEach(function(el,i){
+    if(i!==optIdx){ el.style.display='none'; } else { chosen=el; }
+  });
+  b._box.querySelector('.hint').remove();
+  if(chosen){ chosen.style.cursor='default'; chosen.onclick=null; chosen.onmouseenter=null; }
+  pend=null;
+  addLine('выбрано: <b style="color:var(--ink)">'+o.l+'</b>','t-user');
+  addLine('','t-blank');
+  setTimeout(function(){ run(o.n); },260);
+}
+function delayOf(b){
+  if(skipping) return 0;
+  if(b.k==='blank') return 40;
+  if(b.k==='d') return 110;
+  if(b.k==='ql') return 420;
+  if(b.k==='tab') return 380;
+  if(b.k==='a'||b.k==='warn') return 340;
+  return 190;
+}
+function typeLine(txt,done){
+  var el=addLine('','t-user');
+  if(skipping){ el.innerHTML=txt; done(); return; }
+  var i=0;
+  (function tick(){
+    el.innerHTML=txt.slice(0,i)+'<span class="caret"></span>';
+    termBody.scrollTop=termBody.scrollHeight;
+    i++;
+    if(i<=txt.length) timer=setTimeout(tick,16);
+    else{ el.innerHTML=txt; done(); }
+  })();
+}
+function nextBlock(){
+  if(!queue.length){ skipping=false; return; }
+  var b=queue.shift();
+  switch(b.k){
+    case 'a':    addLine(b.x,'t-assist'); break;
+    case 'p':    addLine(b.x); break;
+    case 'd':    addLine(b.x,'t-dim'); break;
+    case 'ok':   addLine(b.x,'t-ok'); break;
+    case 'warn': addLine(b.x,'t-warnline'); break;
+    case 'path': addLine(b.x,'t-path'); break;
+    case 'blank':addLine('','t-blank'); break;
+    case 'bar':
+      addLine('Шаг '+b.s+' из 6: '+b.t,'t-bar');
+      addLine(BARS[b.s],'t-prog');
+      addLine('','t-blank');
+      break;
+    case 'ql':
+      qlistLines(b.mode).forEach(function(l){ addLine(l,'qline'); });
+      break;
+    case 'tab': renderTab(b.d); break;
+    case 'u':   typeLine(b.x,function(){ timer=setTimeout(nextBlock,220); }); return;
+    case 'go':  run(b.n); return;
+    case 'ask': renderAsk(b); return;
+  }
+  timer=setTimeout(nextBlock,delayOf(b));
+}
+function run(key){ queue=FLOW[key].slice(); nextBlock(); }
+function restartDemo(){
+  clearTimeout(timer); queue=[]; pend=null; skipping=false;
+  termBody.innerHTML='';
+  addLine('$ tclaude --skill bi-requirements-gather','t-dim');
+  addLine('','t-blank');
+  timer=setTimeout(function(){ run('start'); },420);
+}
+document.querySelectorAll('.term-bar button').forEach(function(b){
+  b.onclick=function(){
+    if(b.dataset.act==='restart'){ restartDemo(); }
+    else{ skipping=true; clearTimeout(timer); nextBlock(); }
+  };
+});
+
+/* ========================================================
+   6. СЧЁТЧИКИ (слайд 15)
+   ======================================================== */
+function runCounters(){
+  document.querySelectorAll('#tiles .v').forEach(function(el){
+    var to=+el.dataset.count, sfx=el.dataset.suffix||'', t0=null, dur=900;
+    function fr(ts){
+      if(!t0) t0=ts;
+      var p=Math.min((ts-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*e)+sfx;
+      if(p<1) requestAnimationFrame(fr);
+    }
+    el.textContent='0'+sfx;
+    requestAnimationFrame(fr);
+  });
+}
+
+/* ========================================================
+   7. ЗАМЕТКИ СПИКЕРА
+   ======================================================== */
+var NOTES=[
+"<b>30 сек.</b> Я BI-аналитик. Последние месяцы решал скучную, но дорогую проблему: почему сбор требований к дашборду каждый раз происходит заново и каждый раз по-разному. Покажу инструмент — и, что важнее, принципы, по которым он устроен. <em>Сразу снять ожидание «сейчас будет реклама AI»: половина доклада — про методологию сбора требований.</em>",
+"<b>30 сек.</b> Просто проговорить маршрут. Отметить: в конце — живое демо в терминале на настоящем интервью, с цифрами.",
+"<b>40 сек.</b> Два вопроса в зал поднятием рук: «У кого в команде есть единый чек-лист вопросов к заказчику дашборда?» — рук мало. «А у кого требования живут в переписке или в голове?» — рук много. <em>Дать паузу после второго вопроса.</em>",
+"<b>1,5 мин.</b> Идти быстро, задержаться на 1 и 5. По первому: заказчик не обязан говорить на языке требований — наша работа задать правильные вопросы, а не ждать готового ТЗ. По пятому — ключевая мысль блока: <b>самая дорогая проблема не в том, что мы чего-то не знаем, а в том, что мы не знаем, чего не знаем</b> — и узнаём об этом на середине разработки.",
+"<b>1 мин.</b> Главная рамка доклада, проговорить явно и медленно: требования будут меняться всегда, это свойство предметной области, а не дефект процесса. Дефект — в отсутствии механизма отследить изменение. Отсюда переход: нужен не документ, а процесс с состоянием, источниками и трассируемостью. <em>Сюда же ушёл слайд про цену:</em> самая дорогая переделка не техническая — дорогая та, после которой заказчик перестаёт вам верить и возвращается к Excel. Потеря требования на старте стоит десять минут разговора; та же потеря, найденная на приёмке, стоит спринт.",
+"<b>1,5 мин.</b> Джобы разные по владельцу ситуации: J1 — до встречи, J2 — после, J3 — перед проектированием, J4 — после сбора, J5 — сквозная. Подчеркнуть J2 и J3: разбор транскрипта и проверка полноты руками почти никто не делает системно, потому что скучно и долго. Именно это и отдают агенту.",
+"<b>45 сек.</b> Слайд для доверия. Инструмент, который обещает всё, обычно не делает ничего. <em>Третий пункт — мостик в блок принципов:</em> на «не решает за заказчика» держится вся конструкция, сейчас покажу как.",
+"<b>1,5 мин.</b> Главный тезис: формулировки канонические, агенту запрещено их пересказывать и «улучшать» — иначе два прогона перестают быть сравнимыми и смысл чек-листа теряется. <em>Покликать блоки.</em> Обратить внимание на блок 6: ноль ключевых вопросов. Тип графика — наша работа, а не требование заказчика; сам заговорил — запишем, но первыми не спросим.",
+"<b>1,5 мин.</b> Рассказывать через принцип 2 как центральный. Обычная претензия к AI в аналитике — «он придумывает». Здесь придумывание запрещено не уговорами, а структурно: у гипотезы отдельный маркер, отдельное поле в состоянии, и она не попадает в числитель заполненности. <b>Агенту невыгодно выдавать догадку за ответ — она не улучшает его метрику.</b> <em>Если аудитория техническая:</em> все эти правила — не одна строка в промпте; в скилле есть отдельная часть «постоянная самопроверка» плюс чек-лист «проверь перед отправкой» в карточке каждого шага.",
+"<b>1 мин.</b> Две ветки — это две разные джобы, J1 и J2. Новый дашборд: сначала выбираем вопросы, потом получаем гайд. Есть материалы: сначала разбираем, потом выбираем набор — осознанно, видя, что уже закрыто. И ветка не бетонная: принесли транскрипт по ходу — скилл переключится, не теряя собранного.",
+"<b>2 мин.</b> Не читать построчно. Покликать шаги и вести по колонке «что требуется от вас». Сильный тезис: <b>кроме встречи с заказчиком от человека нужны нажатия на варианты и один раз «вот материал»</b>. Вся содержательная рутина — разбор транскрипта, сверка полноты, сборка документа — уходит из вашего времени. Отдельно про 3N: скилл останавливается и ждёт сколько угодно. <em>Проговорить три развилки прямо по карточкам:</em> шаг 2 — насколько глубоко собираем, шаг 4 — что делать с пробелами, шаг 6 — что делаем с результатом. Это места, где решает человек. И ни в одной нет варианта «закрой все пробелы, иначе не продолжу»: требовать 100% — верный способ, чтобы инструментом перестали пользоваться.",
+"<b>3–4 мин. ГЛАВНЫЙ СЛАЙД.</b> Вести демо руками. Рекомендуемый маршрут: <b>«Уже есть материалы» → «предложенный набор» → «уточнить сейчас» → «добавить новый материал»</b> — так виден и разбор, и пересчёт пробелов, и противоречие. Две мысли вслух: (1) на 🔴 — это вопрос «откуда данные» после полноценного интервью, типовой случай; найти его здесь стоит одного сообщения, на согласованном макете — спринт. (2) на противоречии — живой аналитик обычно берёт то, что услышал последним, и идёт дальше; скилл останавливается. <em>Если времени мало — «Продолжить без уточнений» и сразу к финалу.</em>",
+"<b>1,5 мин.</b> Две мысли. Про статус: «Черновик», а не «Готово», потому что остался красный. Жёсткое правило — «Готово к проектированию» запрещено при хотя бы одном 🔴. <b>Инструмент не умеет говорить приятное</b>, и это редкое полезное свойство. Про 12 находок: обязательными были 10 вопросов, но заказчик наговорил больше — формулы, план 50%, референсы. В полноту не входят, но не выброшены. Именно это при ручном сборе теряется первым.",
+"<b>2 мин.</b> Подсветить четыре детали, каждая — отдельное решение: обязательный дисклеймер; маркер источника у каждого факта; разделение аналитического разреза и UI-фильтра (их смешение — классический источник переделок); раздел 9 как единственное место с неизвестным; отсутствие призывов внутри документа.",
+"<b>45 сек.</b> Если уйдёте отсюда без скилла, но с чек-листом и привычкой помечать источник каждого факта — доклад свою задачу выполнил. Скилл — просто способ не забывать делать то, что мы все и так считаем правильным. <em>Дальше — вопросы.</em> <em>Последним фрагментом откроется блок про ограничения и тесты</em> — пройтись по нему одной фразой: скилл не автопилот, а продукт с регрессионными тестами; каждая правка появилась после того, как прогон показал, что агент обходит правило. На тестирование ушло вчетверо больше времени, чем на написание."
+];
+
+/* ========================================================
+   8. НАВИГАЦИЯ
+   ======================================================== */
+var slides=[].slice.call(document.querySelectorAll('.slide'));
+var DEMO_IDX=11, TILES_IDX=12;
+var idx=0;
+var bar=document.querySelector('#topbar i');
+var curEl=document.getElementById('cur'), totEl=document.getElementById('tot');
+var secEl=document.getElementById('sectionTag');
+var notesEl=document.getElementById('notes'), notesBody=document.getElementById('notesBody');
+var mapEl=document.getElementById('map'), mapGrid=document.getElementById('mapGrid');
+var helpEl=document.getElementById('help');
+totEl.textContent=slides.length;
+
+var TITLES=['Титул','О чём поговорим','Провокация','Почему сложно: 5 причин','Почему требования меняются','5 джоб (JTBD)','Чего скилл не делает','Методология и 25 вопросов','5 принципов','6 шагов, две ветки','Что требуется от вас','ДЕМО в терминале','Кейс в цифрах','Итоговый документ','Финал'];
+
+slides.forEach(function(s,i){
+  var c=document.createElement('div');
+  c.className='mapcard';
+  c.innerHTML='<div class="mi">'+(i+1).toString().padStart(2,'0')+'</div><div class="mt">'+TITLES[i]+'</div><div class="ms">'+s.dataset.sec+'</div>';
+  c.onclick=function(){ go(i); mapEl.classList.remove('open'); };
+  mapGrid.appendChild(c);
+});
+
+function frags(i){ return [].slice.call(slides[i].querySelectorAll('[data-frag]')); }
+function shownCount(i){ return frags(i).filter(function(f){return f.classList.contains('shown');}).length; }
+
+function go(n,revealAll){
+  if(n<0||n>=slides.length) return;
+  slides.forEach(function(s,i){
+    s.classList.toggle('active',i===n);
+    s.classList.toggle('past',i<n);
+  });
+  idx=n;
+  var f=frags(n);
+  f.forEach(function(x,i){ x.classList.toggle('shown', !!revealAll); });
+  curEl.textContent=n+1;
+  bar.style.width=((n+1)/slides.length*100)+'%';
+  secEl.textContent=slides[n].dataset.sec;
+  notesBody.innerHTML=NOTES[n]||'';
+  [].forEach.call(mapGrid.children,function(c,i){c.classList.toggle('cur',i===n);});
+  onEnter(n);
+}
+function onEnter(n){
+  if(n===DEMO_IDX && !started){ started=true; setTimeout(restartDemo,300); }
+  if(n===TILES_IDX){ runCounters(); }
+}
+function next(){
+  var f=frags(idx), k=shownCount(idx);
+  if(k<f.length){ f[k].classList.add('shown'); return; }
+  go(idx+1);
+}
+function prev(){
+  var f=frags(idx), k=shownCount(idx);
+  if(k>0){ f[k-1].classList.remove('shown'); return; }
+  if(idx>0) go(idx-1,true);
+}
+
+document.addEventListener('keydown',function(e){
+  var k=e.key;
+  if(k==='Escape'){ mapEl.classList.remove('open'); helpEl.classList.remove('open'); return; }
+  if(helpEl.classList.contains('open') && k!=='?'){ return; }
+  // терминал: выбор варианта
+  if(idx===DEMO_IDX && pend){
+    if(k==='ArrowDown'){ optIdx=(optIdx+1)%pend.o.length; paintOpts(pend._box); e.preventDefault(); return; }
+    if(k==='ArrowUp'){ optIdx=(optIdx-1+pend.o.length)%pend.o.length; paintOpts(pend._box); e.preventDefault(); return; }
+    if(k==='Enter'){ chooseOpt(); e.preventDefault(); return; }
+    if(/^[1-9]$/.test(k) && +k<=pend.o.length){ optIdx=+k-1; paintOpts(pend._box); chooseOpt(); e.preventDefault(); return; }
+  }
+  if(k==='ArrowRight'||k===' '||k==='PageDown'){ next(); e.preventDefault(); }
+  else if(k==='ArrowLeft'||k==='PageUp'){ prev(); e.preventDefault(); }
+  else if(k==='Home'){ go(0); }
+  else if(k==='End'){ go(slides.length-1,true); }
+  else if(k==='s'||k==='S'||k==='ы'||k==='Ы'){ notesEl.classList.toggle('open'); fit(); }
+  else if(k==='o'||k==='O'||k==='щ'||k==='Щ'){ mapEl.classList.toggle('open'); }
+  else if(k==='r'||k==='R'||k==='к'||k==='К'){ if(idx===DEMO_IDX) restartDemo(); }
+  else if(k==='?'||k==='/'){ helpEl.classList.toggle('open'); }
+  else if(k==='f'||k==='F'||k==='а'||k==='А'){
+    if(!document.fullscreenElement) document.documentElement.requestFullscreen();
+    else document.exitFullscreen();
+  }
+  else if(/^[1-9]$/.test(k) && !pend){ /* зарезервировано */ }
+});
+
+stage.addEventListener('click',function(e){
+  if(e.target.closest('.term')||e.target.closest('.qblock')||e.target.closest('.stepitem')||e.target.closest('button')) return;
+  next();
+});
+mapEl.addEventListener('click',function(e){ if(e.target===mapEl) mapEl.classList.remove('open'); });
+helpEl.addEventListener('click',function(){ helpEl.classList.remove('open'); });
+
+window.addEventListener('resize',fit);
+fit();
+go(0);
+})();
+</script>
+
+</body>
+</html>
