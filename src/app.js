@@ -119,6 +119,7 @@ const SCENES = {
         k.innerHTML = h;
       }
       $$('.r', s.el).forEach((r, i) => r.style.setProperty('--i', i));
+      $$('.scr', s.el).forEach(prepScramble);
       // привязка HTML к точкам 3D-сцены
       const sc = SCENES[s.id];
       if (sc) {
@@ -173,7 +174,7 @@ const SCENES = {
     if (sc && PX.ready) {
       const key = pick(sc.shape, build);
       if (key !== shapeKey) { PX.morph(SH.get(key), pick(sc.morph || {}, build)); shapeKey = key; }
-      else if (!entered) PX.kick(.3);
+      else if (!entered) PX.kick(.16);
       PX.place(pick(sc.place, build) || {});
       PX.bright(pick(sc.bright ?? 1, build));
     }
@@ -219,26 +220,48 @@ const SCENES = {
 
   /* ───────────── эффекты ───────────── */
   const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>/\\АБВГДЖЗИКЛМНПРСТФХЦЧШЭЮЯ';
-  function scramble(el, delay = 0) {
+  /* «Расшифровка» заголовка без дёрганья вёрстки: при загрузке каждый символ оборачивается
+     в span и замеряется; во время эффекта символы становятся inline-block фиксированной
+     ширины — подмена глифа не двигает ни строку, ни соседние элементы. */
+  function prepScramble(el) {
     const nodes = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     while (w.nextNode()) nodes.push(w.currentNode);
-    if (!el._orig) el._orig = nodes.map(n => n.textContent);
-    const orig = el._orig, total = orig.reduce((a, t) => a + t.length, 0);
-    const start = performance.now() + delay, dur = 900 + total * 9;
+    const cells = [];
+    nodes.forEach(n => {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const word = document.createElement('span'); word.className = 'scw';
+        for (const ch of part) { const c = document.createElement('span'); c.className = 'scc'; c.textContent = ch; word.appendChild(c); cells.push(c); }
+        frag.appendChild(word);
+      });
+      n.replaceWith(frag);
+    });
+    cells.forEach(c => { c._ch = c.textContent; c._w = c.getBoundingClientRect().width / K; });
+    cells.forEach(c => { c.style.width = c._w + 'px'; });
+    el._cells = cells;
+  }
+  function scramble(el, delay = 0) {
+    const cells = el._cells; if (!cells || !cells.length) return;
+    const total = cells.length, start = performance.now() + delay, dur = 800 + total * 10;
     const tok = (el._tok = (el._tok || 0) + 1);
+    cells.forEach(c => { c.textContent = c._ch; c._done = false; });
+    el.classList.add('scr-on');
+    let lastSwap = 0;
     const tick = now => {
       if (el._tok !== tok) return;
-      const t = (now - start) / dur; let idx = 0, done = true;
-      nodes.forEach((n, j) => {
-        let out = '';
-        for (const ch of orig[j]) {
-          const at = idx / total * .75; idx++;
-          if (ch === ' ' || ch === ' ' || t >= at + .25) out += ch;
-          else { done = false; out += t < at ? (Math.random() < .3 ? GLYPHS[(Math.random() * GLYPHS.length) | 0] : ch) : GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
-        }
-        n.textContent = out;
+      const t = (now - start) / dur, swap = now - lastSwap > 55; // глифы меняются ~18 раз в секунду, а не каждый кадр
+      if (swap) lastSwap = now;
+      let done = true;
+      cells.forEach((c, i) => {
+        if (c._done) return;
+        const at = i / total * .75;
+        if (t >= at + .25) { c.textContent = c._ch; c._done = true; return; }
+        done = false;
+        if (swap && t >= at - .1) c.textContent = GLYPHS[(Math.random() * GLYPHS.length) | 0];
       });
-      if (!done) requestAnimationFrame(tick); else nodes.forEach((n, j) => n.textContent = orig[j]);
+      if (!done) requestAnimationFrame(tick); else el.classList.remove('scr-on');
     };
     requestAnimationFrame(tick);
   }

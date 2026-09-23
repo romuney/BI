@@ -105,7 +105,7 @@ void main(){
   const from = new Float32Array(N * 3), to = new Float32Array(N * 3);
   const cfrom = new Float32Array(N * 3), cto = new Float32Array(N * 3);
   const delay = new Float32Array(N), rnd = new Float32Array(N * 3);
-  let T = 1, dur = 2.4, turb = 1, kickV = 0, time = 0, last = 0;
+  let T = 1, dur = 2.4, turb = 1, kickV = 0, kickAmp = 0, kickT = 9, time = 0, last = 0;
   let brightCur = 0, brightTgt = 1;
   const cur = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0 };
   const tgt = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0 };
@@ -291,7 +291,8 @@ void main(){
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now; time += dt;
     watchFps(dt);
     T = Math.min(1, T + dt / dur);
-    kickV *= Math.pow(.12, dt);
+    // «толчок» — плавная волна (нарастает и спадает), без мгновенного рывка
+    kickT += dt; kickV = kickT < 1.6 ? kickAmp * Math.sin(Math.PI * kickT / 1.6) : 0;
     const k = 1 - Math.pow(.02, dt);
     if (spin) tgt.ry += spin * dt;
     for (const n of ['x', 'y', 'z', 's', 'rx', 'ry']) cur[n] += (tgt[n] - cur[n]) * k;
@@ -331,7 +332,7 @@ void main(){
   window.PX = {
     N, WPP, init, morph, place, toStage,
     bright: b => { brightTgt = b; },
-    kick: a => { kickV = Math.max(kickV, a); },
+    kick: a => { kickAmp = kickT < 1.6 ? Math.max(kickV, a) : a; kickT = kickT < .8 ? kickT : 0; },
     setLite, get lite() { return lite; }, set onLite(f) { onLite = f; },
     settle: () => { T = 1; Object.assign(cur, tgt); brightCur = brightTgt; },
     mouse: setMouse,

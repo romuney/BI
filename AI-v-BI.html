@@ -70,8 +70,8 @@ b { font-weight: 700; }
 .slide.active { opacity: 1; visibility: visible; pointer-events: auto; }
 .slide.leaving { visibility: visible; opacity: 1; animation: slideOut .6s cubic-bezier(.55, 0, .75, .3) forwards; pointer-events: none; }
 .slide.leaving.back { animation-name: slideOutBack; }
-@keyframes slideOut { to { opacity: 0; filter: blur(12px); transform: translate3d(-80px, 0, 160px) rotateY(8deg); } }
-@keyframes slideOutBack { to { opacity: 0; filter: blur(12px); transform: translate3d(80px, 0, 160px) rotateY(-8deg); } }
+@keyframes slideOut { to { opacity: 0; transform: translate3d(-60px, 0, 0) scale(1.02); } }
+@keyframes slideOutBack { to { opacity: 0; transform: translate3d(60px, 0, 0) scale(1.02); } }
 .slide .notes { display: none; }
 
 [data-level="1"] { --lc: var(--l1); } [data-level="2"] { --lc: var(--l2); }
@@ -83,12 +83,11 @@ b { font-weight: 700; }
 .slide.active .r { animation: rIn 1.1s var(--ease) both; animation-delay: calc(var(--i, 0) * 75ms + 280ms); }
 .slide.active.fast .r { animation-duration: .01s; animation-delay: 0s; }
 @keyframes rIn {
-  0% { opacity: 0; transform: perspective(1400px) translate3d(0, 46px, -140px) rotateX(22deg); filter: blur(16px); }
-  60% { filter: blur(0); }
-  100% { opacity: 1; transform: none; filter: none; }
+  0% { opacity: 0; transform: perspective(1400px) translate3d(0, 40px, -120px) rotateX(18deg); }
+  100% { opacity: 1; transform: none; }
 }
-[data-step], [data-step-only] { transition: opacity .7s, transform 1s var(--ease), filter .8s; }
-[data-step]:not(.on), [data-step-only]:not(.on) { opacity: 0 !important; transform: translateY(34px) scale(.97); filter: blur(12px); pointer-events: none; }
+[data-step], [data-step-only] { transition: opacity .6s, transform .9s var(--ease); }
+[data-step]:not(.on), [data-step-only]:not(.on) { opacity: 0 !important; transform: translateY(30px) scale(.98); pointer-events: none; }
 [data-step].on, [data-step-only].on { opacity: 1; }
 
 /* ---------- типографика ---------- */
@@ -118,13 +117,13 @@ b { font-weight: 700; }
   background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, .09), transparent 60%); }
 .card:hover::after { opacity: 1; }
 @keyframes spin { to { --a: 360deg; } }
-.tilt { transition: transform .5s var(--ease); transform-style: preserve-3d; will-change: transform; }
+.tilt { transition: rotate .45s var(--ease), scale .45s var(--ease); }
 
-.q { position: relative; font-size: 30px; line-height: 1.42; color: var(--ink); padding-left: 44px; margin-top: 34px; }
-.q::before { content: '“'; position: absolute; left: -6px; top: -26px; font: 700 110px/1 var(--fd); color: var(--lc); opacity: .85; }
+/* цитата: акцентная полоса слева вместо огромного глифа «“», который наезжал на текст */
+.q { position: relative; font-size: 30px; line-height: 1.42; color: var(--ink); padding: 4px 0 4px 30px; margin-top: 34px; border-left: 4px solid var(--lc); }
 .q cite { display: block; margin-top: 14px; font: 500 18px var(--fm); color: var(--mute); font-style: normal; letter-spacing: .04em; }
 .q-sm { font-size: 25px; }
-.q-sm::before { font-size: 86px; top: -18px; }
+
 .chips { display: flex; flex-wrap: wrap; gap: 12px; }
 .chips span { padding: 10px 18px; border-radius: 99px; background: rgba(255, 255, 255, .06); border: 1px solid var(--line); font-size: 20px; color: var(--ink2); }
 .ph { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; padding: 20px; border-radius: 22px; border: 2px dashed rgba(251, 191, 36, .6); color: var(--l4); font: 600 19px/1.35 var(--fm);
@@ -747,7 +746,7 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .tctl { margin-left: auto; display: flex; gap: 10px; }
 .tctl button { font: 14px var(--fm); color: var(--ink2); background: rgba(255, 255, 255, .06); border: 1px solid var(--line); border-radius: 9px; padding: 6px 12px; cursor: pointer; }
 .tctl button:hover { border-color: var(--l2); color: var(--ink); }
-.term-body { flex: 1; overflow: auto; padding: 22px 30px 30px; font: 19px/1.6 var(--fm); color: var(--ink2); scroll-behavior: smooth; }
+.term-body { flex: 1; overflow: auto; padding: 22px 30px 30px; font: 19px/1.6 var(--fm); color: var(--ink2); }
 .term-body::-webkit-scrollbar { width: 10px; } .term-body::-webkit-scrollbar-thumb { background: #2a2f4a; border-radius: 5px; }
 .tline { opacity: 0; transform: translateY(6px); animation: tin .35s forwards; }
 @keyframes tin { to { opacity: 1; transform: none; } }
@@ -792,6 +791,10 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 #skillflow .handoff { top: auto; bottom: 70px; font-size: 30px; }
 .hud-flow i { width: 12px; height: 12px; }
 .hud-flow { gap: 5px; }
+
+/* расшифровка заголовков: слова не переносятся, символы фиксированной ширины только на время эффекта */
+.scw { white-space: nowrap; }
+.scr-on .scc { display: inline-block; text-align: center; } /* width задан инлайном и действует только в inline-block */
 
 </style>
 </head>
@@ -3941,7 +3944,7 @@ void main(){
   const from = new Float32Array(N * 3), to = new Float32Array(N * 3);
   const cfrom = new Float32Array(N * 3), cto = new Float32Array(N * 3);
   const delay = new Float32Array(N), rnd = new Float32Array(N * 3);
-  let T = 1, dur = 2.4, turb = 1, kickV = 0, time = 0, last = 0;
+  let T = 1, dur = 2.4, turb = 1, kickV = 0, kickAmp = 0, kickT = 9, time = 0, last = 0;
   let brightCur = 0, brightTgt = 1;
   const cur = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0 };
   const tgt = { x: 0, y: 0, z: 0, s: 1, rx: 0, ry: 0 };
@@ -4127,7 +4130,8 @@ void main(){
     const dt = Math.min(.05, (now - (last || now)) / 1000); last = now; time += dt;
     watchFps(dt);
     T = Math.min(1, T + dt / dur);
-    kickV *= Math.pow(.12, dt);
+    // «толчок» — плавная волна (нарастает и спадает), без мгновенного рывка
+    kickT += dt; kickV = kickT < 1.6 ? kickAmp * Math.sin(Math.PI * kickT / 1.6) : 0;
     const k = 1 - Math.pow(.02, dt);
     if (spin) tgt.ry += spin * dt;
     for (const n of ['x', 'y', 'z', 's', 'rx', 'ry']) cur[n] += (tgt[n] - cur[n]) * k;
@@ -4167,7 +4171,7 @@ void main(){
   window.PX = {
     N, WPP, init, morph, place, toStage,
     bright: b => { brightTgt = b; },
-    kick: a => { kickV = Math.max(kickV, a); },
+    kick: a => { kickAmp = kickT < 1.6 ? Math.max(kickV, a) : a; kickT = kickT < .8 ? kickT : 0; },
     setLite, get lite() { return lite; }, set onLite(f) { onLite = f; },
     settle: () => { T = 1; Object.assign(cur, tgt); brightCur = brightTgt; },
     mouse: setMouse,
@@ -5199,6 +5203,7 @@ const SCENES = {
         k.innerHTML = h;
       }
       $$('.r', s.el).forEach((r, i) => r.style.setProperty('--i', i));
+      $$('.scr', s.el).forEach(prepScramble);
       // привязка HTML к точкам 3D-сцены
       const sc = SCENES[s.id];
       if (sc) {
@@ -5253,7 +5258,7 @@ const SCENES = {
     if (sc && PX.ready) {
       const key = pick(sc.shape, build);
       if (key !== shapeKey) { PX.morph(SH.get(key), pick(sc.morph || {}, build)); shapeKey = key; }
-      else if (!entered) PX.kick(.3);
+      else if (!entered) PX.kick(.16);
       PX.place(pick(sc.place, build) || {});
       PX.bright(pick(sc.bright ?? 1, build));
     }
@@ -5299,26 +5304,48 @@ const SCENES = {
 
   /* ───────────── эффекты ───────────── */
   const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>/\\АБВГДЖЗИКЛМНПРСТФХЦЧШЭЮЯ';
-  function scramble(el, delay = 0) {
+  /* «Расшифровка» заголовка без дёрганья вёрстки: при загрузке каждый символ оборачивается
+     в span и замеряется; во время эффекта символы становятся inline-block фиксированной
+     ширины — подмена глифа не двигает ни строку, ни соседние элементы. */
+  function prepScramble(el) {
     const nodes = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
     while (w.nextNode()) nodes.push(w.currentNode);
-    if (!el._orig) el._orig = nodes.map(n => n.textContent);
-    const orig = el._orig, total = orig.reduce((a, t) => a + t.length, 0);
-    const start = performance.now() + delay, dur = 900 + total * 9;
+    const cells = [];
+    nodes.forEach(n => {
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach(part => {
+        if (!part) return;
+        if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+        const word = document.createElement('span'); word.className = 'scw';
+        for (const ch of part) { const c = document.createElement('span'); c.className = 'scc'; c.textContent = ch; word.appendChild(c); cells.push(c); }
+        frag.appendChild(word);
+      });
+      n.replaceWith(frag);
+    });
+    cells.forEach(c => { c._ch = c.textContent; c._w = c.getBoundingClientRect().width / K; });
+    cells.forEach(c => { c.style.width = c._w + 'px'; });
+    el._cells = cells;
+  }
+  function scramble(el, delay = 0) {
+    const cells = el._cells; if (!cells || !cells.length) return;
+    const total = cells.length, start = performance.now() + delay, dur = 800 + total * 10;
     const tok = (el._tok = (el._tok || 0) + 1);
+    cells.forEach(c => { c.textContent = c._ch; c._done = false; });
+    el.classList.add('scr-on');
+    let lastSwap = 0;
     const tick = now => {
       if (el._tok !== tok) return;
-      const t = (now - start) / dur; let idx = 0, done = true;
-      nodes.forEach((n, j) => {
-        let out = '';
-        for (const ch of orig[j]) {
-          const at = idx / total * .75; idx++;
-          if (ch === ' ' || ch === ' ' || t >= at + .25) out += ch;
-          else { done = false; out += t < at ? (Math.random() < .3 ? GLYPHS[(Math.random() * GLYPHS.length) | 0] : ch) : GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
-        }
-        n.textContent = out;
+      const t = (now - start) / dur, swap = now - lastSwap > 55; // глифы меняются ~18 раз в секунду, а не каждый кадр
+      if (swap) lastSwap = now;
+      let done = true;
+      cells.forEach((c, i) => {
+        if (c._done) return;
+        const at = i / total * .75;
+        if (t >= at + .25) { c.textContent = c._ch; c._done = true; return; }
+        done = false;
+        if (swap && t >= at - .1) c.textContent = GLYPHS[(Math.random() * GLYPHS.length) | 0];
       });
-      if (!done) requestAnimationFrame(tick); else nodes.forEach((n, j) => n.textContent = orig[j]);
+      if (!done) requestAnimationFrame(tick); else el.classList.remove('scr-on');
     };
     requestAnimationFrame(tick);
   }
