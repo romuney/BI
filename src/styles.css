@@ -778,3 +778,41 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 /* расшифровка заголовков: слова не переносятся, символы фиксированной ширины только на время эффекта */
 .scw { white-space: nowrap; }
 .scr-on .scc { display: inline-block; text-align: center; } /* width задан инлайном и действует только в inline-block */
+
+/* ---------- читаемость: плашки плотные, частицы не просвечивают сквозь текст ---------- */
+:root { --plate: #0b0c1a; }
+.why-row span:not(.why-k), .chips span, .pchain span, .fs-row, .src-i, .mini, .gio-i, .pk-s, .nf, .tar, .path, .ib, .retro,
+.principle, .pw-road, .pf, .chk-sub span, .qblock, .qpanel, .fs-free, .now span, .prec span:not(.pt-k), .reacts span,
+.lab-tag, .orb, .jt, .ann .a, .md-prev, .term-keys span, .pattern, .honest, .dd-why, .cta-center, .env-thesis, .envband, .prog {
+  background-color: color-mix(in srgb, var(--plate) 88%, transparent);
+}
+.why-row span:not(.why-k) { background: color-mix(in srgb, #fb7185 16%, var(--plate)); }
+.why-w span:not(.why-k) { background: color-mix(in srgb, #fbbf24 12%, var(--plate)); }
+.why-row .why-hot { background: color-mix(in srgb, #fb7185 32%, var(--plate)) !important; }
+.why-end { background: color-mix(in srgb, #fb7185 14%, var(--plate)); }
+.fs-ai { background: color-mix(in srgb, var(--l2) 18%, var(--plate)); }
+.fs-none { background: var(--plate); }
+.pk-hot, .pf-hot, .tar-hot, .path-hot { background: color-mix(in srgb, var(--lc) 16%, var(--plate)); }
+.qblock.sel { background: color-mix(in srgb, var(--lc) 20%, var(--plate)); }
+.fs-skill { background: color-mix(in srgb, var(--l4) 16%, var(--plate)); }
+.ln-n { background: color-mix(in srgb, #60a5fa 16%, var(--plate)); }
+.ln-m { background: color-mix(in srgb, #ff8a65 16%, var(--plate)); }
+.honest, .dd-why { background: linear-gradient(90deg, color-mix(in srgb, var(--lc) 14%, var(--plate)), color-mix(in srgb, var(--plate) 85%, transparent)); }
+.card { background: linear-gradient(160deg, color-mix(in srgb, #fff 7%, var(--plate)), color-mix(in srgb, #fff 2%, var(--plate))); }
+.yes { background: linear-gradient(160deg, color-mix(in srgb, #34d399 10%, var(--plate)), var(--plate)); }
+.no { background: linear-gradient(160deg, color-mix(in srgb, #fb7185 10%, var(--plate)), var(--plate)); }
+.bad { background: linear-gradient(160deg, color-mix(in srgb, #fb7185 12%, var(--plate)), var(--plate)); }
+.good { background: linear-gradient(160deg, color-mix(in srgb, #34d399 12%, var(--plate)), var(--plate)); }
+.byok-call { background: color-mix(in srgb, var(--l3) 14%, var(--plate)); }
+.ctx-agent { background: color-mix(in srgb, var(--l2) 18%, var(--plate)); }
+.rl-hot { background: color-mix(in srgb, var(--lc) 14%, var(--plate)); }
+.ann .a-hot { background: color-mix(in srgb, #fbbf24 12%, var(--plate)); }
+.env-thesis { background: color-mix(in srgb, #fbbf24 10%, var(--plate)); }
+.envband { background: linear-gradient(90deg, color-mix(in srgb, #a78bfa 18%, var(--plate)), color-mix(in srgb, #22d3ee 14%, var(--plate)), color-mix(in srgb, #f472b6 18%, var(--plate))); }
+.cta-center { background: color-mix(in srgb, var(--lc) 12%, var(--plate)); }
+/* текст без подложки — лёгкая тень, чтобы не терялся на частицах */
+.h, .big-q, .lead, .facts li, .q, .fs-t, .fs-s, .fs-n, .div-title, .div-sub, .div-meta, .ms, .stage, .flow-n, .lab, .handoff, .loop-lab, .take-k, .limits, .jt-note, .refs, .src, .num-cap {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .85), 0 0 2px rgba(0, 0, 0, .6);
+}
+/* градиентный текст (background-clip) с тенью темнеет — тень только у обычного текста */
+em, .em-no, .div-letter { text-shadow: none !important; }

@@ -796,6 +796,44 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .scw { white-space: nowrap; }
 .scr-on .scc { display: inline-block; text-align: center; } /* width задан инлайном и действует только в inline-block */
 
+/* ---------- читаемость: плашки плотные, частицы не просвечивают сквозь текст ---------- */
+:root { --plate: #0b0c1a; }
+.why-row span:not(.why-k), .chips span, .pchain span, .fs-row, .src-i, .mini, .gio-i, .pk-s, .nf, .tar, .path, .ib, .retro,
+.principle, .pw-road, .pf, .chk-sub span, .qblock, .qpanel, .fs-free, .now span, .prec span:not(.pt-k), .reacts span,
+.lab-tag, .orb, .jt, .ann .a, .md-prev, .term-keys span, .pattern, .honest, .dd-why, .cta-center, .env-thesis, .envband, .prog {
+  background-color: color-mix(in srgb, var(--plate) 88%, transparent);
+}
+.why-row span:not(.why-k) { background: color-mix(in srgb, #fb7185 16%, var(--plate)); }
+.why-w span:not(.why-k) { background: color-mix(in srgb, #fbbf24 12%, var(--plate)); }
+.why-row .why-hot { background: color-mix(in srgb, #fb7185 32%, var(--plate)) !important; }
+.why-end { background: color-mix(in srgb, #fb7185 14%, var(--plate)); }
+.fs-ai { background: color-mix(in srgb, var(--l2) 18%, var(--plate)); }
+.fs-none { background: var(--plate); }
+.pk-hot, .pf-hot, .tar-hot, .path-hot { background: color-mix(in srgb, var(--lc) 16%, var(--plate)); }
+.qblock.sel { background: color-mix(in srgb, var(--lc) 20%, var(--plate)); }
+.fs-skill { background: color-mix(in srgb, var(--l4) 16%, var(--plate)); }
+.ln-n { background: color-mix(in srgb, #60a5fa 16%, var(--plate)); }
+.ln-m { background: color-mix(in srgb, #ff8a65 16%, var(--plate)); }
+.honest, .dd-why { background: linear-gradient(90deg, color-mix(in srgb, var(--lc) 14%, var(--plate)), color-mix(in srgb, var(--plate) 85%, transparent)); }
+.card { background: linear-gradient(160deg, color-mix(in srgb, #fff 7%, var(--plate)), color-mix(in srgb, #fff 2%, var(--plate))); }
+.yes { background: linear-gradient(160deg, color-mix(in srgb, #34d399 10%, var(--plate)), var(--plate)); }
+.no { background: linear-gradient(160deg, color-mix(in srgb, #fb7185 10%, var(--plate)), var(--plate)); }
+.bad { background: linear-gradient(160deg, color-mix(in srgb, #fb7185 12%, var(--plate)), var(--plate)); }
+.good { background: linear-gradient(160deg, color-mix(in srgb, #34d399 12%, var(--plate)), var(--plate)); }
+.byok-call { background: color-mix(in srgb, var(--l3) 14%, var(--plate)); }
+.ctx-agent { background: color-mix(in srgb, var(--l2) 18%, var(--plate)); }
+.rl-hot { background: color-mix(in srgb, var(--lc) 14%, var(--plate)); }
+.ann .a-hot { background: color-mix(in srgb, #fbbf24 12%, var(--plate)); }
+.env-thesis { background: color-mix(in srgb, #fbbf24 10%, var(--plate)); }
+.envband { background: linear-gradient(90deg, color-mix(in srgb, #a78bfa 18%, var(--plate)), color-mix(in srgb, #22d3ee 14%, var(--plate)), color-mix(in srgb, #f472b6 18%, var(--plate))); }
+.cta-center { background: color-mix(in srgb, var(--lc) 12%, var(--plate)); }
+/* текст без подложки — лёгкая тень, чтобы не терялся на частицах */
+.h, .big-q, .lead, .facts li, .q, .fs-t, .fs-s, .fs-n, .div-title, .div-sub, .div-meta, .ms, .stage, .flow-n, .lab, .handoff, .loop-lab, .take-k, .limits, .jt-note, .refs, .src, .num-cap {
+  text-shadow: 0 2px 18px rgba(0, 0, 0, .85), 0 0 2px rgba(0, 0, 0, .6);
+}
+/* градиентный текст (background-clip) с тенью темнеет — тень только у обычного текста */
+em, .em-no, .div-letter { text-shadow: none !important; }
+
 </style>
 </head>
 <body>
@@ -5124,21 +5162,21 @@ const SCENES = {
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
   pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
   skillflow: { shape: 'flow:1,2,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
-  'rq-problem': DIM('knot', .28, { y: -.8, s: .9, spin: .08 }),
+  'rq-problem': DIM('knot', .2, { x: 5.6, y: 2.3, s: .42, spin: .08 }),
   'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
-  'rq-not': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
-  'rq-check': DIM('galaxy', .3, { y: -.6, rx: 1.05, s: 1.2, spin: .04 }),
+  'rq-not': DIM('ring', .2, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  'rq-check': DIM('galaxy', .18, { y: -.6, rx: 1.05, s: 1.2, spin: .04 }),
   'rq-rules': DIM('core', .22, { y: -.3, s: 1.1, spin: .06 }),
   'rq-steps': { shape: 'pipe:6', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x', sweepAmt: .95 } },
   'rq-demo': DIM('wave', .22, { y: -3.6, rx: .42 }),
   'rq-doc': DIM('wave', .25, { y: -3.6, rx: .42 }),
-  'rq-final': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  'rq-final': DIM('ring', .2, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
   ech: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
          place: [{ x: 4.3, y: -.1, s: .95, ry: -.25, sway: .05 }, { x: 4.3, y: -.2, s: .95, rx: .35, spin: .25 }, { x: 4.4, y: -.05, s: 1.05, rx: .35, ry: -.6, sway: .12 }] },
   'ech-demo': DIM('widget', .2, { x: 5.6, y: -1.8, s: .6, rx: .35, ry: -.6, sway: .1 }),
   'ech-ex': DIM('wave', .3, { y: -3.4, rx: .42 }),
   dd: DIM('db', .5, { x: 4.6, y: -2.1, s: .6, rx: .35, spin: .2 }),
-  todo: DIM('ring', .4, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
+  todo: DIM('ring', .25, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
   horizon: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
   final: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
 };
