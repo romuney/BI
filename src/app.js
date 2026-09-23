@@ -1,0 +1,583 @@
+/* ============================================================================
+   app.js — навигация, шаги, эффекты, пульт спикера, интерактивы
+   ========================================================================== */
+
+/* ───────────── НАСТРОЙКИ — поменяйте под себя ───────────── */
+const CONFIG = {
+  speaker: 'Имя Фамилия',                 // [СОБРАТЬ]
+  role: 'Амбассадор AI в BI',
+  team: 'Команда · подразделение',        // [СОБРАТЬ]
+  date: 'дата митапа',                    // [СОБРАТЬ]
+  contact: 'ник в Time',                  // [СОБРАТЬ]
+  durationMin: 30,                        // хронометраж для таймера пульта (короткая версия — 15)
+  links: {                                // QR-коды строятся автоматически
+    nessySql: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9035808218',
+    proteusSkills: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9264076290',
+    byok: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=9112708455',
+    n8n: 'https://wiki.tcsbank.ru/pages/viewpage.action?pageId=8886861056',
+    all: ''                               // [СОБРАТЬ] одна ссылка «всё из доклада» для финального QR
+  },
+  shots: {                                // пути к картинкам рядом с файлом (или перетащите на рамку)
+    photo: '', before1: '', after1: '', before2: '', after2: ''
+  }
+};
+
+/* ───────────── сцены частиц для каждого слайда ───────────── */
+const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'y' };
+const SCENES = {
+  s1: { shape: 'title', place: { y: 1.1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
+  s2: { shape: 'bridge', place: { y: .4 } },
+  s3: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
+  s4: { shape: ['ladder:-1', 'ladder:3', 'ladder:2', 'ladder:1', 'ladder:0', 'ladder:-1'],
+        place: { x: 4.75, y: -.3, s: .86, rx: .3, ry: -.6, sway: .06 }, morph: [{ dur: 2.6 }, COLOR_ONLY] },
+  s5: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
+  s6: { shape: 'wave', place: { y: -3.1, rx: .42 }, bright: .5 },
+  s7: { shape: 'galaxy', place: { y: -.3, rx: 1.05, s: 1.15, spin: .04 }, bright: .45 },
+  s8: { shape: 'bars', place: { x: 4.75, y: -.2, s: .8, rx: .32, ry: -.55, sway: .1 }, bright: .9 },
+  s9: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
+  s10: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
+  s11: { shape: ['ring', 'tube'], place: { y: -.25 }, bright: [.3, .95, .75] },
+  s12: { shape: 'trio', place: { y: 1.15, s: .92 } },
+  s13: { shape: ['qwen', 'deepseek'], place: { y: 1.45 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
+  s14: { shape: 'network', place: { y: -.2, s: 1.3, spin: .05 }, bright: .22 },
+  s15: { shape: 'num', place: { y: 1.05 }, morph: { dur: 3 } },
+  s16: { shape: 'voxels', place: { x: 4.5, y: .45, s: .85, rx: .4, ry: -.7, sway: .08 } },
+  s17: { shape: ['pipe:0', 'pipe:6'], place: { y: .55 }, morph: [{}, { dur: 3.6, turb: .25, sweep: 'x', sweepAmt: .97 }] },
+  s18: { shape: ['html', 'db', 'widget'], morph: { dur: 2.6, turb: 1.4 },
+         place: [{ x: 4.3, y: -.1, s: .95, ry: -.25, sway: .05 }, { x: 4.3, y: -.2, s: .95, rx: .35, spin: .25 }, { x: 4.4, y: -.05, s: 1.05, rx: .35, ry: -.6, sway: .12 }] },
+  s19: { shape: 'wave', place: { y: -3.4, rx: .42 }, bright: .3 },
+  s20: { shape: 'knot', place: { x: 5.4, y: -1.9, s: .75, spin: .12 }, bright: .4 },
+  s21: { shape: 'ring', place: { y: -.2, s: 1.3, rx: .95, spin: .1 }, bright: .4 },
+  s22: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
+  s23: { shape: 'final', place: { y: 1.75 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
+};
+
+(function () {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const pick = (v, b) => Array.isArray(v) ? v[Math.min(b, v.length - 1)] : v;
+  const pad = n => String(n).padStart(2, '0');
+  const store = {
+    get(k) { try { return localStorage.getItem('aibi.' + k); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem('aibi.' + k, v); } catch (e) { /* ignore */ } }
+  };
+  const ACTS = { 1: 'Акт I · Мир изменился', 2: 'Акт II · Карта инструментов', 3: 'Акт III · Что делать вам' };
+  const LEVELS = { 1: ['Платформа', '#22d3ee'], 2: ['Среда', '#a78bfa'], 3: ['Личный агент', '#f472b6'], 4: ['Экосистема', '#fbbf24'] };
+  const PRESENTER = location.hash === '#presenter';
+
+  /* ───────────── модель колоды ───────────── */
+  const slides = $$('.slide').map(el => ({
+    el, id: el.id, n: +el.dataset.n || 0, title: el.dataset.title, act: +el.dataset.act,
+    level: +el.dataset.level || 0, sec: el.dataset.sec || '', builds: +el.dataset.builds || 0,
+    short: el.hasAttribute('data-short'), divider: el.classList.contains('divider'),
+    notes: ($('.notes', el)?.textContent || '').trim().replace(/\n\s+/g, '\n')
+  }));
+  let secTitle = '';
+  slides.forEach(s => {
+    if (s.divider) { secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; SCENES[s.id] = { shape: 'ladder:' + (s.level - 1), place: { x: 3.7, y: -.35, s: 1.05, rx: .32, spin: .32 } }; }
+    if (s.act !== 2) secTitle = '';
+    s.secTitle = secTitle;
+  });
+
+  let short = store.get('short') === '1';
+  let order = [], cur = -1, build = 0, shapeKey = '';
+  const rebuildOrder = () => { order = slides.filter(s => !short || s.short); document.body.classList.toggle('short', short); };
+  rebuildOrder();
+
+  /* ───────────── масштаб сцены ───────────── */
+  let K = 1;
+  const fit = () => { K = Math.min(innerWidth / 1920, innerHeight / 1080); document.documentElement.style.setProperty('--k', K); };
+  const toStagePt = (cx, cy) => [(cx - (innerWidth - 1920 * K) / 2) / K, (cy - (innerHeight - 1080 * K) / 2) / K];
+
+  /* ───────────── подготовка DOM ───────────── */
+  function prepare() {
+    $$('[data-cfg]').forEach(el => { el.textContent = CONFIG[el.dataset.cfg] ?? ''; });
+    slides.forEach(s => {
+      // киккер
+      const k = $('.kicker[data-auto]', s.el);
+      if (k) {
+        let h = `<span class="dot"></span><span class="kn">${pad(s.n)}</span><span>${s.secTitle ? 'Раздел ' + s.secTitle : ACTS[s.act].split(' · ')[1]}</span>`;
+        if (s.level) h += `<span class="kl">${LEVELS[s.level][0]}</span>`;
+        k.innerHTML = h;
+      }
+      $$('.r', s.el).forEach((r, i) => r.style.setProperty('--i', i));
+      // привязка HTML к точкам 3D-сцены
+      const sc = SCENES[s.id];
+      if (sc) {
+        const place = pick(sc.place, 0);
+        const set = (el, v) => { const [x, y] = PX.toStage(v, place); el.style.left = x + 'px'; el.style.top = y + 'px'; };
+        $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
+        $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
+        $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.25 + +el.dataset.pipe * .5) + 's'; });
+      }
+    });
+    renderQR(); initShots(); initWidget(); initMap(); initTilt();
+  }
+
+  /* ───────────── навигация ───────────── */
+  function go(i, b = 0, opts = {}) {
+    i = Math.max(0, Math.min(order.length - 1, i));
+    const s = order[i], prev = order[cur];
+    const changed = !prev || prev !== s;
+    if (changed) {
+      if (prev) {
+        $$('.slide.leaving').forEach(e => e.classList.remove('leaving', 'back'));
+        prev.el.classList.remove('active');
+        prev.el.classList.add('leaving');
+        if (i < cur) prev.el.classList.add('back');
+        const pe = prev.el; setTimeout(() => pe.classList.remove('leaving', 'back'), 650);
+      }
+      s.el.classList.toggle('fast', !!opts.fast);
+      s.el.classList.add('active');
+      cur = i;
+      onEnter(s);
+    }
+    build = Math.max(0, Math.min(s.builds, b));
+    applyBuild(s, changed);
+    hud(); sync();
+    try { history.replaceState(null, '', '#/' + s.id + (build ? '/' + build : '')); } catch (e) { /* file:// */ }
+  }
+  function next() {
+    const s = order[cur];
+    if (build < s.builds) go(cur, build + 1); else if (cur < order.length - 1) go(cur + 1, 0);
+  }
+  function prev() {
+    if (build > 0) go(cur, build - 1); else if (cur > 0) go(cur - 1, order[cur - 1].builds, { fast: true });
+  }
+  const gotoId = (id, b = 0) => { let i = order.findIndex(s => s.id === id); if (i < 0) { short = false; store.set('short', '0'); rebuildOrder(); i = order.findIndex(s => s.id === id); } go(i, b); };
+
+  function applyBuild(s, entered) {
+    $$('[data-step]', s.el).forEach(e => e.classList.toggle('on', build >= +e.dataset.step));
+    $$('[data-step-only]', s.el).forEach(e => e.classList.toggle('on', build === +e.dataset.stepOnly));
+    // частицы
+    const sc = SCENES[s.id];
+    if (sc && PX.ready) {
+      const key = pick(sc.shape, build);
+      if (key !== shapeKey) { PX.morph(SH.get(key), pick(sc.morph || {}, build)); shapeKey = key; }
+      else if (!entered) PX.kick(.3);
+      PX.place(pick(sc.place, build) || {});
+      PX.bright(pick(sc.bright ?? 1, build));
+    }
+    HOOKS[s.id]?.(s, build, entered);
+    // эффекты для только что открытых шагов
+    $$('[data-step].on, [data-step-only].on', s.el).forEach(e => {
+      if (e.dataset.fxDone === String(build)) return;
+      if (+e.dataset.step === build || +e.dataset.stepOnly === build) {
+        e.dataset.fxDone = String(build);
+        $$('[data-count]', e).forEach(countUp);
+        $$('pre[data-type]', e).concat(e.matches('pre[data-type]') ? [e] : []).forEach(p => typeInto(p, 350));
+      }
+    });
+  }
+
+  function onEnter(s) {
+    $$('[data-step], [data-step-only]', s.el).forEach(e => delete e.dataset.fxDone);
+    $$('.scr', s.el).forEach(e => scramble(e, 420));
+    $$('[data-count]', s.el).filter(e => !e.closest('[data-step]')).forEach(e => setTimeout(() => countUp(e), 500));
+    $$('pre[data-type]', s.el).filter(e => !e.closest('[data-step]')).forEach(p => typeInto(p, 1300));
+  }
+
+  /* хуки конкретных слайдов */
+  const HOOKS = {
+    s4(s, b) {
+      const map = $('.map', s.el), lv = b >= 1 && b <= 4 ? 5 - b : 0;
+      map.classList.toggle('focus', !!lv);
+      $$('.lvl', map).forEach(r => r.classList.toggle('hl', +r.dataset.lv === lv));
+    },
+    s18(s, b) { $$('.st3', s.el).forEach(e => { const k = +e.dataset.stp; e.classList.toggle('cur', k === b); e.classList.toggle('done', k < b); }); }
+  };
+
+  /* ───────────── HUD ───────────── */
+  function hud() {
+    const s = order[cur];
+    $('#hud-act').textContent = (ACTS[s.act] || '').split(' · ')[0];
+    $('#hud-n').textContent = s.n ? pad(s.n) : '§' + s.sec;
+    $('#hud-total').textContent = '23';
+    $('#hud-build').textContent = s.builds ? Array.from({ length: s.builds + 1 }, (_, k) => k <= build ? '●' : '○').join('') : '';
+    $('#hud-bar').style.width = (order.length > 1 ? cur / (order.length - 1) * 100 : 0) + '%';
+    const lad = $('#hud-ladder');
+    lad.classList.toggle('off', !s.level);
+    $$('i', lad).forEach(i => { const l = +i.dataset.l; i.style.setProperty('--c', LEVELS[l][1]); i.classList.toggle('on', l === s.level); });
+    $('#hud-lvl').textContent = s.level ? LEVELS[s.level][0] : '';
+  }
+
+  /* ───────────── эффекты ───────────── */
+  const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+=<>/\\АБВГДЖЗИКЛМНПРСТФХЦЧШЭЮЯ';
+  function scramble(el, delay = 0) {
+    const nodes = []; const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) nodes.push(w.currentNode);
+    if (!el._orig) el._orig = nodes.map(n => n.textContent);
+    const orig = el._orig, total = orig.reduce((a, t) => a + t.length, 0);
+    const start = performance.now() + delay, dur = 900 + total * 9;
+    const tok = (el._tok = (el._tok || 0) + 1);
+    const tick = now => {
+      if (el._tok !== tok) return;
+      const t = (now - start) / dur; let idx = 0, done = true;
+      nodes.forEach((n, j) => {
+        let out = '';
+        for (const ch of orig[j]) {
+          const at = idx / total * .75; idx++;
+          if (ch === ' ' || ch === ' ' || t >= at + .25) out += ch;
+          else { done = false; out += t < at ? (Math.random() < .3 ? GLYPHS[(Math.random() * GLYPHS.length) | 0] : ch) : GLYPHS[(Math.random() * GLYPHS.length) | 0]; }
+        }
+        n.textContent = out;
+      });
+      if (!done) requestAnimationFrame(tick); else nodes.forEach((n, j) => n.textContent = orig[j]);
+    };
+    requestAnimationFrame(tick);
+  }
+  function countUp(el) {
+    const to = +el.dataset.count, t0 = performance.now(), d = 1600;
+    const f = now => { const t = Math.min(1, (now - t0) / d), e = 1 - Math.pow(1 - t, 4); el.textContent = Math.round(to * e).toLocaleString('ru-RU'); if (t < 1) requestAnimationFrame(f); };
+    requestAnimationFrame(f);
+  }
+  function typeInto(pre, delay = 0) {
+    const nodes = []; const w = document.createTreeWalker(pre, NodeFilter.SHOW_TEXT);
+    while (w.nextNode()) nodes.push(w.currentNode);
+    if (!pre._orig) pre._orig = nodes.map(n => n.textContent);
+    const orig = pre._orig, tok = (pre._tok = (pre._tok || 0) + 1);
+    nodes.forEach(n => n.textContent = '');
+    pre.classList.add('caret');
+    let j = 0, c = 0;
+    const step = () => {
+      if (pre._tok !== tok) return;
+      for (let k = 0; k < 3 && j < nodes.length; k++) {
+        c++; nodes[j].textContent = orig[j].slice(0, c);
+        if (c >= orig[j].length) { j++; c = 0; }
+      }
+      if (j < nodes.length) setTimeout(step, 14 + Math.random() * 18); else pre.classList.remove('caret');
+    };
+    setTimeout(step, delay);
+  }
+  function initTilt() {
+    $$('.card').forEach(c => c.addEventListener('pointermove', e => {
+      const r = c.getBoundingClientRect();
+      c.style.setProperty('--mx', (e.clientX - r.left) / r.width * 100 + '%');
+      c.style.setProperty('--my', (e.clientY - r.top) / r.height * 100 + '%');
+    }));
+    $$('.tilt').forEach(c => {
+      c.addEventListener('pointermove', e => {
+        const r = c.getBoundingClientRect(), dx = (e.clientX - r.left) / r.width - .5, dy = (e.clientY - r.top) / r.height - .5;
+        c.style.rotate = `${-dy} ${dx} 0 ${Math.hypot(dx, dy) * 14}deg`; c.style.scale = '1.02';
+      });
+      c.addEventListener('pointerleave', () => { c.style.rotate = ''; c.style.scale = ''; });
+    });
+    ['.triad', '.cases', '.lims', '.acts'].forEach(s => $$(s).forEach(e => e.style.perspective = '1200px'));
+  }
+
+  /* ───────────── карта (слайд 4): клик по уровню ───────────── */
+  function initMap() {
+    const map = $('#s4 .map'); if (!map) return;
+    $$('.lvl', map).forEach(row => row.addEventListener('click', e => {
+      e.stopPropagation();
+      const lv = +row.dataset.lv, on = !row.classList.contains('hl') || !map.classList.contains('focus');
+      map.classList.toggle('focus', on);
+      $$('.lvl', map).forEach(r => r.classList.toggle('hl', on && r === row));
+      const key = on ? 'ladder:' + (lv - 1) : 'ladder:-1';
+      if (PX.ready && key !== shapeKey) { PX.morph(SH.get(key), COLOR_ONLY); shapeKey = key; }
+    }));
+  }
+
+  /* ───────────── QR ───────────── */
+  function renderQR() {
+    if (typeof qrcode === 'undefined') return;
+    qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8'];
+    $$('[data-qr]').forEach(el => {
+      const url = CONFIG.links[el.dataset.qr];
+      if (!url) { el.classList.add('ph'); el.innerHTML = `[СОБРАТЬ] ссылка<small>CONFIG.links.${el.dataset.qr}</small>`; return; }
+      const q = qrcode(0, 'M'); q.addData(url); q.make();
+      const n = q.getModuleCount(); let d = '';
+      for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (q.isDark(r, c)) d += `M${c},${r}h1v1h-1z`;
+      el.innerHTML = `<svg viewBox="0 0 ${n} ${n}" shape-rendering="crispEdges"><path d="${d}" fill="#05060f"/></svg>`;
+      el.title = url;
+    });
+  }
+
+  /* ───────────── картинки: путь из CONFIG или drag&drop (IndexedDB) ───────────── */
+  const IDB = {
+    db: null,
+    open() {
+      return new Promise(res => {
+        try {
+          const r = indexedDB.open('ai-bi-deck', 1);
+          r.onupgradeneeded = () => r.result.createObjectStore('shots');
+          r.onsuccess = () => res(this.db = r.result); r.onerror = () => res(null);
+        } catch (e) { res(null); }
+      });
+    },
+    op(mode, fn) {
+      return new Promise(res => {
+        if (!this.db) return res(null);
+        try { const tx = this.db.transaction('shots', mode), rq = fn(tx.objectStore('shots')); rq.onsuccess = () => res(rq.result); rq.onerror = () => res(null); } catch (e) { res(null); }
+      });
+    },
+    get(k) { return this.op('readonly', s => s.get(k)); },
+    set(k, v) { return this.op('readwrite', s => s.put(v, k)); },
+    del(k) { return this.op('readwrite', s => s.delete(k)); }
+  };
+  function setShot(el, src) {
+    if (!el._ph) el._ph = el.innerHTML;
+    if (!src) { el.innerHTML = el._ph; el.classList.remove('has-img'); return; }
+    el.innerHTML = ''; const img = new Image(); img.src = src; img.alt = ''; el.appendChild(img); el.classList.add('has-img');
+  }
+  async function initShots() {
+    await IDB.open();
+    $$('[data-shot]').forEach(async el => {
+      const k = el.dataset.shot, saved = await IDB.get(k);
+      if (saved || CONFIG.shots[k]) setShot(el, saved || CONFIG.shots[k]);
+      el.addEventListener('dragover', e => { e.preventDefault(); el.classList.add('drag'); });
+      el.addEventListener('dragleave', () => el.classList.remove('drag'));
+      el.addEventListener('drop', e => {
+        e.preventDefault(); el.classList.remove('drag');
+        const f = e.dataTransfer.files[0]; if (!f || !f.type.startsWith('image/')) return;
+        const fr = new FileReader(); fr.onload = () => { setShot(el, fr.result); IDB.set(k, fr.result); }; fr.readAsDataURL(f);
+      });
+      el.addEventListener('click', e => { if (e.altKey) { e.stopPropagation(); setShot(el, CONFIG.shots[k] || ''); IDB.del(k); } });
+    });
+    addEventListener('dragover', e => e.preventDefault());
+    addEventListener('drop', e => e.preventDefault());
+  }
+
+  /* ───────────── живой виджет (слайд 19), данные синтетические ───────────── */
+  function initWidget() {
+    const host = $('#w-after'), before = $('#w-before'); if (!host) return;
+    let sd = 3; const r = () => (sd = sd * 16807 % 2147483647) / 2147483647;
+    const CH = ['Мобильное приложение', 'Веб-сайт', 'Отделения', 'Партнёры', 'Колл-центр', 'Маркетплейсы', 'Реферальная программа', 'Email-рассылки', 'Push-уведомления', 'Соцсети', 'B2B-менеджеры', 'Офлайн-ивенты'];
+    const MON = ['янв', 'фев', 'мар', 'апр', 'май', 'июн', 'июл', 'авг', 'сен', 'окт', 'ноя', 'дек'];
+    const MET = [
+      { k: 'rev', name: 'Выручка', unit: 'млн ₽', agg: 'sum' },
+      { k: 'cli', name: 'Клиенты', unit: 'тыс.', agg: 'sum' },
+      { k: 'conv', name: 'Конверсия', unit: '%', agg: 'avg' }
+    ];
+    const rows = CH.map((name, i) => {
+      const base = 4 + r() * 40 / (1 + i * .25), tr = (r() - .35) * .05, s = {};
+      s.rev = MON.map((_, m) => +(base * (1 + tr * m) * (1 + .12 * Math.sin(m / 1.9 + i)) * (.9 + r() * .2)).toFixed(1));
+      s.cli = MON.map((_, m) => +(base * 1.7 * (1 + tr * m * .8) * (.88 + r() * .24)).toFixed(1));
+      s.conv = MON.map((_, m) => +(2 + r() * 6 + tr * 30 + Math.sin(m / 2 + i) * .6).toFixed(1));
+      return { name, s };
+    });
+    const total = (row, m) => { const v = row.s[m.k]; const sum = v.reduce((a, b) => a + b, 0); return m.agg === 'sum' ? sum : sum / v.length; };
+    const delta = (row, m) => { const v = row.s[m.k]; return (v[11] - v[10]) / v[10] * 100; };
+    const fmt = v => v.toLocaleString('ru-RU', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+    let met = MET[0], q = '', sortK = 'total', sortD = -1, page = 0, sel = rows.reduce((a, b) => total(b, MET[0]) > total(a, MET[0]) ? b : a);
+    const PER = 7;
+
+    host.innerHTML = `
+      <div class="w-top">
+        <div class="w-title">Каналы · 2026<small>синтетические данные · иллюстрация</small></div>
+        <div class="w-tabs">${MET.map((m, i) => `<button data-m="${i}" class="${i ? '' : 'on'}">${m.name}</button>`).join('')}</div>
+        <input class="w-search" placeholder="🔍 поиск канала">
+        <button class="w-btn" data-x>⤓ CSV</button>
+      </div>
+      <div class="w-body">
+        <div><table class="w-table"><thead><tr>
+          <th data-s="name">Канал</th><th data-s="total">Итого</th><th></th><th>Тренд</th><th data-s="delta">Δ м/м</th>
+        </tr></thead><tbody></tbody></table>
+        <div class="w-pg"><button data-p="-1">‹</button><span></span><button data-p="1">›</button></div></div>
+        <div class="w-drill"><h4></h4><small></small><svg viewBox="0 0 300 300" preserveAspectRatio="none"></svg></div>
+      </div>`;
+    const tb = $('tbody', host), pg = $('.w-pg span', host), drill = $('.w-drill', host), dsvg = $('svg', drill);
+    // столбики drilldown
+    dsvg.innerHTML = MON.map((m, i) => `<rect x="${i * 25 + 3}" width="19" rx="3" y="270" height="0" fill="url(#wg)"/><text x="${i * 25 + 12.5}" y="292" font-size="10" fill="#8a90b4" text-anchor="middle" font-family="JetBrains Mono">${m}</text>`).join('') +
+      '<defs><linearGradient id="wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>';
+    const spark = v => { const mn = Math.min(...v), mx = Math.max(...v); const pts = v.map((x, i) => `${i / 11 * 86 + 2},${22 - (x - mn) / (mx - mn || 1) * 18}`).join(' '); return `<svg width="90" height="24"><polyline points="${pts}" fill="none" stroke="#a78bfa" stroke-width="1.6"/></svg>`; };
+
+    function render() {
+      let list = rows.filter(x => x.name.toLowerCase().includes(q));
+      const key = x => sortK === 'name' ? x.name : sortK === 'delta' ? delta(x, met) : total(x, met);
+      list.sort((a, b) => { const A = key(a), B = key(b); return (A > B ? 1 : A < B ? -1 : 0) * sortD; });
+      const pages = Math.max(1, Math.ceil(list.length / PER)); page = Math.min(page, pages - 1);
+      const mx = Math.max(...rows.map(x => total(x, met)));
+      tb.innerHTML = list.slice(page * PER, page * PER + PER).map(x => {
+        const t = total(x, met), d = delta(x, met);
+        return `<tr data-n="${x.name}" class="${x === sel ? 'sel' : ''}"><td>${x.name}</td><td class="v">${fmt(t)}</td>
+          <td style="width:110px"><div class="w-bar" style="width:${t / mx * 100}%"></div></td><td>${spark(x.s[met.k])}</td>
+          <td class="${d >= 0 ? 'w-up' : 'w-dn'}">${d >= 0 ? '▲' : '▼'} ${Math.abs(d).toFixed(1)}%</td></tr>`;
+      }).join('') || '<tr><td colspan="5" style="color:#8a90b4">ничего не найдено</td></tr>';
+      pg.textContent = `${page + 1} / ${pages}`;
+      $('[data-p="-1"]', host).disabled = page === 0; $('[data-p="1"]', host).disabled = page >= pages - 1;
+      $$('th', host).forEach(th => th.classList.toggle('sorted', th.dataset.s === sortK));
+      renderDrill();
+    }
+    function renderDrill() {
+      const v = sel.s[met.k], mx = Math.max(...v) * 1.1;
+      $('h4', drill).textContent = sel.name;
+      $('small', drill).textContent = `${met.name}, ${met.unit} · по месяцам · drilldown`;
+      $$('rect', dsvg).forEach((rc, i) => { const h = v[i] / mx * 250; rc.style.height = h + 'px'; rc.style.y = (270 - h) + 'px'; });
+    }
+    host.addEventListener('click', e => {
+      e.stopPropagation();
+      const t = e.target;
+      if (t.dataset.m) { met = MET[+t.dataset.m]; $$('.w-tabs button', host).forEach(b => b.classList.toggle('on', b === t)); render(); }
+      else if (t.closest('th[data-s]')) { const k = t.closest('th').dataset.s; sortD = sortK === k ? -sortD : (k === 'name' ? 1 : -1); sortK = k; render(); }
+      else if (t.dataset.p) { page += +t.dataset.p; render(); }
+      else if (t.closest('tr[data-n]')) { sel = rows.find(x => x.name === t.closest('tr').dataset.n); render(); }
+      else if (t.hasAttribute('data-x')) {
+        const csv = ['Канал;' + MON.join(';'), ...rows.map(x => x.name + ';' + x.s[met.k].join(';'))].join('\n');
+        const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv' })); a.download = `widget-${met.k}.csv`; a.click();
+      }
+    });
+    $('.w-search', host).addEventListener('input', e => { q = e.target.value.toLowerCase(); page = 0; render(); });
+    render();
+
+    // «было»: стандартный столбчатый график из палитры
+    const top = rows.slice(0, 8), mx = Math.max(...top.map(x => total(x, MET[0])));
+    before.innerHTML = `<svg viewBox="0 0 470 500" width="100%" height="100%">
+      <text x="10" y="24" fill="#c3c8e6" font-size="16" font-family="Manrope">Выручка по каналам</text>
+      ${[0, 1, 2, 3, 4].map(i => `<line x1="40" x2="460" y1="${440 - i * 90}" y2="${440 - i * 90}" stroke="#2a2f4a"/>`).join('')}
+      ${top.map((x, i) => { const h = total(x, MET[0]) / mx * 360; return `<rect x="${52 + i * 51}" y="${440 - h}" width="34" height="${h}" fill="#5470c6"/><text x="${69 + i * 51}" y="462" fill="#6b7299" font-size="11" text-anchor="middle" font-family="Manrope">${x.name.slice(0, 6)}…</text>`; }).join('')}
+      <text x="235" y="492" fill="#535a80" font-size="12" text-anchor="middle" font-family="JetBrains Mono">ни поиска, ни сортировки, ни drilldown</text>
+    </svg>`;
+  }
+
+  /* ───────────── обзор, заметки, справка ───────────── */
+  function toggleOverview(force) {
+    const ov = $('#overview'), show = force ?? ov.hidden;
+    ov.hidden = !show;
+    if (!show) return;
+    $('#ov-grid').innerHTML = slides.map(s => {
+      const c = s.level ? LEVELS[s.level][1] : s.act === 3 ? '#7dd3fc' : '#a78bfa';
+      return `<div class="ov-c ${order[cur] === s ? 'cur' : ''} ${order.includes(s) ? '' : 'skip'}" data-id="${s.id}" style="--lc:${c}"><b>${s.n ? pad(s.n) : '§ ' + s.sec}</b><div>${s.title}</div></div>`;
+    }).join('');
+  }
+  $('#ov-grid').addEventListener('click', e => { const c = e.target.closest('.ov-c'); if (c) { toggleOverview(false); gotoId(c.dataset.id); } });
+  function showNotes() {
+    const p = $('#notes-pop'); if (p.hidden) return;
+    const s = order[cur]; p.innerHTML = `<b>Заметки · ${s.title}</b>` + s.notes.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  }
+
+  /* ───────────── синхронизация с пультом ───────────── */
+  let presWin = null; let bc = null;
+  try { bc = new BroadcastChannel('ai-bi-deck'); } catch (e) { /* нет поддержки */ }
+  const post = msg => { try { presWin && !presWin.closed && presWin.postMessage(msg, '*'); } catch (e) { } try { bc && bc.postMessage(msg); } catch (e) { } };
+  function sync() { showNotes(); if (!PRESENTER) post({ type: 'state', id: order[cur].id, build, short }); }
+  let lastMid = 0;
+  function onMsg(m) {
+    if (!m || PRESENTER || (m.mid && m.mid === lastMid)) return;
+    lastMid = m.mid;
+    if (m.type === 'nav') m.dir > 0 ? next() : prev();
+    if (m.type === 'goto') gotoId(m.id, m.build || 0);
+    if (m.type === 'hello') sync();
+  }
+
+  /* ───────────── клавиатура / мышь ───────────── */
+  let gotoBuf = '', gotoT;
+  function key(e) {
+    if (e.target.closest('input, textarea')) return;
+    const k = e.key;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k) && !(k === 'Enter' && gotoBuf)) { e.preventDefault(); next(); return; }
+    if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); return; }
+    if (k === 'Home') return go(0);
+    if (k === 'End') return go(order.length - 1);
+    if (/^\d$/.test(k)) {
+      gotoBuf += k; const g = $('#goto'); g.hidden = false; g.textContent = gotoBuf;
+      clearTimeout(gotoT); gotoT = setTimeout(() => { gotoBuf = ''; g.hidden = true; }, 2000); return;
+    }
+    if (k === 'Enter' && gotoBuf) {
+      const s = slides.find(x => x.n === +gotoBuf); gotoBuf = ''; $('#goto').hidden = true; if (s) gotoId(s.id); return;
+    }
+    const lk = k.toLowerCase();
+    if (lk === 'o' || lk === 'щ' || (k === 'Escape' && $('#help').hidden)) return toggleOverview(k === 'Escape' ? false : undefined);
+    if (k === 'Escape') { $('#help').hidden = true; return; }
+    if (lk === 'f' || lk === 'а') { document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.(); return; }
+    if (lk === 'b' || lk === 'и' || k === '.') { $('#black').classList.toggle('on'); return; }
+    if (lk === 'n' || lk === 'т') { const p = $('#notes-pop'); p.hidden = !p.hidden; showNotes(); return; }
+    if (lk === 'h' || lk === 'р' || k === '?') { $('#help').hidden = !$('#help').hidden; return; }
+    if (lk === 'k' || lk === 'л') {
+      const s = order[cur]; short = !short; store.set('short', short ? '1' : '0'); rebuildOrder();
+      let i = order.indexOf(s); if (i < 0) i = order.findIndex(x => slides.indexOf(x) > slides.indexOf(s));
+      cur = -1; go(i < 0 ? order.length - 1 : i, 0, { fast: true }); return;
+    }
+    if (lk === 'p' || lk === 'з') {
+      presWin = window.open(location.href.split('#')[0] + '#presenter', 'ai-bi-presenter', 'width=1200,height=820');
+      setTimeout(sync, 800); return;
+    }
+  }
+
+  function initInput() {
+    addEventListener('keydown', key);
+    addEventListener('message', e => onMsg(e.data));
+    if (bc) bc.onmessage = e => onMsg(e.data);
+    let idleT;
+    addEventListener('pointermove', e => {
+      document.body.classList.remove('idle');
+      const [x, y] = toStagePt(e.clientX, e.clientY); PX.mouse(x, y, true);
+      clearTimeout(idleT); idleT = setTimeout(() => { document.body.classList.add('idle'); PX.mouse(x, y, false); }, 2500);
+    });
+    document.addEventListener('pointerleave', () => PX.mouse(0, 0, false));
+    $('#stage').addEventListener('click', e => {
+      if (e.target.closest('a, button, input, .widget, .lvl, [data-shot], .qr')) return;
+      if (getSelection().toString()) return;
+      next();
+    });
+    $('#black').addEventListener('click', () => $('#black').classList.remove('on'));
+    $('#help').addEventListener('click', () => { $('#help').hidden = true; });
+    addEventListener('resize', fit);
+    addEventListener('wheel', (() => { let t = 0; return e => { if (e.target.closest('.ov, .notes-pop')) return; const n = Date.now(); if (n - t < 700 || Math.abs(e.deltaY) < 30) return; t = n; e.deltaY > 0 ? next() : prev(); }; })(), { passive: true });
+  }
+
+  /* ───────────── пульт спикера (отдельное окно) ───────────── */
+  function presenter() {
+    document.body.classList.add('presenter');
+    $('#presenter').hidden = false;
+    document.title = 'Пульт · AI в BI';
+    let st = { id: slides[0].id, build: 0, short: false };
+    let t0 = 0, acc = 0, runT = false;
+    // один канал на сообщение, иначе главное окно получит команду дважды
+    const send = m => { m.mid = Math.random(); try { if (window.opener && !window.opener.closed) return window.opener.postMessage(m, '*'); } catch (e) { } try { bc && bc.postMessage(m); } catch (e) { } };
+    const listEl = $('#pr-list');
+    listEl.innerHTML = slides.map(s => `<li data-id="${s.id}"><span>${s.n ? pad(s.n) : '§' + s.sec}</span>${s.title}</li>`).join('');
+    listEl.addEventListener('click', e => { const li = e.target.closest('li'); if (li) send({ type: 'goto', id: li.dataset.id }); });
+    function render() {
+      const s = slides.find(x => x.id === st.id) || slides[0];
+      const ord = slides.filter(x => !st.short || x.short), i = ord.indexOf(s), nx = ord[i + 1];
+      $('#pr-num').textContent = (s.n ? 'Слайд ' + pad(s.n) : 'Раздел ' + s.sec) + ' · ' + (ACTS[s.act] || '');
+      $('#pr-builds').textContent = s.builds ? `шаг ${st.build} из ${s.builds} · ещё кликов на слайде: ${s.builds - st.build}` : '';
+      $('#pr-stitle').textContent = s.title;
+      $('#pr-notes').textContent = s.notes;
+      const nxt = nx ? (nx.n ? pad(nx.n) + ' · ' : '§' + nx.sec + ' · ') + nx.title : '— конец —';
+      $('#pr-next').textContent = st.build < s.builds ? 'ещё шаг на этом слайде, затем: ' + nxt : nxt;
+      $$('li', listEl).forEach(li => { li.classList.toggle('cur', li.dataset.id === s.id); li.classList.toggle('skip', st.short && !slides.find(x => x.id === li.dataset.id).short); });
+      $('li.cur', listEl)?.scrollIntoView({ block: 'nearest' });
+    }
+    function onM(m) { if (m && m.type === 'state') { st = m; render(); } }
+    addEventListener('message', e => onM(e.data));
+    if (bc) bc.onmessage = e => onM(e.data);
+    addEventListener('keydown', e => {
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); send({ type: 'nav', dir: 1 }); }
+      if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); send({ type: 'nav', dir: -1 }); }
+    });
+    $('#pr-fwd').onclick = () => send({ type: 'nav', dir: 1 });
+    $('#pr-prev').onclick = () => send({ type: 'nav', dir: -1 });
+    $('#pr-start').onclick = () => { if (runT) { acc += Date.now() - t0; runT = false; $('#pr-start').textContent = '▶ старт'; } else { t0 = Date.now(); runT = true; $('#pr-start').textContent = '❚❚ пауза'; } };
+    $('#pr-reset').onclick = () => { acc = 0; t0 = Date.now(); };
+    const mmss = ms => { const s = Math.floor(Math.abs(ms) / 1000); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); };
+    setInterval(() => {
+      const el = Math.floor((acc + (runT ? Date.now() - t0 : 0)) / 1000) * 1000, budget = (st.short ? 15 : CONFIG.durationMin) * 60000, left = budget - el;
+      $('#pr-elapsed').textContent = mmss(el);
+      const l = $('#pr-left'); l.textContent = left >= 0 ? 'осталось ' + mmss(left) : 'перебор ' + mmss(left); l.classList.toggle('over', left < 0);
+      $('#pr-clock').textContent = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+    }, 250);
+    render(); send({ type: 'hello' });
+  }
+
+  /* ───────────── старт ───────────── */
+  async function boot() {
+    if (PRESENTER) return presenter();
+    fit();
+    try { await Promise.all([document.fonts.load('800 100px Unbounded'), document.fonts.load('600 60px Unbounded'), document.fonts.ready]); } catch (e) { /* шрифты не критичны */ }
+    PX.init($('#gl'));
+    prepare(); initInput();
+    const m = location.hash.match(/^#\/([\w]+)(?:\/(\d+))?/);
+    let i = 0, b = 0;
+    if (m) { i = order.findIndex(s => s.id === m[1]); if (i < 0) i = 0; b = +(m[2] || 0); }
+    go(i, b);
+    // прогреваем все формы заранее, чтобы на выступлении не было подтормаживаний
+    if (PX.ready) {
+      const keys = [...new Set(Object.values(SCENES).flatMap(s => [].concat(s.shape)))];
+      const warm = () => { const k = keys.shift(); if (!k) return; SH.get(k); setTimeout(warm, 60); };
+      setTimeout(warm, 3500);
+    }
+  }
+  boot();
+})();

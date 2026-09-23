@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI в BI — что уже можно использовать сегодня</title>
+<link rel="stylesheet" href="vendor/fonts.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="gl"></canvas>
+<div class="fx fx-aurora"></div>
+<div class="fx fx-vignette"></div>
+<div class="fx fx-grain"></div>
+
+<div id="stage">
+<div id="deck">
+
+<!-- ═══════════════════════════ АКТ I ═══════════════════════════ -->
+
+<section class="slide" id="s1" data-n="1" data-act="1" data-short data-title="Титул">
+  <div class="kicker r"><span class="dot"></span>BI-митап · <span data-cfg="date"></span></div>
+  <div class="title-block">
+    <h1 class="hero r scr">Что уже можно использовать <em>сегодня</em></h1>
+    <div class="speaker r">
+      <span class="sp-name" data-cfg="speaker"></span><i></i>
+      <span data-cfg="role"></span><i></i>
+      <span data-cfg="team"></span>
+    </div>
+  </div>
+  <div class="hint r">→ &nbsp;или клик, чтобы начать</div>
+  <aside class="notes">15 секунд. Представиться одной фразой: «Помогаю BI-аналитикам внедрять AI-инструменты — и сегодня покажу, что из этого уже работает не на слайдах, а в проде».
+Подвигай мышью над частицами — они расступаются.</aside>
+</section>
+
+<section class="slide" id="s2" data-n="2" data-act="1" data-title="Кто я и что делает амбассадор">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr">Амбассадор AI в BI — это <em>мост</em></h2>
+  <div class="anchor r lab" data-anchor="-4.6,-1.05,0"><b>Платформенные<br>AI-команды</b></div>
+  <div class="anchor r lab lab-main" data-anchor="0,-1.2,0">
+    <div class="avatar" data-shot="photo"><span>фото</span></div>
+    <b data-cfg="speaker"></b><small>амбассадор</small>
+  </div>
+  <div class="anchor r lab" data-anchor="4.6,-1.05,0"><b>BI-аналитики<br>и владельцы бордов</b></div>
+  <div class="triad">
+    <div class="card r tilt"><span class="num">01</span><p>Систематизирую AI-инструменты, доступные BI</p></div>
+    <div class="card r tilt"><span class="num">02</span><p>Собираю и распространяю скиллы — чтобы не было десяти версий одного и того же</p></div>
+    <div class="card r tilt"><span class="num">03</span><p>Канал обратной связи — мне <em>можно и нужно</em> писать</p></div>
+  </div>
+  <aside class="notes">30 сек. Я — мост между платформенными AI-командами и аналитиками: собираю ваш фидбек, разношу работающие практики, не даём дублировать усилия.
+Заложить основу для слайда про BI-пак: «одна из моих задач — чтобы мы не делали десять версий одного и того же скилла».</aside>
+</section>
+
+<section class="slide" id="s3" data-n="3" data-act="1" data-short data-title="Что изменилось за год">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr">Год назад агенты <span class="strike">демонстрировали</span>.<br>Теперь — <em>доводят задачи до конца</em></h2>
+  <div class="ms r anchor" data-anchor="-4.8,-.95,0" style="--c:var(--l2)"><span class="ms-k">Nessy</span><b>Qwen3.5 → DeepSeek&nbsp;V4&nbsp;Flash</b><small>смена основной модели · 31.08</small></div>
+  <div class="ms r anchor" data-anchor="-1.6,-.95,0" style="--c:var(--l3)"><span class="ms-k">Модели</span><b>GLM-5.3 · контекст 1M</b><small>BYOK в tclaude · с 04.09</small></div>
+  <div class="ms r anchor" data-anchor="1.6,-.95,0" style="--c:var(--l4)"><span class="ms-k">Стандарт</span><b>Скиллы — Agent&nbsp;Skills</b><small>переносимые инструкции для агентов</small></div>
+  <div class="ms r anchor" data-anchor="4.8,-.95,0" style="--c:var(--l1)"><span class="ms-k">Инструменты</span><b>Корпоративные MCP</b><small>32 MCP-сервера в каталоге dp ai mcp</small></div>
+  <aside class="notes">1 мин. Ключевая мысль: «Раньше половина скиллов на Qwen просто не отрабатывала — модель не вытягивала агентные сценарии. Переезд на DeepSeek это поменял. Об этом — отдельный слайд».</aside>
+</section>
+
+<section class="slide" id="s4" data-n="4" data-act="1" data-short data-builds="5" data-title="Карта инструментов (главный слайд)">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Карта AI-инструментов <em>BI-аналитика</em></h2>
+  <div class="map">
+    <div class="lvl r" data-lv="4">
+      <div class="lvl-h"><span class="lvl-n">04</span><span class="lvl-t">Экосистема</span><small>AI выполняет рутину за тебя</small></div>
+      <div class="tools">
+        <div class="tool"><b>Skills Market + BI-пак</b><span>готовые инструкции для агентов, свой пак BI</span><code>dp skills install</code><em class="st st-build">строим процесс</em></div>
+        <div class="tool"><b>n8n</b><span>рассылки, отчётность, интеграции, Time&nbsp;×&nbsp;n8n</span><code>запрос доступа</code><em class="st">работает</em></div>
+        <div class="tool"><b>proteus-echarts-builder</b><span>HTML-макет → интерактивный JS-виджет</span><code>скилл из BI-пака + tclaude</code><em class="st st-our">our story</em></div>
+      </div>
+    </div>
+    <div class="lvl r" data-lv="3">
+      <div class="lvl-h"><span class="lvl-n">03</span><span class="lvl-t">Личный агент</span><small>агент в твоей песочнице</small></div>
+      <div class="tools">
+        <div class="tool"><b>tclaude</b><span>кодинг-агент + MCP: Proteus, Jira, GitLab, Sage, Wiki, T-Tracker</span><code>место в ai-seats</code><em class="st">работает</em></div>
+        <div class="tool"><b>BYOK · GLM Coding Plan</b><span>GLM-5.3, контекст 1M, без квот ai-seats, ~×3 дешевле Claude</span><code>z.ai от $18/мес + ключ LLM Proxy</code><em class="st">согласовано ИБ</em></div>
+      </div>
+    </div>
+    <div class="lvl r" data-lv="2">
+      <div class="lvl-h"><span class="lvl-n">02</span><span class="lvl-t">Среда</span><small>где живут данные</small></div>
+      <div class="tools">
+        <div class="tool"><b>Helicopter + Nessy Data Agent</b><span>SQL из текста, поиск таблиц в DWH, ноутбуки, кроны</span><code>helicopter.tcsbank.ru</code><em class="st">работает</em></div>
+        <div class="tool"><b>Под капотом: DeepSeek V4 Flash</b><span>скиллы, которые «не ехали» на Qwen, теперь работают</span><code>уже включено</code><em class="st">работает</em></div>
+      </div>
+    </div>
+    <div class="lvl r" data-lv="1">
+      <div class="lvl-h"><span class="lvl-n">01</span><span class="lvl-t">Платформа BI</span><small>AI отвечает на вопросы</small></div>
+      <div class="tools">
+        <div class="tool"><b>Proteus AI</b><span>Q&amp;A по дашборду; скиллы борда — контекст агента для всех его пользователей</span><code>уже включён в Proteus</code><em class="st">работает, развивается</em></div>
+      </div>
+    </div>
+  </div>
+  <div class="map-foot r">Этот слайд пришлю — повесьте рядом с рабочим столом</div>
+  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Пройти по уровням сверху вниз одной фразой на каждый — каждый клик подсвечивает следующий уровень (4 клика), пятый — снова вся карта.
+Можно кликать по строкам мышью — подсветится ступень лестницы.
+Скажи явно: «Этот слайд я вам пришлю — повесьте рядом с рабочим столом».</aside>
+</section>
+
+<!-- ═══════════════════════════ АКТ II ═══════════════════════════ -->
+
+<section class="slide divider" id="dA" data-act="2" data-level="2" data-sec="A" data-short data-title="Раздел A · Helicopter">
+  <div class="div-wrap">
+    <div class="div-letter r">A</div>
+    <div class="div-meta r">Уровень 02 · Среда работы с данными</div>
+    <h2 class="div-title r scr">Helicopter</h2>
+    <p class="div-sub r">IDE для данных, где AI живёт прямо в панели</p>
+  </div>
+  <aside class="notes">Разделитель. Ступень 02 «Среда» на лестнице. Одна фраза-мостик: «Начнём с того, где живут данные».</aside>
+</section>
+
+<section class="slide" id="s5" data-n="5" data-act="2" data-level="2" data-title="Helicopter в 30 секунд">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr" style="max-width:1050px">Helicopter — IDE для данных, и <em>AI живёт прямо в панели</em></h2>
+  <ul class="facts">
+    <li class="r"><b>helicopter.tcsbank.ru</b> — ноутбуки, кроны с датами начала и конца</li>
+    <li class="r"><b>Nessy Data Agent</b> — правая панель любого ноутбука</li>
+    <li class="r"><b>С 18.09 главная — Nessy Data Workspace:</b> чат видит несколько ноутов и таблиц, панель «Артефакты»</li>
+  </ul>
+  <div class="reacts r"><span>🔥 17</span><span>🚀 9</span><small>реакции на анонс Workspace</small></div>
+  <blockquote class="q r" style="max-width:960px">«Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда»<cite>helicopter-users · 10.09 · стратегическая цель платформы</cite></blockquote>
+  <div class="anchor lab-tag r" data-anchor="2.27,2.05,0">Nessy Data Agent</div>
+  <div class="anchor lab-tag lab-tag-dim r" data-anchor="-1.05,2.05,0">ноутбук · кроны</div>
+  <aside class="notes">1 мин. Не туториал по IDE, а мост к следующему слайду.
+Стратегическая цель платформы (цитата из helicopter-users, 10.09): «Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда».</aside>
+</section>
+
+<section class="slide" id="s6" data-n="6" data-act="2" data-level="2" data-short data-builds="3" data-title="Nessy Data Agent: SQL из текста">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr">Описываешь выгрузку словами — <em>получаешь SQL</em></h2>
+  <div class="pchain r">
+    <span>Роль</span><i>→</i><span>Контекст задачи</span><i>→</i><span>Период</span><i>→</i><span>Поля</span><i>→</i><span>Таблицы <small>или «найди сам»</small></span><i>→</i><span>Формат результата</span>
+  </div>
+  <div class="prompts">
+    <div class="pcol">
+      <div class="card prompt bad" data-step="1">
+        <div class="ptag">❌ так не надо</div>
+        <p class="mono big">дай данные по судам за год</p>
+        <small>Какой год? Какие поля? Откуда? Агент будет угадывать.</small>
+      </div>
+      <div class="card prompt good" data-step="2">
+        <div class="ptag">✅ так работает</div>
+<pre class="mono"><b>Роль:</b> ты — аналитик данных, пишешь SQL для DWH.
+<b>Контекст:</b> нужна выгрузка судебных дел по клиентам.
+<b>Период:</b> с 01.01.2025 по 31.12.2025.
+<b>Поля:</b> id дела, id клиента, суд, дата открытия, статус.
+<b>Таблицы:</b> найди сам в DWH.
+<b>Формат:</b> SQL + пояснение, одна строка на дело.</pre>
+      </div>
+    </div>
+    <div class="pcol">
+      <div class="card code" data-step="3">
+        <div class="code-h"><span></span><span></span><span></span><b>Nessy Data Agent</b><small>пример · имена таблиц условные</small></div>
+<pre class="mono sql" data-type><span class="k">SELECT DISTINCT</span>
+       c.case_id,
+       c.client_id,
+       c.court_name,
+       c.opened_dt,
+       c.status
+<span class="k">FROM</span>   dwh.court_cases <span class="k">AS</span> c
+<span class="k">WHERE</span>  c.opened_dt &gt;= <span class="s">DATE '2025-01-01'</span>
+  <span class="k">AND</span>  c.opened_dt &lt;  <span class="s">DATE '2026-01-01'</span>
+<span class="k">LIMIT</span>  <span class="n">100</span>;  <span class="c">-- сначала проверяем на сотне строк</span></pre>
+      </div>
+      <div class="rule" data-step="3">
+        <b>Nessy — ассистент.</b> Ответственность за запрос — на аналитике: проверяй через <code>LIMIT 100</code>, дедублируй. Дальше — итерации: «добавь фильтр», «убери дубли».
+      </div>
+    </div>
+  </div>
+  <aside class="notes">1,5 мин. Клики: (1) плохой промт → (2) хороший промт → (3) агент печатает SQL.
+Источник: инструкция «Nessy Data Agent в Helicopter для написания SQL» (wiki 9035808218). Подчеркнуть итеративность: «добавь фильтр», «убери дубли».
+Правило: Nessy — ассистент, ответственность за запрос на аналитике.
+→ ДЕМО Д1 (2–3 мин): реальная задача → агент ищет таблицы → SQL → «убери дубли». Запасной план — запись 60 сек.</aside>
+</section>
+
+<section class="slide" id="s7" data-n="7" data-act="2" data-level="2" data-title="Кейсы Helicopter из практики">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr">Команды уже экономят часы — <em>и не только на SQL</em></h2>
+  <div class="cases">
+    <div class="card case r tilt">
+      <div class="case-k">Справочник по внутренним либам</div>
+      <p>«Проще обратиться к агенту nessy data, у него есть в контексте документация по dal и другим либам»</p>
+      <cite>helicopter-users · 02.07</cite>
+    </div>
+    <div class="card case r tilt">
+      <div class="case-k">Е2Е: запрос → ноут → крон → дашборд</div>
+      <p>Тред на <b class="big-n">77</b> постов. Часть сценария уже в агенте, MCP для ноутбуков — план Q4</p>
+      <cite>helicopter-users · 09–10.09</cite>
+    </div>
+    <div class="card case r tilt">
+      <div class="case-k">Скилл вместо бота</div>
+      <p>«у нас не бот — а скилл, который отрабатывает в хелике… чтобы по текстовому запросу получить селект и конечный ответ»</p>
+      <cite>bi-analytics · 04.09</cite>
+    </div>
+    <div class="card case r tilt">
+      <div class="case-k">Анализ «Выписок» банка</div>
+      <p>Агенты разбирают выписки — с тюнингом промптов под задачу</p>
+      <cite>Nessy CLI Discussion · 17.09</cite>
+    </div>
+  </div>
+  <aside class="notes">1 мин. Живые имена команд работают лучше цифр. Все кейсы — из Time-чатов (Приложение А.2).
+Рамка кейса: кто → какая рутина → что сделали → сколько сэкономили.</aside>
+</section>
+
+<section class="slide divider" id="dB" data-act="2" data-level="1" data-sec="B" data-short data-title="Раздел B · Proteus AI">
+  <div class="div-wrap">
+    <div class="div-letter r">B</div>
+    <div class="div-meta r">Уровень 01 · Платформа BI</div>
+    <h2 class="div-title r scr">Proteus AI</h2>
+    <p class="div-sub r">Агент, который живёт на вашем дашборде</p>
+  </div>
+  <aside class="notes">Разделитель. Ступень 01 «Платформа». Мостик: «Теперь — туда, где данные смотрят».</aside>
+</section>
+
+<section class="slide" id="s8" data-n="8" data-act="2" data-level="1" data-short data-title="Proteus AI: агент на дашборде">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr" style="max-width:1400px">На каждом дашборде живёт агент — <em>скиллы учат его контексту вашего борда</em></h2>
+  <div class="two">
+    <div class="card skill r">
+      <div class="skill-h">Скилл дашборда <small>= дополнение к системному промпту агента</small></div>
+<pre class="mono"><span class="k">name:</span>        <span class="c"># как называется</span>
+<span class="k">description:</span> <span class="c"># когда агенту его применять</span>
+<span class="k">prompt:</span>      <span class="c"># какие метрики смотреть,</span>
+             <span class="c"># фильтры по умолчанию,</span>
+             <span class="c"># как интерпретировать</span></pre>
+      <div class="chips"><span>создаётся через чат с агентом</span><span>виден <b>всем</b> пользователям борда</span></div>
+    </div>
+    <div class="stack">
+      <div class="mini r"><b>«AI-анализ»</b> — кнопка на дашбордах с 20.08: анализ графиков с учётом метрик, настроек и нативных фильтров</div>
+      <div class="mini r"><b>Саппорт:</b> бот публикует «Текст ответа от AI-помощника» в тредах proteus-users</div>
+      <div class="mini r"><b>eCharts:</b> агент правит код графиков</div>
+    </div>
+  </div>
+  <blockquote class="q q-sm r" style="max-width:1480px">«…появился агент Proteus AI, и теперь делаем скиллы к нашим бордам, чтобы пользователь мог из любого нашего борда запросить значение любой метрики в нужных разрезах»<cite>bi-analytics · 07.09 · команда отказалась от самописного бота в Time</cite></blockquote>
+  <div class="cta r"><span class="big-n" data-count="8">8</span>+ команд откликнулись в треде про селф-сервис метрик&nbsp;&nbsp;·&nbsp;&nbsp;<b>Владелец дашборда? Сделай борд самообъясняющимся. Один вечер.</b></div>
+  <aside class="notes">1,5 мин. Кейсы из Time (Приложение А.3): команда отказалась от самописного бота в Time в пользу скиллов Proteus AI; в треде про селф-сервис метрик откликнулись 8+ команд.
+Прямой призыв: «Если ты владелец дашборда — сделай борд самообъясняющимся. Один вечер».</aside>
+</section>
+
+<section class="slide" id="s9" data-n="9" data-act="2" data-level="1" data-title="Proteus AI: честно о границах">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr">Честно о <em>границах</em></h2>
+  <div class="yn">
+    <div class="card yes r">
+      <div class="yn-h">✅ Работает</div>
+      <ul>
+        <li>Создание и редактирование скиллов через чат — владельцы бордов</li>
+        <li>Скилл виден всем пользователям борда</li>
+      </ul>
+    </div>
+    <div class="card no r">
+      <div class="yn-h">❌ Пока нет</div>
+      <ul>
+        <li>Установка из Skills Market / GitLab <small>RFC «Proteus Agent 🤝 Skills Market» · автозагрузка — PROTEUS-918</small></li>
+        <li>Автоактивация скилла <small>в работе</small></li>
+        <li>UI редактирования <small>«скоро»</small></li>
+      </ul>
+    </div>
+  </div>
+  <div class="honest r">Я вам не продаю — я показываю, где границы. <span>Интеграция со Skills Market — в бэклоге; это временно.</span></div>
+  <aside class="notes">1 мин. Слайд про доверие: «Я вам не продаю — я показываю, где границы. Планы такие-то». Это усиливает всё остальное.
+Интеграция со Skills Market и GitLab пока в бэклоге — скиллы в Proteus AI создаются через чат; это временно.</aside>
+</section>
+
+<section class="slide divider" id="dC" data-act="2" data-level="3" data-sec="C" data-short data-title="Раздел C · tclaude и BYOK">
+  <div class="div-wrap">
+    <div class="div-letter r">C</div>
+    <div class="div-meta r">Уровень 03 · Личный агент</div>
+    <h2 class="div-title r scr">tclaude + BYOK</h2>
+    <p class="div-sub r">Агент в твоей песочнице — и твоя модель в нём</p>
+  </div>
+  <aside class="notes">Разделитель. Ступень 03 «Личный агент». Мостик: «От агента на борде — к агенту, который работает на тебя лично».</aside>
+</section>
+
+<section class="slide" id="s10" data-n="10" data-act="2" data-level="3" data-short data-title="tclaude: корпоративный кодинг-агент">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">tclaude — Claude Code от Nestor <em>с корпоративными MCP</em></h2>
+  <div class="anchor core-lab r" data-anchor="0,0,0">tclaude</div>
+  <div class="anchor orb r" data-orb="0">Proteus</div>
+  <div class="anchor orb r" data-orb="1">Jira</div>
+  <div class="anchor orb r" data-orb="2">GitLab</div>
+  <div class="anchor orb r" data-orb="3">Sage</div>
+  <div class="anchor orb r" data-orb="4">Wiki</div>
+  <div class="anchor orb r" data-orb="5">T-Tracker</div>
+  <div class="right-col">
+    <div class="chips r"><span>песочница</span><span>LLM Proxy</span><span>Анон</span><span>MCP из dp cli</span></div>
+    <div class="card term r">
+      <div class="code-h"><span></span><span></span><span></span><b>tclaude</b></div>
+<pre class="mono" data-type><span class="p">$</span> tclaude
+<span class="u">› что считается в этом графике?</span>
+<span class="t">⏺ MCP Proteus</span> → состав дашборда, SQL графика, фильтры
+<span class="t">⏺ Читаю SQL</span> …
+<span class="a">✓ Объясняю, что считает график и какие фильтры на него влияют</span></pre>
+      <small class="illu">иллюстрация сценария</small>
+    </div>
+    <ul class="facts facts-sm">
+      <li class="r">Читает твой дашборд через MCP Proteus, правит скиллы борда</li>
+      <li class="r">Ходит в Jira / T-Tracker за задачами, ищет по Wiki</li>
+      <li class="r"><b>Доступ:</b> место в ai-seats через руководителя · группа ai-coding-wave1</li>
+    </ul>
+  </div>
+  <aside class="notes">1,5 мин. T-Claude Code — это Claude Code от Nestor: песочница, LLM Proxy, Анон и корпоративные MCP-инструменты из dp cli.
+Пример из практики: «спрашиваешь агента “что считается в этом графике” — он читает SQL графика и объясняет».
+Факт: в T-Claude 0.0.23 каталог dp ai mcp — 32 MCP-сервера.
+→ ДЕМО Д2 (2 мин): в терминале спросить про реальный дашборд. Запасной план — запись 60 сек.</aside>
+</section>
+
+<section class="slide" id="s11" data-n="11" data-act="2" data-level="3" data-short data-builds="2" data-title="BYOK: свой ключ в tclaude">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Свой ключ в корпоративном tclaude — <em>GLM уже согласован ИБ</em></h2>
+  <div class="paths">
+    <div class="path r"><span class="num">1</span><div><b>Team-подписка Claude</b><small>общая, оформляем мы</small></div></div>
+    <div class="path r"><span class="num">2</span><div><b>Своя подписка Claude / ChatGPT</b><small>AD-группа Sandbox</small></div></div>
+    <div class="path path-hot r"><span class="num">3</span><div><b>GLM Coding Plan в tclaude</b><small>GLM-5.3 / 5.3-Flash · 1M контекст · ~×3 дешевле Claude</small></div></div>
+  </div>
+  <div data-step="1">
+    <div class="anchor flow-n" data-anchor="-4.6,-.85,0"><b>Ключ z.ai</b><small>заголовок X-Byok-Key</small></div>
+    <div class="anchor flow-n" data-anchor="0,-.85,0"><b>LLM Proxy</b><small>Анон · корпоративные гарды</small></div>
+    <div class="anchor flow-n" data-anchor="4.6,-.85,0"><b>tclaude</b><small><code>tclaude set-byok-key</code> · с 0.0.23</small></div>
+    <div class="flow-note">Место в ai-seats не нужно · нужны <b>два ключа</b>: персональный LLM Proxy + X-Byok-Key · суффикс <code>[1m]</code> обязателен</div>
+  </div>
+  <div class="byok-bottom" data-step="2">
+    <div class="tariffs">
+      <div class="tar"><span>Lite</span><b>$18</b><small>«вообще не вариант» — лимит на 5 часов уходит на одну задачу</small></div>
+      <div class="tar tar-hot"><span>Pro</span><b>$80</b><small>рекомендуем для ежедневной работы</small></div>
+      <div class="tar"><span>Max</span><b>$168</b><small>70% недельных кредитов за 2 дня интенсива</small></div>
+    </div>
+    <div class="ib">
+      <div class="ib-h">Границы ИБ</div>
+      <div>только рабочая станция · только tclaude · не для прода / CI</div>
+      <div class="ib-stats"><span><b>04.09</b> запуск</span><span><b data-count="68">68</b> участников встречи 14.09</span></div>
+    </div>
+  </div>
+  <aside class="notes">1,5 мин. Клики: (1) схема «ключ → LLM Proxy → tclaude» → (2) тарифы и границы ИБ.
+Источники: инструкция «Получение Claude Code/ChatGPT/GLM» (wiki 9112708455) + канал ~t-claude-code-byok-byol: запуск 04.09.2026, встреча сообщества 14.09 — 68 участников.
+Реальный опыт: Lite «не вариант» (5-часовой лимит уходит на одну задачу), Max — 70% недельных кредитов за 2 дня → советовать Pro. Латентность через прокси 9–10 сек на первый токен, пик 9:00–13:00 МСК.
+Грабли: суффикс [1m] обязателен, нужны ДВА ключа (персональный LLM Proxy + X-Byok-Key z.ai).
+ВАЖНО: сообщество BYOK пока чисто девелоперское — аналитиков там почти нет. «Вы — первые, кто это принесёт в BI».</aside>
+</section>
+
+<section class="slide" id="s12" data-n="12" data-act="2" data-level="3" data-title="Модельный ландшафт">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Нет «лучшей модели» — есть <em>правильная под задачу</em></h2>
+  <div class="models">
+    <div class="model r anchor" data-anchor="-4.6,-1.25,0" style="--c:#FF8A65">
+      <div class="m-name">Claude</div>
+      <dl><dt>Чей бюджет</dt><dd>корпоративная квота ai-seats</dd>
+      <dt>Когда брать</dt><dd>тяжёлые задачи</dd>
+      <dt>Факт</dt><dd>дневной лимит extra-limits поднят до $150</dd></dl>
+    </div>
+    <div class="model r anchor" data-anchor="0,-1.25,0" style="--c:#60A5FA">
+      <div class="m-name">GLM-5.3</div>
+      <dl><dt>Чей бюджет</dt><dd>личная подписка (BYOK)</dd>
+      <dt>Контекст</dt><dd>1M токенов</dd>
+      <dt>Из Time</dt><dd>«скорость просто офигенная, всё летает»</dd></dl>
+    </div>
+    <div class="model r anchor" data-anchor="4.6,-1.25,0" style="--c:#22D3EE">
+      <div class="m-name">DeepSeek V4 Flash</div>
+      <dl><dt>Где</dt><dd>под капотом Nessy</dd>
+      <dt>Когда брать</dt><dd>ежедневная рутина</dd>
+      <dt>Честно</dt><dd>на тяжёлых задачах «раза в 4–6» медленнее GLM</dd></dl>
+    </div>
+  </div>
+  <div class="pattern r">
+    <span class="pt-k">Паттерн экономии</span>
+    <span><b>flash</b> — рутина и субагенты</span><span><b>5.3</b> — планирование и ревью</span>
+    <code>CLAUDE.md: «ты — оркестратор, для основного кодинга запускай субагентов на флэше»</code>
+  </div>
+  <aside class="notes">1 мин. GLM Max хвалят за скорость и качество «лучше ожиданий в сравнении с Anthropic»; местный DeepSeek «раза в 4–6 медленнее» GLM на тестах («1.5 часа против 15 минут»); специализация: «для frontend qwen лучше… GLM больше для бэкенда».
+ВАЖНО для зала: сообщество BYOK пока чисто девелоперское — аналитиков там почти нет, доклад должен это поменять.
+Мост к следующему слайду: «А теперь — почему DeepSeek в этом ряду вообще появился».</aside>
+</section>
+
+<section class="slide divider" id="dD" data-act="2" data-level="2" data-sec="D" data-short data-title="Раздел D · Nessy → DeepSeek">
+  <div class="div-wrap">
+    <div class="div-letter r">D</div>
+    <div class="div-meta r">Уровень 02 · Модели под капотом</div>
+    <h2 class="div-title r scr">Nessy → DeepSeek</h2>
+    <p class="div-sub r">История одного переезда</p>
+  </div>
+  <aside class="notes">Разделитель. Снова ступень 02 — модели под капотом среды.</aside>
+</section>
+
+<section class="slide" id="s13" data-n="13" data-act="2" data-level="2" data-short data-builds="2" data-title="Qwen → DeepSeek V4 Flash">
+  <div class="kicker r" data-auto></div>
+  <div class="mig">
+    <div class="mig-row" data-step-only="0">
+      <div class="mig-tag no">было</div>
+      <h2 class="h h-sm">Qwen3.5 397b — <em class="em-no">морально устарел</em></h2>
+      <p class="lead">Половина агентных скиллов не отрабатывала: модель не вытягивала сценарии</p>
+    </div>
+    <div class="mig-row" data-step="1">
+      <blockquote class="q q-hero">«Прощай Qwen, привет Deepseek. Мы перевезли Nessy Data Agent на новую основную модель — deepseek-v4-flash-0731. Она новее, выше, сильнее. Иными словами, работает лучше прошлой»<cite>helicopter-announcements · 31.08</cite></blockquote>
+    </div>
+    <div class="mig-grid" data-step="2">
+      <blockquote class="q q-user">«superpowers работают, особенно после заезда на deepseek — когда qwen был, то не работало»<cite>Nessy CLI Discussion · 22.09</cite></blockquote>
+      <div class="retro">
+        <div class="retro-h">Уроки ретро</div>
+        <div>гранулярная перекатка: a2a → nessy-cli</div>
+        <div>бенчмарки ≠ реальность — решает фидбек бета-тестеров</div>
+      </div>
+    </div>
+  </div>
+  <div class="cta cta-center" data-step="2">Пробовали скиллы в Nessy и не работало? <b>Попробуйте ещё раз — это не те скиллы и не та модель.</b></div>
+  <aside class="notes">1,5 мин. Клики: (0) частицы «Qwen» — хаос → (1) пересборка в «DeepSeek» + цитата анонса → (2) голос пользователя + уроки ретро.
+Техническая сторона: Qwen3.5 397b морально устарел → Q3-обновление; катали a2a (без проблем), затем nessy-cli; скачок нагрузки — стабилизировали в день инцидента.
+Источники: ретро перехода (wiki 9242349163), Time-каналы.
+Честная оговорка для Q&A: квоты суточные, при исчерпании — очередь; локальный DeepSeek медленнее GLM на тяжёлых задачах («раза в 4–6» на тестах).</aside>
+</section>
+
+<section class="slide divider" id="dE" data-act="2" data-level="4" data-sec="E" data-title="Раздел E · n8n">
+  <div class="div-wrap">
+    <div class="div-letter r">E</div>
+    <div class="div-meta r">Уровень 04 · Автоматизация</div>
+    <h2 class="div-title r scr">n8n</h2>
+    <p class="div-sub r">Клей между системами</p>
+  </div>
+  <aside class="notes">Разделитель. Верхняя ступень 04 — экосистема: AI делает рутину за тебя.</aside>
+</section>
+
+<section class="slide" id="s14" data-n="14" data-act="2" data-level="4" data-title="n8n: клей между системами">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Агент работает с тобой. <em>n8n — сам, по расписанию</em></h2>
+  <div class="wf r">
+    <div class="wf-n"><span>⏱</span><b>Триггер</b><small>расписание / T-Tracker</small></div>
+    <div class="wf-e"><i></i></div>
+    <div class="wf-n wf-hot"><span>✦</span><b>Нода «Несси»</b><small>Nessy Cloud по промпту · 🔥 23</small></div>
+    <div class="wf-e"><i></i></div>
+    <div class="wf-n"><span>✉</span><b>Отправка</b><small>Time · Postgres · отчёт</small></div>
+  </div>
+  <div class="n8n-grid">
+    <div class="card r">
+      <div class="case-k">Кейсы аналитиков из Time</div>
+      <ul class="dl">
+        <li><b>07.09</b> бот в Time, отдающий метрики из источников — готовый шаблон</li>
+        <li><b>03.09</b> ежемесячные отчёты «для бюрократов и менеджеров»</li>
+        <li><b>27.08</b> правка отчёта по задачам и тредам сотрудника</li>
+        <li><b>20.08</b> выгрузка в Postgres для Grafana и истории в DWH-реплике</li>
+        <li><b>21.07</b> отчёты из Jira по меткам</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <blockquote class="q q-sm r">«Аналитик, QA или вообще любой инженер должен с такой задачей справиться»<cite>n8n-ask · позиционирование платформы</cite></blockquote>
+      <div class="mini r"><b>Форсайт:</b> «хотелось бы Proteus MCP в блоке nessy в n8n» (11.09) → уже задача <code>N8N-879</code> (16.09)</div>
+      <div class="punch r">Скилл учит агента — n8n делает так, чтобы <em>агента вообще не нужно было звать</em></div>
+    </div>
+  </div>
+  <aside class="notes">1 мин. n8n.t-tech.team; self-service. Свежее: нода «Несси» — Nessy Cloud по промпту в изолированном окружении (09.09, fire×23); ноды T-Tracker с триггерами; n8n — стандартный кубик Т-Лего.
+Форсайт: заявка «хотелось бы Proteus MCP в блоке nessy в n8n» (11.09) → уже задача N8N-879 (16.09).
+Связка: «Скилл учит агента — n8n делает так, чтобы агента вообще не нужно было звать».</aside>
+</section>
+
+<section class="slide divider" id="dF" data-act="2" data-level="4" data-sec="F" data-short data-title="Раздел F · Skills Market и BI-пак">
+  <div class="div-wrap">
+    <div class="div-letter r">F</div>
+    <div class="div-meta r">Уровень 04 · Экосистема скиллов</div>
+    <h2 class="div-title r scr">Skills Market + BI-пак</h2>
+    <p class="div-sub r">Скиллы как валюта</p>
+  </div>
+  <aside class="notes">Разделитель. Ступень 04 — экосистема скиллов.</aside>
+</section>
+
+<section class="slide" id="s15" data-n="15" data-act="2" data-level="4" data-title="Skills Market: скиллы как валюта">
+  <div class="kicker r" data-auto></div>
+  <div class="num-under">
+    <div class="num-cap r">переиспользуемых скиллов в Skills Market <span>+ <b data-count="174">174</b> экстеншена</span></div>
+    <div class="num-facts">
+      <div class="nf r"><b>Индексация из GitLab</b><small>SKILL.md / nessy-extension.json · раз в день</small></div>
+      <div class="nf r"><b><code>dp skills install</code></b><small>скиллы переносимы между агентами</small></div>
+      <div class="nf r"><b>Skill Packs трёх типов</b><small>профессия · платформа · бизнес-линия</small></div>
+    </div>
+    <div class="src r">по API маркета на 21.09.2026 · у каждого скилла в UI видно число установок</div>
+    <div class="teaser r">Найти BI-шное среди 11 тысяч — задача нетривиальная →</div>
+  </div>
+  <aside class="notes">1 мин. 11 563 скилла и 174 экстеншена (по API маркета /api/v1/meta на 21.09.2026).
+Проблема, которая подводит к BI-паку: найти в 11 тысячах скиллов именно BI-шное — нетривиально.
+Прозрачность: «Я бы хотела видеть, что за скиллпак мы выгружаем и где он протестирован» (skills-market, 22.09) — ровно тот запрос, который закрывает наш пак.</aside>
+</section>
+
+<section class="slide" id="s16" data-n="16" data-act="2" data-level="4" data-short data-title="BI-пак: свой полк в общем маркете">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h r scr" style="max-width:1050px">BI-пак — <em>свой полк</em> в общем маркете</h2>
+  <div class="tl r">
+    <div class="tl-i"><b>09.09</b><span>вопрос в skills-market: «как создать отдельную папку для BI-аналитиков и туда складывать скиллы»</span></div>
+    <div class="tl-i"><b>10.09</b><span>MR !737 «вкладка по BI-профессии»</span></div>
+    <div class="tl-i tl-hot"><b>10.09</b><span>вмержен в тот же день</span></div>
+  </div>
+  <div class="pack-row">
+    <div class="principle r"><b>Принцип:</b> в паке BI-профессии <em>нет дублирующих джобов</em><small>добавление пока централизовано — через меня · рядом та же механика: QA-пак по перф-тестам, MR !805 (22.09)</small></div>
+    <div class="ph r" style="width:560px;height:210px">[СОБРАТЬ] текущий состав BI-пака — список скиллов</div>
+  </div>
+  <aside class="notes">1 мин. История создания: 09.09 вопрос в skills-market → 10.09 MR !737 «вкладка по BI-профессии» → вмержен в тот же день.
+Принцип: в паке BI-профессии нет дублирующих джобов; сейчас доступ на добавление централизован — у меня.
+[СОБРАТЬ] состав пака, число установок. Честно про текущий процесс — см. следующий слайд.</aside>
+</section>
+
+<section class="slide" id="s17" data-n="17" data-act="2" data-level="4" data-short data-builds="2" data-title="Флоу контрибьюции">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Пока — через меня. <em>Это осознанно.</em></h2>
+  <div class="now r"><span class="now-k">Сейчас</span><span>хочешь скилл в пак</span><i>→</i><span>пишешь мне</span><i>→</i><span>вмерживаем</span><small>сначала копим качество и не плодим дубли — потом строим процесс</small></div>
+  <div class="pipe-labels" data-step="1">
+    <div class="anchor stage" data-pipe="0"><b>MR в skills.yaml</b><small>репозиторий-манифест</small></div>
+    <div class="anchor stage" data-pipe="1"><b>Линт</b><small>структура скилла</small></div>
+    <div class="anchor stage" data-pipe="2"><b>Установка</b><small>в целевые среды</small></div>
+    <div class="anchor stage" data-pipe="3"><b>2 прогона</b><small>функциональные</small></div>
+    <div class="anchor stage" data-pipe="4"><b>Оценка</b><small>100-балльная шкала</small></div>
+    <div class="anchor stage" data-pipe="5"><b>Отчёт в MR</b><small>→ в пак</small></div>
+  </div>
+  <div class="target-k" data-step="1">Целевая модель · на каждый MR — автоматический CI</div>
+  <div class="prec" data-step="2">
+    <span class="pt-k">Уже применяется</span>
+    <span>dwsai</span><span>nessy-qwarium</span><span>nestor-data-agent-eval</span><i>·</i><span>OpenAI</span><span>Anthropic</span><span>promptfoo</span>
+    <small>подход «скилл + evals + валидация до мержа»</small>
+  </div>
+  <aside class="notes">1,5 мин. Клики: (1) запуск целевого пайплайна — кольца загораются по очереди → (2) прецеденты.
+Целевая модель: репозиторий-манифест skills.yaml, добавление = Merge Request, на каждый MR автоматически CI: линт структуры → установка в целевые среды → два функциональных прогона → аналитическая оценка (100-балльная шкала) → отчёт прямо в MR.
+Подход «скилл + evals + валидация до мержа» уже применяется в банке минимум в трёх местах (dwsai, nessy-qwarium, nestor-data-agent-eval) и в индустрии (OpenAI, Anthropic, promptfoo).
+Это «продуктовое» мышление — покажи, что процесс продуман. Источник: wiki 9253808524.</aside>
+</section>
+
+<section class="slide divider" id="dG" data-act="2" data-level="4" data-sec="G" data-short data-title="Раздел G · proteus-echarts-builder">
+  <div class="div-wrap">
+    <div class="div-letter r">G</div>
+    <div class="div-meta r">Уровень 04 · Прокачка платформы скиллами</div>
+    <h2 class="div-title r scr">proteus-echarts-builder</h2>
+    <p class="div-sub r">Our story · смена парадигмы</p>
+  </div>
+  <aside class="notes">Разделитель. Фирменная часть доклада.</aside>
+</section>
+
+<section class="slide" id="s18" data-n="18" data-act="2" data-level="4" data-short data-builds="2" data-title="proteus-echarts-builder: смена парадигмы">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr" style="max-width:1100px">HTML-макет → <em>интерактивный JS-виджет</em> в Proteus</h2>
+  <div class="steps3">
+    <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>неизменяемый эталон вёрстки</small></div></div>
+    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>источник данных</small></div></div>
+    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS</b><small>единственный файл, который создаёт скилл</small></div></div>
+  </div>
+  <div class="trick r"><b>Приём:</b> eCharts-контейнер — пустой холст; вся отрисовка — HTML/CSS/SVG/JS поверх глобального массива <code>data</code></div>
+  <blockquote class="q q-sm r" style="max-width:880px">«Через Claude генерим макеты, а потом скиллом в несси конвертим в echarts»<cite>proteus-creators · 31.07 · ваш воркфлоу уже повторяют</cite></blockquote>
+  <div class="link r">skills-market.t-tech.team/skills/cross/proteus-echarts-builder <small>· анонс 25.08</small></div>
+  <aside class="notes">1,5 мин. ФИРМЕННЫЙ СЛАЙД. Клики: частицы пересобираются (0) HTML-макет → (1) база данных SQL → (2) 3D-виджет.
+Как работает: HTML-макет = неизменяемый эталон вёрстки, SQL = источник данных, JS = единственный файл, который создаёт скилл.
+Смежный сигнал: платформа сама движется сюда — новый тип графика eCharts с настройкой через JSON (PRODEV-1258, апрель), кроссфильтрация в echarts (июнь).
+Вишенка: агент Proteus AI правит eCharts-код: «с ним ечартсы и делаются в 99% случаев» (26.06).</aside>
+</section>
+
+<section class="slide" id="s19" data-n="19" data-act="2" data-level="4" data-short data-builds="1" data-title="Что становится возможным (до/после)">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Сводные, drilldown, кроссфильтр — <em>вопрос одного промта</em></h2>
+  <div class="ba" data-step-only="0">
+    <div class="ba-col r">
+      <div class="ba-k">было · график из палитры</div>
+      <div class="card ba-before" id="w-before"></div>
+    </div>
+    <div class="ba-arrow r">→</div>
+    <div class="ba-col ba-wide r">
+      <div class="ba-k ba-k-hot">стало · интерактивный виджет <small>живой — покликайте</small></div>
+      <div class="card widget" id="w-after"></div>
+    </div>
+  </div>
+  <div class="shots" data-step="1">
+    <div class="shot-pair"><div class="shot ph" data-shot="before1">[СОБРАТЬ] было · скриншот 1<small>перетащите файл сюда</small></div><span>→</span><div class="shot ph" data-shot="after1">[СОБРАТЬ] стало · скриншот 1<small>перетащите файл сюда</small></div></div>
+    <div class="shot-pair"><div class="shot ph" data-shot="before2">[СОБРАТЬ] было · скриншот 2<small>перетащите файл сюда</small></div><span>→</span><div class="shot ph" data-shot="after2">[СОБРАТЬ] стало · скриншот 2<small>перетащите файл сюда</small></div></div>
+  </div>
+  <div class="refs r"><span>Референсы:</span> HR Executive — «супер кастомные вещи» (31.07) · дашборд 56024 — HTML/SVG-overlay (09.09) · AI Experience Day #12 — сложные визуализации в эфире (30.07)</div>
+  <aside class="notes">1,5 мин. Сводные таблицы с поиском и сортировкой, drilldown, кроссфильтрация, переключалки метрик, пагинация, экспорт — всё это теперь вопросы одного промта, а не недели разработки.
+Справа — ЖИВОЙ виджет (синтетические данные): поиск, сортировка по заголовкам, переключение метрик, клик по строке = drilldown, пагинация, экспорт CSV.
+Клик (1) — пары реальных скриншотов «было/стало» ([СОБРАТЬ] — перетащите файлы на рамки, они запомнятся в браузере).
+→ ДЕМО Д3: видео 60–90 сек HTML-макет → виджет.</aside>
+</section>
+
+<section class="slide" id="s20" data-n="20" data-act="2" data-level="4" data-title="Честные ограничения eCharts">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Четыре ограничения — <em>и по каждому есть задача или обход</em></h2>
+  <div class="lims">
+    <div class="card lim r tilt"><span class="num">1</span><b>Внутренние ссылки из eCharts блокируются</b><div class="lim-s">→ задача <code>PROTEUS-6347</code> заведена</div></div>
+    <div class="card lim r tilt"><span class="num">2</span><b>Лимит объёма данных в массиве</b><div class="lim-s">→ кэширование · референс «Детальные списки»</div></div>
+    <div class="card lim r tilt"><span class="num">3</span><b>Пермалинк не сохраняет состояние</b><div class="lim-s">→ вентилируем с командой Proteus</div></div>
+    <div class="card lim r tilt"><span class="num">4</span><b>Скриншотер снимает только canvas</b><div class="lim-s">HTML/SVG-overlay не попадает в превью и рассылки → гайды сообщества «Nuances for screenshotting», двухрежимный рендер · тред на 58 постов</div></div>
+  </div>
+  <div class="honest r">+ кавычки <code>"</code> в значениях полей ломают JSON-парсер чарта</div>
+  <aside class="notes">1 мин. Паттерн «честности» повторяется второй раз в докладе — это бренд спикера.
+Источники: echarts-proteus-tasks.md + Time (Приложение А.3, тред на 58 постов).</aside>
+</section>
+
+<!-- ═══════════════════════════ АКТ III ═══════════════════════════ -->
+
+<section class="slide" id="s21" data-n="21" data-act="3" data-short data-title="С чего начать: чеклист">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Один шаг <em>на следующей неделе</em> — выберите свой</h2>
+  <div class="acts">
+    <div class="card act r tilt" style="--c:var(--l2)"><div class="act-role">Аналитик</div><p>Открыть Helicopter и сгенерировать первый SQL по структуре промта</p><div class="qr" data-qr="nessySql"></div></div>
+    <div class="card act r tilt" style="--c:var(--l1)"><div class="act-role">Владелец дашборда</div><p>Создать первый скилл дашборда в Proteus AI через чат</p><div class="qr" data-qr="proteusSkills"></div></div>
+    <div class="card act r tilt" style="--c:var(--l3)"><div class="act-role">Упёрся в квоты</div><p>Подключить GLM BYOK по инструкции</p><div class="qr" data-qr="byok"></div></div>
+    <div class="card act r tilt" style="--c:var(--l4)"><div class="act-role">Есть рутина</div><p>Написать мне про скилл в BI-пак + посмотреть n8n</p><div class="qr" data-qr="n8n"></div></div>
+  </div>
+  <div class="cta cta-center r"><b>28.09</b> — отбор задач Proteus в Q4 в канале «Планирование Протеус x BI профессия»: приходите со своими болями</div>
+  <aside class="notes">1,5 мин. Это слайд, ради которого всё затевалось. QR обязательно — дать залу 10 секунд отсканировать.
+Бонус-призыв: встреча 28.09 — отбор задач Proteus в Q4.</aside>
+</section>
+
+<section class="slide" id="s22" data-n="22" data-act="3" data-title="Горизонт: что дальше">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr glow-t">Горизонт: <em>экосистема сходится</em></h2>
+  <div class="road">
+    <div class="rd r"><i></i><b>Proteus Agent ↔ Skills Market</b><small>RFC · в проработке</small></div>
+    <div class="rd r"><i></i><b>Автоактивация скиллов</b><small>в работе</small></div>
+    <div class="rd r"><i></i><b>MR-валидация для BI-пака</b><small>процесс контрибьюции</small></div>
+    <div class="rd r"><i></i><b>Proteus AI ↔ DWS AI</b><small>сближение harness (Nessy Data)</small></div>
+  </div>
+  <div class="road-note r">сроки не обещаю — всё «в проработке»</div>
+  <aside class="notes">1 мин. Не обещать сроки жёстко — «в проработке».
+Интеграция Proteus Agent со Skills Market (RFC, ~Q3); автоактивация скиллов; MR-валидация для BI-пака; сближение harness Proteus AI и DWS AI (Nessy Data).</aside>
+</section>
+
+<section class="slide" id="s23" data-n="23" data-act="3" data-short data-title="Призыв + контакты">
+  <div class="final">
+    <div class="final-l">
+      <h2 class="h r scr">Приходите со скиллами — <em>пак растёт через вас</em></h2>
+      <ul class="facts facts-sm">
+        <li class="r"><b>Скилл в BI-пак</b> → ко мне, без формы, просто сообщением · <span data-cfg="contact"></span></li>
+        <li class="r"><b>Канал</b> ~t-claude-code-byok-byol — аналитиков там пока почти нет. Будьте первыми</li>
+        <li class="r"><b>Слайды и карта инструментов</b> — пришлю в чат митапа</li>
+      </ul>
+      <div class="closing r">AI в BI перестал быть экспериментом — <em>это ваш ежедневный инструмент</em></div>
+    </div>
+    <div class="final-r r"><div class="qr qr-big" data-qr="all"></div><small>все ссылки из доклада</small></div>
+  </div>
+  <aside class="notes">30 сек. Закрыть тем же тезисом, что открыл: «AI в BI перестал быть экспериментом — это ваш ежедневный инструмент».
+Дальше — Q&A 5–7 минут.</aside>
+</section>
+
+</div><!-- /deck -->
+
+<!-- HUD -->
+<div class="hud">
+  <div class="hud-brand"><b>AI в BI</b><span id="hud-act"></span></div>
+  <div class="hud-ladder" id="hud-ladder"><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span id="hud-lvl"></span></div>
+  <div class="hud-prog"><div id="hud-bar"></div></div>
+  <div class="hud-num"><b id="hud-n">01</b> / <span id="hud-total">23</span><span id="hud-build"></span></div>
+  <div class="hud-short" id="hud-short">короткая версия · 15 мин</div>
+</div>
+</div><!-- /stage -->
+
+<div id="overview" class="ov" hidden><div class="ov-h">Обзор слайдов <small>Esc / O — закрыть · клик — перейти</small></div><div class="ov-grid" id="ov-grid"></div></div>
+<div id="notes-pop" class="notes-pop" hidden></div>
+<div id="help" class="help" hidden>
+  <div class="help-card">
+    <h3>Управление</h3>
+    <dl>
+      <dt>→ ␣ PgDn клик</dt><dd>дальше (сначала шаги слайда)</dd>
+      <dt>← PgUp</dt><dd>назад</dd>
+      <dt>Home / End</dt><dd>в начало / в конец</dd>
+      <dt>P</dt><dd>пульт спикера в отдельном окне (заметки, таймер, следующий слайд)</dd>
+      <dt>N</dt><dd>заметки поверх слайда (видны зрителям!)</dd>
+      <dt>O / Esc</dt><dd>обзор всех слайдов</dd>
+      <dt>K</dt><dd>короткая версия на 15 минут (§8)</dd>
+      <dt>F</dt><dd>полный экран</dd>
+      <dt>B</dt><dd>затемнить экран</dd>
+      <dt>цифры + Enter</dt><dd>перейти к слайду N</dd>
+      <dt>H / ?</dt><dd>эта справка</dd>
+    </dl>
+    <p>Перетащите картинку на рамку «[СОБРАТЬ]» — она сохранится в этом браузере.</p>
+  </div>
+</div>
+<div id="black" class="black"></div>
+<div id="goto" class="goto" hidden></div>
+
+<!-- Пульт спикера (открывается клавишей P в отдельном окне) -->
+<div id="presenter" hidden>
+  <header class="pr-h">
+    <div class="pr-title">Пульт спикера · <b>AI в BI</b></div>
+    <div class="pr-clock" id="pr-clock"></div>
+    <div class="pr-timer"><b id="pr-elapsed">00:00</b><span id="pr-left">осталось 30:00</span>
+      <button id="pr-start">▶ старт</button><button id="pr-reset">↺</button></div>
+  </header>
+  <main class="pr-main">
+    <section class="pr-cur">
+      <div class="pr-meta"><span id="pr-num"></span><span id="pr-builds"></span></div>
+      <h1 id="pr-stitle"></h1>
+      <div class="pr-notes" id="pr-notes"></div>
+    </section>
+    <aside class="pr-side">
+      <div class="pr-next"><small>Дальше</small><b id="pr-next"></b></div>
+      <div class="pr-nav"><button id="pr-prev">◀ назад</button><button id="pr-fwd">вперёд ▶</button></div>
+      <ol class="pr-list" id="pr-list"></ol>
+    </aside>
+  </main>
+</div>
+
+<script src="vendor/qrcode.js"></script>
+<script src="engine.js"></script>
+<script src="shapes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
