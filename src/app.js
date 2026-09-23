@@ -24,13 +24,13 @@ const CONFIG = {
 
 /* ───────────── сцены частиц для каждого слайда ───────────── */
 const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'x' };
-const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов
+const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов, петля ОС — под ними
 const DIM = (shape, bright = .3, place = {}) => ({ shape, place, bright });
 const SCENES = {
   title: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
   who: { shape: 'bridge', place: { y: .4 } },
   useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  flow: { shape: ['pipe:6', 'pset:1,2,3,5', 'pipe:6'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  flow: { shape: ['flow:all', 'flow:2,5,6', 'flow:all'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
@@ -39,7 +39,7 @@ const SCENES = {
   tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
   pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
-  skillflow: { shape: 'pset:0,3,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  skillflow: { shape: 'flow:1,2,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
   'rq-problem': DIM('knot', .28, { y: -.8, s: .9, spin: .08 }),
   'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
   'rq-not': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
@@ -70,8 +70,8 @@ const SCENES = {
   };
   const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Что делать вам' };
   const LCOL = { 1: '#22d3ee', 2: '#a78bfa', 3: '#f472b6', 4: '#fbbf24' };
-  const STAGES = ['Требования', 'Данные', 'Подготовка', 'Дашборд', 'Описание', 'Автоматизация'];
-  const stageLabel = st => st.length === 6 ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
+  const STAGES = ['Потребность', 'Бизнес-анализ', 'Разработка', 'Тестирование', 'Подготовка к релизу', 'Информирование', 'Демо', 'Анализ используемости', 'Сбор ОС'];
+  const stageLabel = st => st.length === STAGES.length ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
   const PRESENTER = location.hash === '#presenter';
 
   /* ───────────── модель колоды ───────────── */
@@ -91,7 +91,7 @@ const SCENES = {
     if (s.act === 1 || s.act === 4) { secTitle = ''; secStages = []; }
     if (s.divider) {
       secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; secStages = parseSt(s.el.dataset.stages);
-      SCENES[s.id] = { shape: 'pset:' + secStages.join(','), place: { x: 3.9, y: -.3, s: .5, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
+      SCENES[s.id] = { shape: 'flow:' + secStages.join(','), place: { x: 3.9, y: .15, s: .48, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
     }
     s.secTitle = secTitle;
     s.stages = s.el.dataset.stages && !s.divider ? parseSt(s.el.dataset.stages) : secStages;
@@ -126,6 +126,7 @@ const SCENES = {
         const set = (el, v) => { const [x, y] = PX.toStage(v, place); el.style.left = x + 'px'; el.style.top = y + 'px'; };
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
+        $$('[data-flow]', s.el).forEach(el => { set(el, [SH.FLOW_X[+el.dataset.flow], -.62, 0]); el.style.animationDelay = (.3 + +el.dataset.flow * .1) + 's'; });
         $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });

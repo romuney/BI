@@ -756,3 +756,22 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .c-crit { color: var(--no); } .c-serious { color: #ff8a65; }
 .demo-legend { flex: none; display: flex; gap: 22px; margin-top: 14px; font: 15px var(--fm); color: var(--mute); }
 .demo-legend .dl-r { margin-left: auto; }
+
+/* ---------- флоу BI с доски: 9 этапов ---------- */
+.fc9 { width: 176px; gap: 3px; }
+.fc9 .fs-n { color: var(--c); }
+.fc9 .fs-t { font-size: 16px; line-height: 1.2; min-height: 40px; display: flex; align-items: center; }
+.fc9 .fs-row { font-size: 15px; padding: 9px 8px; margin-top: 8px; border-radius: 13px; }
+.fc9 .fs-row i { font-size: 11px; }
+.fc9 .fs-skill { padding: 12px 4px; }
+.fc9 .fs-skill code { font-size: 11px; white-space: nowrap; padding: 2px 4px; }
+.fc9 .fs-skill em { font-size: 11px; }
+.fc9 .fs-free { padding: 16px 8px; font-size: 14px; }
+.fs-ta { font: 600 11px var(--fm); letter-spacing: .08em; text-transform: uppercase; color: #c084fc; }
+.loop-lab { font: 500 15px var(--fm); letter-spacing: .08em; color: var(--mute); white-space: nowrap; }
+#flow .envband { top: auto; bottom: 64px; padding: 14px 24px; }
+#flow .envband b { font-size: 19px; }
+#flow .eb-t { font-size: 17px; }
+#skillflow .handoff { top: auto; bottom: 70px; font-size: 30px; }
+.hud-flow i { width: 12px; height: 12px; }
+.hud-flow { gap: 5px; }

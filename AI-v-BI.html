@@ -774,6 +774,25 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 .demo-legend { flex: none; display: flex; gap: 22px; margin-top: 14px; font: 15px var(--fm); color: var(--mute); }
 .demo-legend .dl-r { margin-left: auto; }
 
+/* ---------- флоу BI с доски: 9 этапов ---------- */
+.fc9 { width: 176px; gap: 3px; }
+.fc9 .fs-n { color: var(--c); }
+.fc9 .fs-t { font-size: 16px; line-height: 1.2; min-height: 40px; display: flex; align-items: center; }
+.fc9 .fs-row { font-size: 15px; padding: 9px 8px; margin-top: 8px; border-radius: 13px; }
+.fc9 .fs-row i { font-size: 11px; }
+.fc9 .fs-skill { padding: 12px 4px; }
+.fc9 .fs-skill code { font-size: 11px; white-space: nowrap; padding: 2px 4px; }
+.fc9 .fs-skill em { font-size: 11px; }
+.fc9 .fs-free { padding: 16px 8px; font-size: 14px; }
+.fs-ta { font: 600 11px var(--fm); letter-spacing: .08em; text-transform: uppercase; color: #c084fc; }
+.loop-lab { font: 500 15px var(--fm); letter-spacing: .08em; color: var(--mute); white-space: nowrap; }
+#flow .envband { top: auto; bottom: 64px; padding: 14px 24px; }
+#flow .envband b { font-size: 19px; }
+#flow .eb-t { font-size: 17px; }
+#skillflow .handoff { top: auto; bottom: 70px; font-size: 30px; }
+.hud-flow i { width: 12px; height: 12px; }
+.hud-flow { gap: 5px; }
+
 </style>
 </head>
 <body>
@@ -827,49 +846,40 @@ body.presenter #gl, body.presenter #stage, body.presenter .fx { display: none; }
 Четыре изменения: Qwen в Nessy ушёл, теперь DeepSeek V4 Flash; к tclaude можно подключить свою подписку (BYOK, GLM согласован ИБ); скиллы собраны в Skills Market; агенты ходят в корпоративные системы через MCP.</aside>
 </section>
 
-<section class="slide" id="flow" data-act="1" data-kicker="Флоу BI-аналитика" data-short data-builds="2" data-title="Флоу BI-аналитика × инструменты (главный слайд)">
+<section class="slide" id="flow" data-act="1" data-kicker="Флоу BI" data-short data-builds="2" data-title="Флоу BI × инструменты (главный слайд)">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Флоу BI-аналитика: <em>где инструменты и где в них AI</em></h2>
-  <div class="fcol anchor r" data-pipe="0"><span class="fs-n">01</span><b class="fs-t">Требования</b><small class="fs-s">сбор с заказчика</small>
-    <div class="fs-row"><i>инструмент</i>встречи · бриф · Wiki</div>
-    <div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
-  <div class="fcol anchor r" data-pipe="1"><span class="fs-n">02</span><b class="fs-t">Данные</b><small class="fs-s">сбор и источники</small>
-    <div class="fs-row"><i>инструмент</i>Helicopter · DWH · Data Detective</div>
-    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent: поиск таблиц, SQL</div></div>
-  <div class="fcol anchor r" data-pipe="2"><span class="fs-n">03</span><b class="fs-t">Подготовка</b><small class="fs-s">расчёт и расписание</small>
-    <div class="fs-row"><i>инструмент</i>Helicopter: ноутбуки, кроны</div>
-    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent: правит и создаёт ноутбуки</div></div>
-  <div class="fcol anchor r" data-pipe="3"><span class="fs-n">04</span><b class="fs-t">Дашборд</b><small class="fs-s">визуализация</small>
-    <div class="fs-row"><i>инструмент</i>Proteus</div>
-    <div class="fs-row fs-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
-  <div class="fcol anchor r" data-pipe="4"><span class="fs-n">05</span><b class="fs-t">Описание</b><small class="fs-s">документация отчёта</small>
-    <div class="fs-row"><i>инструмент</i>Data Detective</div>
-    <div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
-  <div class="fcol anchor r" data-pipe="5"><span class="fs-n">06</span><b class="fs-t">Автоматизация</b><small class="fs-s">рассылки, боты</small>
-    <div class="fs-row"><i>инструмент</i>n8n · Time</div>
-    <div class="fs-row fs-ai" data-step="1"><i>AI</i>агентные ноды на DeepSeek</div></div>
+  <h2 class="h h-sm r scr">Флоу BI: <em>где инструменты и где в них AI</em></h2>
+  <div class="fcol fc9 anchor r" data-flow="0" style="--c:#f472b6"><span class="fs-n">01</span><b class="fs-t">Возникновение потребности</b><div class="fs-row"><i>инструмент</i>Time · Jira · T-Tracker</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol fc9 anchor r fc-ta" data-flow="1" style="--c:#38bdf8"><span class="fs-n">02</span><b class="fs-t">Бизнес-анализ</b><small class="fs-ta">+ целевая аудитория</small><div class="fs-row"><i>инструмент</i>встречи · бриф · Wiki</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol fc9 anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent: SQL, ноутбуки, агентский режим</div></div>
+  <div class="fcol fc9 anchor r" data-flow="3" style="--c:#38bdf8"><span class="fs-n">04</span><b class="fs-t">Тестирование</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol fc9 anchor r" data-flow="4" style="--c:#4ade80"><span class="fs-n">05</span><b class="fs-t">Подготовка к релизу</b><div class="fs-row"><i>инструмент</i>Data Detective · Proteus</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol fc9 anchor r" data-flow="5" style="--c:#4ade80"><span class="fs-n">06</span><b class="fs-t">Информирование пользователей</b><div class="fs-row"><i>инструмент</i>Time · рассылки</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>n8n: агентные ноды на DeepSeek</div></div>
+  <div class="fcol fc9 anchor r" data-flow="6" style="--c:#4ade80"><span class="fs-n">07</span><b class="fs-t">Демо</b><div class="fs-row"><i>инструмент</i>Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
+  <div class="fcol fc9 anchor r" data-flow="7" style="--c:#3b82f6"><span class="fs-n">08</span><b class="fs-t">Анализ используемости</b><div class="fs-row"><i>инструмент</i>метрики использования</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="fcol fc9 anchor r" data-flow="8" style="--c:#f472b6"><span class="fs-n">09</span><b class="fs-t">Сбор ОС</b><div class="fs-row"><i>инструмент</i>встречи · Time</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="anchor loop-lab r" data-anchor="0.75,-4.42,0">анализ и сбор ОС → новый цикл бизнес-анализа</div>
   <div class="envband" data-step="2">
     <span class="eb-k">На любом этапе</span>
     <b>Nessy</b><b>Hermes</b><b>tclaude</b>
     <span class="eb-t">агентские среды: закрывают сколько угодно джоб — всё упирается в доступность MCP и инструментов</span>
   </div>
-  <div class="map-foot r">Этот слайд пришлём — повесьте рядом с рабочим столом</div>
-  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Раскладываем инструменты по флоу работы BI-аналитика: требования → данные → подготовка → дашборд → описание → автоматизация.
-Клик (1) — где инструменты уже AI-изированы: Nessy Data Agent в Helicopter, Proteus AI в дашборде, агентные ноды в n8n. На требованиях и описании — пока руками (к этому вернёмся со скиллами).
+  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Это наш флоу BI — жизнь отчёта: возникновение потребности → бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование пользователей → демо → анализ используемости и сбор ОС → и снова бизнес-анализ.
+Клик (1) — где этапы уже AI-изированы: разработка (Nessy Data Agent в Helicopter), информирование (агентные ноды n8n), демо (Proteus AI отвечает по борду). Остальное пока руками — к этому вернёмся со скиллами.
 Клик (2) — агентские среды Nessy, Hermes и tclaude работают на любом этапе; всё упирается в доступность MCP и инструментов.
 «Этот слайд мы вам пришлём — повесьте рядом с рабочим столом».</aside>
 </section>
 
 <!-- ═══════════════════════════ АКТ II · ИНСТРУМЕНТЫ ПО ФЛОУ ═══════════════════════════ -->
 
-<section class="slide divider" id="dA" data-act="2" data-level="2" data-stages="2,3" data-sec="A" data-short data-title="Раздел A · Helicopter + Nessy">
+<section class="slide divider" id="dA" data-act="2" data-level="2" data-stages="3,4" data-sec="A" data-short data-title="Раздел A · Helicopter + Nessy">
   <div class="div-wrap">
     <div class="div-letter r">A</div>
-    <div class="div-meta r">Флоу · данные и подготовка</div>
+    <div class="div-meta r">Флоу · разработка и тестирование</div>
     <h2 class="div-title r scr">Helicopter + Nessy</h2>
     <p class="div-sub r">Что нового и почему всё упирается в контекст</p>
   </div>
-  <aside class="notes">Разделитель. На флоу горят этапы «Данные» и «Подготовка». Мостик: «Начнём с того, где живут данные».</aside>
+  <aside class="notes">Разделитель. На флоу горят этапы «Разработка» и «Тестирование». Мостик: «Начнём с того, где живут данные».</aside>
 </section>
 
 <section class="slide" id="heli" data-act="2" data-level="2" data-title="Helicopter: что нового">
@@ -923,14 +933,14 @@ Nessy — ассистент: результат проверяет аналит
 → ДЕМО (по желанию, 2 мин). Источник: инструкция «Nessy Data Agent в Helicopter» (wiki 9035808218).</aside>
 </section>
 
-<section class="slide divider" id="dB" data-act="2" data-level="1" data-stages="4" data-sec="B" data-short data-title="Раздел B · Proteus AI">
+<section class="slide divider" id="dB" data-act="2" data-level="1" data-stages="7" data-sec="B" data-short data-title="Раздел B · Proteus AI">
   <div class="div-wrap">
     <div class="div-letter r">B</div>
-    <div class="div-meta r">Флоу · дашборд</div>
+    <div class="div-meta r">Флоу · демо и работа с бордом</div>
     <h2 class="div-title r scr">Proteus AI</h2>
     <p class="div-sub r">Агент, который живёт в дашборде</p>
   </div>
-  <aside class="notes">Разделитель. На флоу горит «Дашборд».</aside>
+  <aside class="notes">Разделитель. На флоу горит «Демо».</aside>
 </section>
 
 <section class="slide" id="proteus" data-act="2" data-level="1" data-short data-title="Proteus AI: что есть и где границы">
@@ -962,7 +972,7 @@ Proteus AI уже есть и может отвечать по борду. Не�
 В работе: интеграция со Skills Market (RFC «Proteus Agent 🤝 Skills Market», PROTEUS-918) — будут понятны правила игры, как устанавливать скиллы на дашборд.</aside>
 </section>
 
-<section class="slide divider" id="dC" data-act="2" data-level="2" data-stages="1,2,3,4,5,6" data-sec="C" data-short data-title="Раздел C · Агентские среды">
+<section class="slide divider" id="dC" data-act="2" data-level="2" data-stages="1,2,3,4,5,6,7,8,9" data-sec="C" data-short data-title="Раздел C · Агентские среды">
   <div class="div-wrap">
     <div class="div-letter r">C</div>
     <div class="div-meta r">Флоу · любой этап</div>
@@ -1030,7 +1040,7 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 Мост: «Nessy — общая среда. А если нужны свои ресурсы — tclaude».</aside>
 </section>
 
-<section class="slide divider" id="dD" data-act="2" data-level="3" data-stages="1,2,3,4,5,6" data-sec="D" data-short data-title="Раздел D · tclaude">
+<section class="slide divider" id="dD" data-act="2" data-level="3" data-stages="1,2,3,4,5,6,7,8,9" data-sec="D" data-short data-title="Раздел D · tclaude">
   <div class="div-wrap">
     <div class="div-letter r">D</div>
     <div class="div-meta r">Флоу · любой этап</div>
@@ -1074,7 +1084,7 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 <section class="slide divider" id="dE" data-act="2" data-level="4" data-stages="6" data-sec="E" data-title="Раздел E · n8n">
   <div class="div-wrap">
     <div class="div-letter r">E</div>
-    <div class="div-meta r">Флоу · автоматизация</div>
+    <div class="div-meta r">Флоу · информирование пользователей</div>
     <h2 class="div-title r scr">n8n</h2>
     <p class="div-sub r">Флоу, которые работают сами</p>
   </div>
@@ -1112,7 +1122,7 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 
 <!-- ═══════════════════════════ АКТ III · НАШИ СКИЛЛЫ ═══════════════════════════ -->
 
-<section class="slide divider" id="dF" data-act="3" data-level="4" data-stages="1,4,5" data-sec="F" data-short data-title="Раздел F · BI-пак">
+<section class="slide divider" id="dF" data-act="3" data-level="4" data-stages="2,3,5" data-sec="F" data-short data-title="Раздел F · BI-пак">
   <div class="div-wrap">
     <div class="div-letter r">F</div>
     <div class="div-meta r">Наши скиллы</div>
@@ -1142,28 +1152,29 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 Пока — приходите в личку. Если заявок станет много — продумаем нормальный процесс. Сложного процесса пока нет, и это нормально.</aside>
 </section>
 
-<section class="slide" id="skillflow" data-act="3" data-level="4" data-short data-builds="1" data-title="Флоу BI-аналитика × наши скиллы">
+<section class="slide" id="skillflow" data-act="3" data-level="4" data-short data-builds="1" data-title="Флоу BI × наши скиллы">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr">Какие этапы флоу <em>уже закрывают наши скиллы</em></h2>
-  <div class="fcol anchor r fc-on" data-pipe="0"><span class="fs-n">01</span><b class="fs-t">Требования</b>
-    <div class="fs-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
-  <div class="fcol anchor r" data-pipe="1"><span class="fs-n">02</span><b class="fs-t">Данные</b><div class="fs-free">здесь может быть ваш скилл</div></div>
-  <div class="fcol anchor r" data-pipe="2"><span class="fs-n">03</span><b class="fs-t">Подготовка</b><div class="fs-free">здесь может быть ваш скилл</div></div>
-  <div class="fcol anchor r fc-on" data-pipe="3"><span class="fs-n">04</span><b class="fs-t">Дашборд</b>
-    <div class="fs-skill"><code>proteus-echarts-builder</code><em>сегодня</em></div></div>
-  <div class="fcol anchor r fc-on" data-pipe="4"><span class="fs-n">05</span><b class="fs-t">Описание</b>
-    <div class="fs-skill"><code>dd-report-skill</code><em>бонус</em></div></div>
-  <div class="fcol anchor r" data-pipe="5"><span class="fs-n">06</span><b class="fs-t">Автоматизация</b><div class="fs-free">здесь может быть ваш скилл</div></div>
-  <div class="handoff" data-step="1">Начнём с требований — <b>передаю слово Степану</b> →</div>
-  <aside class="notes">45 сек. Возвращаемся во флоу BI-аналитика, но теперь смотрим не на инструменты, а на наши скиллы: какие этапы они уже покрывают.
-Сегодня расскажем про три: сбор требований (Степан), proteus-echarts-builder и бонусом — dd-report-skill. Пустые этапы — место для ваших скиллов.
+  <div class="fcol fc9 anchor r" data-flow="0" style="--c:#f472b6"><span class="fs-n">01</span><b class="fs-t">Возникновение потребности</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol fc9 fc-on anchor r fc-ta" data-flow="1" style="--c:#38bdf8"><span class="fs-n">02</span><b class="fs-t">Бизнес-анализ</b><small class="fs-ta">+ целевая аудитория</small><div class="fs-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
+  <div class="fcol fc9 fc-on anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-skill"><code>proteus-echarts-builder</code><em>сегодня</em></div></div>
+  <div class="fcol fc9 anchor r" data-flow="3" style="--c:#38bdf8"><span class="fs-n">04</span><b class="fs-t">Тестирование</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol fc9 fc-on anchor r" data-flow="4" style="--c:#4ade80"><span class="fs-n">05</span><b class="fs-t">Подготовка к релизу</b><div class="fs-skill"><code>dd-report-skill</code><em>бонус</em></div></div>
+  <div class="fcol fc9 anchor r" data-flow="5" style="--c:#4ade80"><span class="fs-n">06</span><b class="fs-t">Информирование пользователей</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol fc9 anchor r" data-flow="6" style="--c:#4ade80"><span class="fs-n">07</span><b class="fs-t">Демо</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol fc9 anchor r" data-flow="7" style="--c:#3b82f6"><span class="fs-n">08</span><b class="fs-t">Анализ используемости</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="fcol fc9 anchor r" data-flow="8" style="--c:#f472b6"><span class="fs-n">09</span><b class="fs-t">Сбор ОС</b><div class="fs-free">здесь может быть ваш скилл</div></div>
+  <div class="anchor loop-lab r" data-anchor="0.75,-4.42,0">анализ и сбор ОС → новый цикл бизнес-анализа</div>
+  <div class="handoff" data-step="1">Начнём с бизнес-анализа — <b>передаю слово Степану</b> →</div>
+  <aside class="notes">45 сек. Возвращаемся во флоу BI, но теперь смотрим не на инструменты, а на наши скиллы: какие этапы они уже покрывают.
+Бизнес-анализ — сбор требований (Степан), разработка — proteus-echarts-builder, подготовка к релизу — бонусом dd-report-skill (описание в Data Detective). Пустые этапы — место для ваших скиллов.
 Клик (1): «Передаю слово Степану».</aside>
 </section>
 
-<section class="slide divider" id="dG" data-act="3" data-level="1" data-stages="1" data-sec="G" data-short data-title="Раздел G · Сбор требований (Степан)">
+<section class="slide divider" id="dG" data-act="3" data-level="1" data-stages="2" data-sec="G" data-short data-title="Раздел G · Сбор требований (Степан)">
   <div class="div-wrap">
     <div class="div-letter r">G</div>
-    <div class="div-meta r">Флоу · требования · говорит <span data-cfg="cospeaker"></span></div>
+    <div class="div-meta r">Флоу · бизнес-анализ · говорит <span data-cfg="cospeaker"></span></div>
     <h2 class="div-title r scr">Сбор требований за 6 шагов</h2>
     <p class="div-sub r">Скилл <code>bi-requirements-gather</code> — одинаковый процесс у всех и проверяемый артефакт на выходе</p>
   </div>
@@ -1334,10 +1345,10 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 Передать слово обратно Роману: proteus-echarts-builder.</aside>
 </section>
 
-<section class="slide divider" id="dH" data-act="3" data-level="4" data-stages="4" data-sec="H" data-short data-title="Раздел H · proteus-echarts-builder">
+<section class="slide divider" id="dH" data-act="3" data-level="4" data-stages="3" data-sec="H" data-short data-title="Раздел H · proteus-echarts-builder">
   <div class="div-wrap">
     <div class="div-letter r">H</div>
-    <div class="div-meta r">Флоу · дашборд</div>
+    <div class="div-meta r">Флоу · разработка</div>
     <h2 class="div-title r scr">proteus-echarts-builder</h2>
     <p class="div-sub r">Любой HTML-макет → интерактивный виджет</p>
   </div>
@@ -1466,7 +1477,7 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
 <!-- HUD -->
 <div class="hud">
   <div class="hud-brand"><b>AI в BI</b><span id="hud-act"></span></div>
-  <div class="hud-flow off" id="hud-flow"><span id="hud-lvl"></span><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="hud-flow off" id="hud-flow"><span id="hud-lvl"></span><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
   <div class="hud-prog"><div id="hud-bar"></div></div>
   <div class="hud-num"><b id="hud-n">01</b> / <span id="hud-total">23</span><span id="hud-build"></span></div>
   <div class="hud-short" id="hud-short">короткая версия · 15 мин</div>
@@ -4521,29 +4532,52 @@ void main(){
   // tag = кольцо + 8 * вид (0 — ось, 1 — кольцо, 2 — ядро)
   const PIPE_X = [-5.5, -3.3, -1.1, 1.1, 3.3, 5.5];
   const PIPE_C = [C.l1, C.blue, C.l2, C.l3, C.coral, C.l4];
-  function pipeBase() {
-    const b = new B();
-    for (let k = 0; k < N * .16; k++) {
-      const x = -6.6 + rn() * 13.2; const i = Math.max(0, PIPE_X.findIndex(p => x < p + 1.1));
-      b.add(x, gauss() * .018, gauss() * .018, PIPE_C[i], i);
+  // флоу BI с доски команды: 9 этапов, цвета как на доске, петля «сбор ОС → бизнес-анализ»
+  const FLOW_X = Array.from({ length: 9 }, (_, i) => -6.04 + i * 1.51);
+  const PINK = hex('#F472B6'), SKY = hex('#38BDF8'), GREEN = hex('#4ADE80'), BLUE = hex('#3B82F6');
+  const FLOW_C = [PINK, SKY, SKY, SKY, GREEN, GREEN, GREEN, BLUE, PINK];
+  const LOOP = { y0: -2.72, y1: -4.1 };
+  // tag = кольцо + 16 * вид (0 — ось, 1 — кольцо, 2 — ядро, 3 — петля)
+  function ringsBase(xs, cs, r0, loop) {
+    const b = new B(), step = xs[1] - xs[0], k = r0 / .5;
+    for (let n = 0; n < N * .16; n++) {
+      const x = xs[0] - step * .5 + rn() * (xs[xs.length - 1] - xs[0] + step);
+      const i = Math.min(xs.length - 1, Math.max(0, Math.round((x - xs[0]) / step)));
+      b.add(x, gauss() * .018, gauss() * .018, cs[i], i);
     }
-    PIPE_X.forEach((x0, i) => {
-      for (let k = 0; k < N * .1; k++) { const a = rn() * TAU, r = .5 + gauss() * .025; b.add(x0 + gauss() * .02, Math.sin(a) * r, Math.cos(a) * r * .9, PIPE_C[i], i + 8); }
-      for (let k = 0; k < N * .025; k++) { const p = ballPt(.16); b.add(x0 + p[0], p[1], p[2], C.white, i + 16); }
+    xs.forEach((x0, i) => {
+      for (let n = 0; n < N * .6 / xs.length; n++) { const a = rn() * TAU, r = r0 + gauss() * .025; b.add(x0 + gauss() * .02, Math.sin(a) * r, Math.cos(a) * r * .9, cs[i], i + 16); }
+      for (let n = 0; n < N * .15 / xs.length; n++) { const p = ballPt(.16 * k); b.add(x0 + p[0], p[1], p[2], C.white, i + 32); }
     });
+    if (loop) {
+      // петля от последнего этапа вниз и обратно ко второму, со стрелкой на конце
+      const xa = xs[xs.length - 1], xb = xs[1], ya = LOOP.y0, ym = LOOP.y1;
+      for (let n = 0; n < N * .1; n++) {
+        const t = rn(), x = xa + (xb - xa) * t, y = ya + (ym - ya) * Math.sin(Math.PI * t);
+        b.add(x + gauss() * .02, y + gauss() * .02, gauss() * .03, mix(PINK, SKY, t), 48);
+      }
+      for (let n = 0; n < N * .012; n++) { const t = rn() * .35, sd = rn() < .5 ? -1 : 1; b.add(xb + sd * t * .7, ya + t, gauss() * .02, SKY, 48); }
+    }
     return b.done({ dim: .2 });
   }
-  function pipeLit(isOn) {
-    return variant(SH.get('pipeBase'), (t, c) => {
-      const i = t % 8, kind = t >> 3, on = isOn(i);
+  const pipeBase = () => ringsBase(PIPE_X, PIPE_C, .5, false);
+  const flowBase = () => ringsBase(FLOW_X, FLOW_C, .42, true);
+  function litVariant(key, isOn) {
+    return variant(SH.get(key), (t, c) => {
+      const i = t % 16, kind = t >> 4, on = isOn(i);
+      if (kind === 3) return mul(c, .75);
       if (kind === 2) return on ? mul(c, 1.2) : [0, 0, 0];
-      if (kind === 1) return on ? mul(c, 1.4) : mix(C.dim, c, .25);
-      return on ? mul(c, .9) : C.dim;
+      if (kind === 1) return on ? mul(c, 1.4) : mul(mix(C.dim, c, .12), .6);
+      return on ? mul(c, .9) : mul(C.dim, .7);
     });
   }
+  const pipeLit = isOn => litVariant('pipeBase', isOn);
+  const toSet = list => new Set(String(list).split(',').filter(x => x !== '').map(Number));
+  // 'flow:all' — все этапы; 'flow:2,5,6' — горят только перечисленные (с нуля)
+  const flowLit = list => { if (list === 'all') return litVariant('flowBase', () => true); const on = toSet(list); return litVariant('flowBase', i => on.has(i)); };
   const pipeline = lit => pipeLit(i => i < lit);
   // горят только перечисленные кольца: 'pset:0,3,4'
-  const pipeSet = list => { const on = new Set(String(list).split(',').filter(x => x !== '').map(Number)); return pipeLit(i => on.has(i)); };
+  const pipeSet = list => { const on = toSet(list); return pipeLit(i => on.has(i)); };
 
   // две агентские среды (Nessy и Hermes) и общие MCP-инструменты между ними
   function duo() {
@@ -4642,7 +4676,7 @@ void main(){
     num: () => text('11 563', { w: 10.2, colors: [C.l4, C.l3, C.l2] }),
     qwen: () => text('Qwen', { w: 6.2, colors: [C.coral, C.no, mul(C.coral, .6)], chaos: .45, depth: .6, frac: .8 }),
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
-    ladderBase, pipeBase, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
+    ladderBase, pipeBase, flowBase, flow: flowLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
     pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
@@ -4653,7 +4687,7 @@ void main(){
       const [name, arg] = key.split(':');
       return (cache[key] = GEN[name](arg));
     },
-    orbitNode, PIPE_X
+    orbitNode, PIPE_X, FLOW_X
   };
 })();
 
@@ -5070,13 +5104,13 @@ const CONFIG = {
 
 /* ───────────── сцены частиц для каждого слайда ───────────── */
 const COLOR_ONLY = { dur: 1.3, turb: .12, sweep: 'x' };
-const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов
+const FLOW_PLACE = { y: 1.55 };            // кольца флоу — над колонками этапов, петля ОС — под ними
 const DIM = (shape, bright = .3, place = {}) => ({ shape, place, bright });
 const SCENES = {
   title: { shape: 'title', place: { y: 1.1, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
   who: { shape: 'bridge', place: { y: .4 } },
   useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  flow: { shape: ['pipe:6', 'pset:1,2,3,5', 'pipe:6'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  flow: { shape: ['flow:all', 'flow:2,5,6', 'flow:all'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
@@ -5085,7 +5119,7 @@ const SCENES = {
   tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
   pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
-  skillflow: { shape: 'pset:0,3,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  skillflow: { shape: 'flow:1,2,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
   'rq-problem': DIM('knot', .28, { y: -.8, s: .9, spin: .08 }),
   'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
   'rq-not': DIM('ring', .3, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
@@ -5116,8 +5150,8 @@ const SCENES = {
   };
   const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Что делать вам' };
   const LCOL = { 1: '#22d3ee', 2: '#a78bfa', 3: '#f472b6', 4: '#fbbf24' };
-  const STAGES = ['Требования', 'Данные', 'Подготовка', 'Дашборд', 'Описание', 'Автоматизация'];
-  const stageLabel = st => st.length === 6 ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
+  const STAGES = ['Потребность', 'Бизнес-анализ', 'Разработка', 'Тестирование', 'Подготовка к релизу', 'Информирование', 'Демо', 'Анализ используемости', 'Сбор ОС'];
+  const stageLabel = st => st.length === STAGES.length ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
   const PRESENTER = location.hash === '#presenter';
 
   /* ───────────── модель колоды ───────────── */
@@ -5137,7 +5171,7 @@ const SCENES = {
     if (s.act === 1 || s.act === 4) { secTitle = ''; secStages = []; }
     if (s.divider) {
       secTitle = s.sec + ' · ' + $('.div-title', s.el).textContent; secStages = parseSt(s.el.dataset.stages);
-      SCENES[s.id] = { shape: 'pset:' + secStages.join(','), place: { x: 3.9, y: -.3, s: .5, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
+      SCENES[s.id] = { shape: 'flow:' + secStages.join(','), place: { x: 3.9, y: .15, s: .48, rx: .3, spin: .3 }, morph: { dur: 2.6 } };
     }
     s.secTitle = secTitle;
     s.stages = s.el.dataset.stages && !s.divider ? parseSt(s.el.dataset.stages) : secStages;
@@ -5172,6 +5206,7 @@ const SCENES = {
         const set = (el, v) => { const [x, y] = PX.toStage(v, place); el.style.left = x + 'px'; el.style.top = y + 'px'; };
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
+        $$('[data-flow]', s.el).forEach(el => { set(el, [SH.FLOW_X[+el.dataset.flow], -.62, 0]); el.style.animationDelay = (.3 + +el.dataset.flow * .1) + 's'; });
         $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });

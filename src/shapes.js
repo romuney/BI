@@ -353,29 +353,52 @@
   // tag = кольцо + 8 * вид (0 — ось, 1 — кольцо, 2 — ядро)
   const PIPE_X = [-5.5, -3.3, -1.1, 1.1, 3.3, 5.5];
   const PIPE_C = [C.l1, C.blue, C.l2, C.l3, C.coral, C.l4];
-  function pipeBase() {
-    const b = new B();
-    for (let k = 0; k < N * .16; k++) {
-      const x = -6.6 + rn() * 13.2; const i = Math.max(0, PIPE_X.findIndex(p => x < p + 1.1));
-      b.add(x, gauss() * .018, gauss() * .018, PIPE_C[i], i);
+  // флоу BI с доски команды: 9 этапов, цвета как на доске, петля «сбор ОС → бизнес-анализ»
+  const FLOW_X = Array.from({ length: 9 }, (_, i) => -6.04 + i * 1.51);
+  const PINK = hex('#F472B6'), SKY = hex('#38BDF8'), GREEN = hex('#4ADE80'), BLUE = hex('#3B82F6');
+  const FLOW_C = [PINK, SKY, SKY, SKY, GREEN, GREEN, GREEN, BLUE, PINK];
+  const LOOP = { y0: -2.72, y1: -4.1 };
+  // tag = кольцо + 16 * вид (0 — ось, 1 — кольцо, 2 — ядро, 3 — петля)
+  function ringsBase(xs, cs, r0, loop) {
+    const b = new B(), step = xs[1] - xs[0], k = r0 / .5;
+    for (let n = 0; n < N * .16; n++) {
+      const x = xs[0] - step * .5 + rn() * (xs[xs.length - 1] - xs[0] + step);
+      const i = Math.min(xs.length - 1, Math.max(0, Math.round((x - xs[0]) / step)));
+      b.add(x, gauss() * .018, gauss() * .018, cs[i], i);
     }
-    PIPE_X.forEach((x0, i) => {
-      for (let k = 0; k < N * .1; k++) { const a = rn() * TAU, r = .5 + gauss() * .025; b.add(x0 + gauss() * .02, Math.sin(a) * r, Math.cos(a) * r * .9, PIPE_C[i], i + 8); }
-      for (let k = 0; k < N * .025; k++) { const p = ballPt(.16); b.add(x0 + p[0], p[1], p[2], C.white, i + 16); }
+    xs.forEach((x0, i) => {
+      for (let n = 0; n < N * .6 / xs.length; n++) { const a = rn() * TAU, r = r0 + gauss() * .025; b.add(x0 + gauss() * .02, Math.sin(a) * r, Math.cos(a) * r * .9, cs[i], i + 16); }
+      for (let n = 0; n < N * .15 / xs.length; n++) { const p = ballPt(.16 * k); b.add(x0 + p[0], p[1], p[2], C.white, i + 32); }
     });
+    if (loop) {
+      // петля от последнего этапа вниз и обратно ко второму, со стрелкой на конце
+      const xa = xs[xs.length - 1], xb = xs[1], ya = LOOP.y0, ym = LOOP.y1;
+      for (let n = 0; n < N * .1; n++) {
+        const t = rn(), x = xa + (xb - xa) * t, y = ya + (ym - ya) * Math.sin(Math.PI * t);
+        b.add(x + gauss() * .02, y + gauss() * .02, gauss() * .03, mix(PINK, SKY, t), 48);
+      }
+      for (let n = 0; n < N * .012; n++) { const t = rn() * .35, sd = rn() < .5 ? -1 : 1; b.add(xb + sd * t * .7, ya + t, gauss() * .02, SKY, 48); }
+    }
     return b.done({ dim: .2 });
   }
-  function pipeLit(isOn) {
-    return variant(SH.get('pipeBase'), (t, c) => {
-      const i = t % 8, kind = t >> 3, on = isOn(i);
+  const pipeBase = () => ringsBase(PIPE_X, PIPE_C, .5, false);
+  const flowBase = () => ringsBase(FLOW_X, FLOW_C, .42, true);
+  function litVariant(key, isOn) {
+    return variant(SH.get(key), (t, c) => {
+      const i = t % 16, kind = t >> 4, on = isOn(i);
+      if (kind === 3) return mul(c, .75);
       if (kind === 2) return on ? mul(c, 1.2) : [0, 0, 0];
-      if (kind === 1) return on ? mul(c, 1.4) : mix(C.dim, c, .25);
-      return on ? mul(c, .9) : C.dim;
+      if (kind === 1) return on ? mul(c, 1.4) : mul(mix(C.dim, c, .12), .6);
+      return on ? mul(c, .9) : mul(C.dim, .7);
     });
   }
+  const pipeLit = isOn => litVariant('pipeBase', isOn);
+  const toSet = list => new Set(String(list).split(',').filter(x => x !== '').map(Number));
+  // 'flow:all' — все этапы; 'flow:2,5,6' — горят только перечисленные (с нуля)
+  const flowLit = list => { if (list === 'all') return litVariant('flowBase', () => true); const on = toSet(list); return litVariant('flowBase', i => on.has(i)); };
   const pipeline = lit => pipeLit(i => i < lit);
   // горят только перечисленные кольца: 'pset:0,3,4'
-  const pipeSet = list => { const on = new Set(String(list).split(',').filter(x => x !== '').map(Number)); return pipeLit(i => on.has(i)); };
+  const pipeSet = list => { const on = toSet(list); return pipeLit(i => on.has(i)); };
 
   // две агентские среды (Nessy и Hermes) и общие MCP-инструменты между ними
   function duo() {
@@ -474,7 +497,7 @@
     num: () => text('11 563', { w: 10.2, colors: [C.l4, C.l3, C.l2] }),
     qwen: () => text('Qwen', { w: 6.2, colors: [C.coral, C.no, mul(C.coral, .6)], chaos: .45, depth: .6, frac: .8 }),
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
-    ladderBase, pipeBase, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
+    ladderBase, pipeBase, flowBase, flow: flowLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
     pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
@@ -485,6 +508,6 @@
       const [name, arg] = key.split(':');
       return (cache[key] = GEN[name](arg));
     },
-    orbitNode, PIPE_X
+    orbitNode, PIPE_X, FLOW_X
   };
 })();
