@@ -338,7 +338,7 @@ const SCENES = {
     if (!window.TERM) return;
     const rq = $('#term-rq'), ech = $('#term-ech');
     if (rq) TERMS['rq-demo'] = TERM.create(rq, RQ.FLOW, { steps: 6, cmd: 'tclaude --skill bi-requirements-gather', qlist: RQ.qlist, tables: RQ.TABLES });
-    if (ech) TERMS['ech-demo'] = TERM.create(ech, ECH.FLOW, { steps: 5, cmd: 'tclaude --skill proteus-echarts-builder', tables: ECH.TABLES });
+    if (ech) TERMS['ech-demo'] = TERM.create(ech, ECH.FLOW, { steps: 5, cmd: 'tclaude', tables: ECH.TABLES });
   }
 
   /* ───────────── QR ───────────── */

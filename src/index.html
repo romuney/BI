@@ -574,8 +574,8 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
   <h2 class="h h-sm r scr" style="max-width:1100px">Любой HTML-макет → <em>интерактивный виджет в Proteus</em></h2>
   <div class="steps3">
     <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>эталон вёрстки — его можно сгенерировать</small></div></div>
-    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>источник данных</small></div></div>
-    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS-виджет</b><small>единственный файл, который пишет скилл</small></div></div>
+    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>собирается из query-логики чарта через MCP</small></div></div>
+    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS-виджет</b><small>единственный файл-результат; что настроить руками — в FIELDS.md</small></div></div>
   </div>
   <blockquote class="q q-sm r" style="max-width:880px">«Через Claude генерим макеты, а потом скиллом в несси конвертим в echarts»<cite>proteus-creators · 31.07 · воркфлоу уже повторяют команды</cite></blockquote>
   <div class="link r">skills-market.t-tech.team/skills/cross/proteus-echarts-builder</div>
@@ -594,10 +594,10 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
     <div class="term-body"></div>
   </div>
   <div class="demo-legend r"><span>иллюстрация сценария — точный вывод скилла может отличаться</span><span class="dl-r">выбор мышью или клавишами</span></div>
-  <aside class="notes">Говорит: Роман. 2 мин. Маршрут: «HTML-макет + SQL» → «Дать формулу» → «Поправить по комментарию».
-Показать две вещи: макет — эталон, скилл его не меняет, пишет только JS; пробел в данных («Конверсия» без поля) скилл не придумывает, а спрашивает.
-Проверки в конце — известные грабли: кавычки в значениях ломают JSON-парсер, большой объём data — агрегировать или кэшировать.
-[СОБРАТЬ] сверить шаги с реальным выводом скилла.</aside>
+  <aside class="notes">Говорит: Роман. 2 мин. Маршрут: «Ссылка на график Proteus» → «Посчитать в JS» → «Поправить по комментарию».
+Показать три вещи: (1) сессией управляют слова-команды — ШАГ 1, ШАГ 2, СБОРКА, СДАЧА — на каждом агент останавливается сам; (2) макет — эталон: скилл его не меняет и пишет только JS, а вся работа пишется в NOTES.md — сессию можно оборвать и продолжить; (3) пробел в данных («Конверсия» без поля в SQL) скилл не придумывает, а спрашивает: посчитать в JS / добавить поле руками / убрать.
+Проверки в конце — настоящие: validate.py смотрит код, smoke.mjs гоняет виджет в headless-браузере (клики, тултипы, вкладки), отчёт SELF_CHECK.md генерируется сам.
+Ручной шаг в конце: JS — в чарт, поля — в «Измерения» по чек-листу FIELDS.md, иначе виджет пустой.</aside>
 </section>
 
 <section class="slide" id="ech-ex" data-act="3" data-level="4" data-title="Примеры: макеты, сделанные этим подходом">
