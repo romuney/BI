@@ -857,6 +857,12 @@ em, .em-no, .div-letter { text-shadow: none !important; }
 /* длинные AI-строки во флоу */
 .fc9 .fs-ai { font-size: 14px; line-height: 1.3; }
 
+/* три агентские среды */
+.env3 { width: 540px; padding: 20px 24px; }
+.env3 .env-h { font-size: 24px; margin-bottom: 10px; }
+.env3 dl { grid-template-columns: 104px 1fr; gap: 8px 12px; font-size: 17px; }
+.env3 dt { font-size: 12px; }
+
 </style>
 </head>
 <body>
@@ -915,7 +921,7 @@ em, .em-no, .div-letter { text-shadow: none !important; }
   <h2 class="h h-sm r scr">Флоу BI: <em>где инструменты и где в них AI</em></h2>
   <div class="fcol fc9 anchor r" data-flow="0" style="--c:#f472b6"><span class="fs-n">01</span><b class="fs-t">Возникновение потребности</b><div class="fs-row"><i>инструмент</i>Time · Jira · T-Tracker</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>MCP Time · Jira · T-Tracker</div></div>
   <div class="fcol fc9 anchor r" data-flow="1" style="--c:#38bdf8"><span class="fs-n">02</span><b class="fs-t">Бизнес-анализ</b><small class="fs-ta">+ целевая аудитория</small><div class="fs-row"><i>инструмент</i>встречи · бриф · Wiki</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>скилл бизнес-анализа · MCP Wiki · MCP Data Detective · AI-макетирование</div></div>
-  <div class="fcol fc9 anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent · tclaude · MCP Proteus</div></div>
+  <div class="fcol fc9 anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent · MCP Proteus</div></div>
   <div class="fcol fc9 anchor r" data-flow="3" style="--c:#38bdf8"><span class="fs-n">04</span><b class="fs-t">Тестирование</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
   <div class="fcol fc9 anchor r" data-flow="4" style="--c:#4ade80"><span class="fs-n">05</span><b class="fs-t">Подготовка к релизу</b><div class="fs-row"><i>инструмент</i>Data Detective · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>MCP Data Detective: описание отчёта</div></div>
   <div class="fcol fc9 anchor r" data-flow="5" style="--c:#4ade80"><span class="fs-n">06</span><b class="fs-t">Информирование пользователей</b><div class="fs-row"><i>инструмент</i>Time · рассылки</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>n8n: агентные ноды · MCP Time</div></div>
@@ -929,7 +935,7 @@ em, .em-no, .div-letter { text-shadow: none !important; }
     <span class="eb-t">агентские среды: закрывают сколько угодно джоб — всё упирается в доступность MCP и инструментов</span>
   </div>
   <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Это наш флоу BI — жизнь отчёта: возникновение потребности → бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование пользователей → демо → анализ используемости и сбор ОС → и снова бизнес-анализ.
-Шаг (1) — где этапы уже AI-изированы: через MCP Time, Jira, T-Tracker, Wiki, Data Detective, Proteus; в бизнес-анализе — наш скилл и AI-макетирование; разработка — Nessy Data Agent и tclaude; информирование — агентные ноды n8n; демо — Proteus AI; сбор ОС — бот транскрибации встреч. Анализ используемости — Proteus Adoption.
+Шаг (1) — где этапы уже AI-изированы: через MCP Time, Jira, T-Tracker, Wiki, Data Detective, Proteus; в бизнес-анализе — наш скилл и AI-макетирование; разработка — Nessy Data Agent; информирование — агентные ноды n8n; демо — Proteus AI; сбор ОС — бот транскрибации встреч. Анализ используемости — Proteus Adoption.
 Шаг (2) — агентские среды Nessy, Hermes и tclaude работают на любом этапе; всё упирается в доступность MCP и инструментов.
 «Этот слайд мы вам пришлём — повесьте рядом с рабочим столом».</aside>
 </section>
@@ -948,19 +954,18 @@ em, .em-no, .div-letter { text-shadow: none !important; }
 
 <section class="slide" id="heli" data-act="2" data-level="2" data-title="Helicopter: что нового">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr" style="max-width:1080px">Helicopter: агент в панели <em>правит и создаёт ноутбуки</em></h2>
+  <h2 class="h h-sm r scr" style="max-width:1080px">Helicopter: Nessy Data Agent <em>правит и создаёт ноутбуки</em></h2>
   <ul class="facts">
     <li class="r"><b>Агентский режим</b> — Nessy Data Agent в правой панели дорабатывает код и пишет новые ноутбуки</li>
     <li class="r"><b>С 18.09 главная — Nessy Data Workspace:</b> несколько ноутбуков и таблиц в одном контексте, панель «Артефакты»</li>
-    <li class="r"><b>Не только Nessy — ещё и tclaude:</b> вызывается так же, как Nessy, только пишем tclaude. Работает через BYOK на модели GLM-5.3</li>
     <li class="r"><b>MCP-тулы Data Detective и Proteus</b> в Nessy (релиз 31.08) · MCP для ноутбуков — план Q4</li>
   </ul>
   <blockquote class="q r" style="max-width:960px">«Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда»<cite>helicopter-users · 10.09 · цель платформы</cite></blockquote>
-  <div class="anchor lab-tag r" data-anchor="2.27,2.05,0">Nessy · tclaude</div>
+  <div class="anchor lab-tag r" data-anchor="2.27,2.05,0">Nessy Data Agent</div>
   <div class="anchor lab-tag lab-tag-dim r" data-anchor="-1.05,2.05,0">ноутбук · код</div>
   <aside class="notes">1 мин. Новости Helicopter: Nessy Data Agent работает в агентском режиме — правит и создаёт ноутбуки; с 18.09 главная — Nessy Data Workspace; в релизе 31.08 в Nessy приехали MCP-тулы Data Detective и Proteus; MCP для ноутбуков — план Q4.
 Цель платформы (helicopter-users, 10.09): «от запроса до создания дашборда».
-В панели можно звать не только Nessy, но и tclaude — так же, как Nessy, только пишем tclaude. Сейчас tclaude там работает через BYOK на GLM-5.3.
+В Helicopter работает только Nessy Data Agent — это своя Nessy платформы, не терминальная Nessy CLI.
 Мост: «Но всё упирается в одно — в контекст».</aside>
 </section>
 
@@ -984,7 +989,7 @@ em, .em-no, .div-letter { text-shadow: none !important; }
       <circle r="6"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite"><mpath href="#cf2"/></animateMotion></circle>
       <circle r="6"><animateMotion dur="2.6s" begin="1.95s" repeatCount="indefinite"><mpath href="#cf3"/></animateMotion></circle>
     </svg>
-    <div class="ctx-agent r"><span class="ctx-pulse"></span><b>Nessy · tclaude</b><small>агентский режим · ноутбуки · SQL</small><em class="ctx-note">результат проверяет аналитик</em></div>
+    <div class="ctx-agent r"><span class="ctx-pulse"></span><b>Nessy Data Agent</b><small>агентский режим · ноутбуки · SQL</small><em class="ctx-note">результат проверяет аналитик</em></div>
   </div>
   <div class="gio" data-step="1">
     <div class="gio-k">Что на входе — то и на выходе</div>
@@ -1042,41 +1047,50 @@ Proteus AI уже есть и может отвечать по борду. Не�
   <div class="div-wrap">
     <div class="div-letter r">C</div>
     <div class="div-meta r">Флоу · любой этап</div>
-    <h2 class="div-title r scr">Nessy + Hermes</h2>
+    <h2 class="div-title r scr">Nessy · Hermes · tclaude</h2>
     <p class="div-sub r">Агентские среды, где закрываются любые джобы</p>
   </div>
   <aside class="notes">Разделитель. На флоу горят все этапы: агентские среды работают везде.</aside>
 </section>
 
-<section class="slide" id="envs" data-act="2" data-level="2" data-short data-title="Nessy и Hermes — агентские среды">
+<section class="slide" id="envs" data-act="2" data-level="2" data-short data-title="Nessy, Hermes, tclaude — агентские среды">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Nessy и Hermes — <em>агентские среды</em></h2>
-  <div class="anchor env-lab r" data-anchor="-3.7,0,0" style="--c:var(--l2)">Nessy</div>
-  <div class="anchor env-lab r" data-anchor="3.7,0,0" style="--c:var(--l1)">Hermes</div>
-  <div class="env card r anchor" data-anchor="-3.7,-1.45,0" style="--c:var(--l2)">
-    <div class="env-h">Nessy <small>CLI · Data Agent · Cloud</small></div>
+  <h2 class="h h-sm r scr">Nessy, Hermes, tclaude — <em>три агентские среды</em></h2>
+  <div class="anchor env-lab r" data-anchor="-4.6,0,0" style="--c:var(--l2)">Nessy</div>
+  <div class="anchor env-lab r" data-anchor="0,0,0" style="--c:var(--l1)">Hermes</div>
+  <div class="anchor env-lab r" data-anchor="4.6,0,0" style="--c:var(--l3)">tclaude</div>
+  <div class="env env3 card r anchor" data-anchor="-4.6,-1.55,0" style="--c:var(--l2)">
+    <div class="env-h">Nessy <small>CLI · Cloud</small></div>
     <dl>
-      <dt>Где живёт</dt><dd>CLI — на рабочей станции; Data Agent — в Helicopter</dd>
-      <dt>Порог</dt><dd>установить CLI или открыть Helicopter</dd>
+      <dt>Где живёт</dt><dd>терминал на рабочей станции</dd>
+      <dt>Порог</dt><dd>установить CLI</dd>
       <dt>Файлы</dt><dd>✅ локальные файлы на ноуте</dd>
       <dt>Модель</dt><dd>DeepSeek V4 Flash</dd>
     </dl>
   </div>
-  <div class="env card r anchor" data-anchor="3.7,-1.45,0" style="--c:var(--l1)">
-    <div class="env-h">Hermes <small>Personal Agent · ML Core</small></div>
+  <div class="env env3 card r anchor" data-anchor="0,-1.55,0" style="--c:var(--l1)">
+    <div class="env-h">Hermes <small>Personal Agent</small></div>
     <dl>
       <dt>Где живёт</dt><dd>облако, чат в браузере — без терминала</dd>
       <dt>Порог</dt><dd>открыть ссылку</dd>
-      <dt>Файлы</dt><dd>❌ нет доступа к ноуту · сессия ~10 часов</dd>
-      <dt>Скиллы</dt><dd>из Skills Market, профили под задачи, создание прямо в UI</dd>
+      <dt>Файлы</dt><dd>❌ нет доступа к ноуту · сессия ~10 ч</dd>
+      <dt>Скиллы</dt><dd>из Skills Market, профили под задачи</dd>
+    </dl>
+  </div>
+  <div class="env env3 card r anchor" data-anchor="4.6,-1.55,0" style="--c:var(--l3)">
+    <div class="env-h">tclaude <small>T-Claude Code</small></div>
+    <dl>
+      <dt>Где живёт</dt><dd>терминал — вызывается как Nessy, только пишем tclaude</dd>
+      <dt>Порог</dt><dd>место в ai-seats или своя подписка</dd>
+      <dt>Файлы</dt><dd>✅ локальные файлы на ноуте</dd>
+      <dt>Модель</dt><dd>Claude · через BYOK — GLM-5.3</dd>
     </dl>
   </div>
   <div class="env-thesis r">Работаем с моделями в агентском режиме и закрываем сколько угодно джоб — <b>всё упирается в доступность MCP и инструментов</b></div>
-  <aside class="notes">1,5 мин. Nessy и Hermes — это наши две «песочницы», агентские среды: там, где мы работаем с моделями в агентском режиме и можем закрывать неограниченное количество джоб. Всё упирается в доступность MCP, ручек и инструментов.
-Nessy — семейство: CLI на рабочей станции (форк qwen-code, модель DeepSeek V4 Flash), Data Agent в Helicopter, Nessy Cloud. Есть доступ к локальным файлам.
-Hermes (Personal Agent, продукт ML Core): облачный агент, чат прямо в браузере — personal-agent.t-tech.team/hermes. Нулевой порог входа, не нужен терминал. Сессия живёт ~10 часов, нет доступа к локальным файлам. Скиллы: из Skills Market (dp skills install &lt;name&gt; --agent hermes), через git clone самим агентом или прямо в UI. Есть профили — наборы скиллов под разные задачи, в том числе data-agent.
-[УТОЧНИТЬ] Стёпа: у Hermes есть доступ к DWH — проверить в канале personal-agent-users / итогах.
-Как люди выбирают: одну и ту же задачу решают и в Hermes, и в Nessy — это соседние среды, разный рантайм.</aside>
+  <aside class="notes">1,5 мин. Три агентские среды — там, где мы работаем с моделями в агентском режиме и можем закрывать неограниченное количество джоб. Всё упирается в доступность MCP, ручек и инструментов.
+Nessy — терминальная Nessy CLI на рабочей станции, модель DeepSeek V4 Flash, есть доступ к локальным файлам. (Nessy Data Agent в Helicopter — отдельная история платформы, про неё было раньше.)
+Hermes (Personal Agent, ML Core): облачный агент, чат прямо в браузере — personal-agent.t-tech.team/hermes. Нулевой порог, не нужен терминал. Сессия ~10 часов, нет доступа к локальным файлам. Скиллы из Skills Market, профили под задачи.
+tclaude: вызывается так же, как Nessy, только пишем tclaude. Модель — Claude по месту в ai-seats; через BYOK работает на GLM-5.3.</aside>
 </section>
 
 <section class="slide" id="nessy" data-act="2" data-level="2" data-builds="2" data-title="Qwen ушёл → DeepSeek V4 Flash">
@@ -1138,7 +1152,8 @@ Hermes (Personal Agent, продукт ML Core): облачный агент, ч
       <small class="illu">иллюстрация сценария</small>
     </div>
     <ul class="facts facts-sm">
-      <li class="r"><b>Доступы уже есть:</b> место в ai-seats — или своя подписка через BYOK</li>
+      <li class="r"><b>Доступы уже есть:</b> место в ai-seats — или своя подписка через BYOK, она работает на GLM-5.3</li>
+      <li class="r"><b>Вызывается как Nessy</b> — в терминале, только пишем tclaude</li>
       <li class="r"><b>Основные MCP уже подключены:</b> Proteus, Jira, GitLab, Sage, Wiki, T-Tracker</li>
     </ul>
   </div>
@@ -4518,7 +4533,7 @@ void main(){
 
   // три модели
   function trio() {
-    const b = new B(), xs = [-4.6, 0, 4.6], cs = [C.coral, C.blue, C.l1], rr = [.72, .72, .66];
+    const b = new B(), xs = [-4.6, 0, 4.6], cs = [C.l2, C.l1, C.l3], rr = [.66, .66, .66];
     xs.forEach((x0, i) => {
       for (let k = 0; k < N * .18; k++) {
         const p = spherePt(rr[i]); const band = Math.sin(p[1] * 14 + i) * .5 + .5;
@@ -5168,7 +5183,7 @@ const SCENES = {
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
-  envs: { shape: 'duo', place: { y: 1.25, s: .75 } },
+  envs: { shape: 'trio', place: { y: 1.35 } },
   nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
   tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),

@@ -297,7 +297,7 @@
 
   // три модели
   function trio() {
-    const b = new B(), xs = [-4.6, 0, 4.6], cs = [C.coral, C.blue, C.l1], rr = [.72, .72, .66];
+    const b = new B(), xs = [-4.6, 0, 4.6], cs = [C.l2, C.l1, C.l3], rr = [.66, .66, .66];
     xs.forEach((x0, i) => {
       for (let k = 0; k < N * .18; k++) {
         const p = spherePt(rr[i]); const band = Math.sin(p[1] * 14 + i) * .5 + .5;

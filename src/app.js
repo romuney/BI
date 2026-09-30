@@ -34,7 +34,7 @@ const SCENES = {
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
-  envs: { shape: 'duo', place: { y: 1.25, s: .75 } },
+  envs: { shape: 'trio', place: { y: 1.35 } },
   nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
   tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
