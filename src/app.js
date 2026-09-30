@@ -54,9 +54,8 @@ const SCENES = {
   'ech-demo': DIM('widget', .2, { x: 5.6, y: -1.8, s: .6, rx: .35, ry: -.6, sway: .1 }),
   'ech-ex': DIM('wave', .3, { y: -3.4, rx: .42 }),
   dd: DIM('db', .5, { x: 4.6, y: -2.1, s: .6, rx: .35, spin: .2 }),
-  todo: DIM('ring', .25, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
   horizon: { shape: 'horizon', place: {}, morph: { dur: 3, sweep: 'y' } },
-  final: { shape: 'final', place: { y: 1.75, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
+  final: { shape: 'final', place: { y: 1.3, sway: .1 }, morph: { dur: 3.2, sweep: 'r', turb: 1.3 } }
 };
 
 (function () {
@@ -68,7 +67,7 @@ const SCENES = {
     get(k) { try { return localStorage.getItem('aibi.' + k); } catch (e) { return null; } },
     set(k, v) { try { localStorage.setItem('aibi.' + k, v); } catch (e) { /* ignore */ } }
   };
-  const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Что делать вам' };
+  const ACTS = { 1: 'Акт I · Что изменилось', 2: 'Акт II · Инструменты по флоу', 3: 'Акт III · Наши скиллы', 4: 'Акт IV · Горизонт' };
   const LCOL = { 1: '#22d3ee', 2: '#a78bfa', 3: '#f472b6', 4: '#fbbf24' };
   const STAGES = ['Потребность', 'Бизнес-анализ', 'Разработка', 'Тестирование', 'Подготовка к релизу', 'Информирование', 'Демо', 'Анализ используемости', 'Сбор ОС'];
   const stageLabel = st => st.length === STAGES.length ? 'весь флоу' : st.map(i => STAGES[i]).join(' · ');
@@ -135,6 +134,14 @@ const SCENES = {
   }
 
   /* ───────────── навигация ───────────── */
+  /* шаги слайда показываются сами каждые AUTO_MS; клик ускоряет. Шаг назад выключает автопоказ до смены слайда */
+  const AUTO_MS = 5000;
+  let autoT = 0, autoOff = false;
+  function scheduleAuto() {
+    clearTimeout(autoT);
+    const s = order[cur];
+    if (!autoOff && s && build < s.builds) autoT = setTimeout(() => { if (!document.querySelector('#overview:not([hidden])')) go(cur, build + 1); }, AUTO_MS);
+  }
   function go(i, b = 0, opts = {}) {
     i = Math.max(0, Math.min(order.length - 1, i));
     const s = order[i], prev = order[cur];
@@ -149,12 +156,12 @@ const SCENES = {
       }
       s.el.classList.toggle('fast', !!opts.fast);
       s.el.classList.add('active');
-      cur = i;
+      cur = i; autoOff = false;
       onEnter(s);
     }
     build = Math.max(0, Math.min(s.builds, b));
     applyBuild(s, changed);
-    hud(); sync();
+    hud(); sync(); scheduleAuto();
     try { history.replaceState(null, '', '#/' + s.id + (build ? '/' + build : '')); } catch (e) { /* file:// */ }
   }
   function next() {
@@ -162,7 +169,7 @@ const SCENES = {
     if (build < s.builds) go(cur, build + 1); else if (cur < order.length - 1) go(cur + 1, 0);
   }
   function prev() {
-    if (build > 0) go(cur, build - 1); else if (cur > 0) go(cur - 1, order[cur - 1].builds, { fast: true });
+    if (build > 0) { autoOff = true; go(cur, build - 1); } else if (cur > 0) go(cur - 1, order[cur - 1].builds, { fast: true });
   }
   const gotoId = (id, b = 0) => { let i = order.findIndex(s => s.id === id); if (i < 0) { short = false; store.set('short', '0'); rebuildOrder(); i = order.findIndex(s => s.id === id); } go(i, b); };
 

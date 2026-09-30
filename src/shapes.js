@@ -357,7 +357,7 @@
   const FLOW_X = Array.from({ length: 9 }, (_, i) => -6.04 + i * 1.51);
   const PINK = hex('#F472B6'), SKY = hex('#38BDF8'), GREEN = hex('#4ADE80'), BLUE = hex('#3B82F6');
   const FLOW_C = [PINK, SKY, SKY, SKY, GREEN, GREEN, GREEN, BLUE, PINK];
-  const LOOP = { y0: -2.72, y1: -4.1 };
+  const LOOP = { y0: -3.0, y1: -4.2 };
   // tag = кольцо + 16 * вид (0 — ось, 1 — кольцо, 2 — ядро, 3 — петля)
   function ringsBase(xs, cs, r0, loop) {
     const b = new B(), step = xs[1] - xs[0], k = r0 / .5;
