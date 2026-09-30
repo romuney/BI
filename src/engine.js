@@ -84,7 +84,7 @@ void main(){
   vec4 v = uV*w;
   gl_Position = uP*v;
   float sz = uSize*(.5+aRnd.z)*(1.+bump*.7)*(1.+lf*1.7+band*.25);
-  gl_PointSize = clamp(sz*uScale/(-v.z), 1., 64.);
+  gl_PointSize = clamp(sz*uScale/(-v.z), 1.5, 48.);
   float tw = .86+.14*sin(uTime*(1.1+aRnd.y*1.6)+aRnd.x*50.);
   vC = mix(aCF, aCT, e)*(1.+bump*.9+m*1.6+lf*1.4+band*.45);
   vA = uBright*tw;
@@ -95,7 +95,11 @@ in vec3 vC; in float vA; out vec4 o;
 void main(){
   vec2 c = gl_PointCoord*2.-1.; float r = dot(c,c);
   if (r > 1.) discard;
-  float a = (exp(-r*5.)*.92 + (1.-r)*.08)*vA;
+  // чёткое ядро с тонким краем + лёгкий ореол (раньше было сплошное гауссово пятно)
+  float d = sqrt(r);
+  float core = 1. - smoothstep(.34, .5, d);
+  float halo = exp(-r*9.)*.35;
+  float a = (core + halo)*vA;
   o = vec4(vC*a, a);
 }`;
 
@@ -186,7 +190,7 @@ void main(){
 
   function resize() {
     if (!canvas) return;
-    dpr = Math.min(devicePixelRatio || 1, lite ? 1 : 1.5);
+    dpr = Math.min(devicePixelRatio || 1, lite ? 1 : 2);
     W = innerWidth; H = innerHeight;
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     const ar = W / H;
@@ -321,7 +325,7 @@ void main(){
       rx: cur.rx + Math.sin(time * .27) * sway * .5, ry: cur.ry + Math.sin(time * .35) * sway });
     gl.uniformMatrix4fv(U.uM, false, m);
     gl.uniform1f(U.uT, T); gl.uniform1f(U.uTurb, turb); gl.uniform1f(U.uKick, kickV);
-    gl.uniform1f(U.uSize, .052); gl.uniform1f(U.uBright, brightCur);
+    gl.uniform1f(U.uSize, .046); gl.uniform1f(U.uBright, brightCur * .82);
     gl.uniform3f(U.uMouse, mouse.x, mouse.y, mouse.str);
     updateLens(m, dt);
     gl.uniform4f(U.uLens, lens.x, lens.y, 1.05, lens.str);
