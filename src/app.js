@@ -6,7 +6,7 @@
 const CONFIG = {
   speaker: 'Роман Казанцев',
   cospeaker: 'Степан Гришков',
-  role: 'Стрим «AI в BI»',
+  role: 'CrossData · стрим «AI в BI»',
   date: 'дата митапа',                    // [СОБРАТЬ]
   contact: 'ник в Time',                  // [СОБРАТЬ]
   durationMin: 30,                        // хронометраж для таймера пульта (короткая версия — 15)
