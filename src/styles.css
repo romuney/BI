@@ -845,3 +845,45 @@ em, .em-no, .div-letter { text-shadow: none !important; }
 .env3 .env-h { font-size: 24px; margin-bottom: 10px; }
 .env3 dl { grid-template-columns: 104px 1fr; gap: 8px 12px; font-size: 17px; }
 .env3 dt { font-size: 12px; }
+
+/* ---------- круговой флоу BI ---------- */
+.h-xs { font-size: 46px; }
+.cyc { width: 330px; translate: -50% -50%; padding: 13px 18px 15px; border-radius: 20px; background: var(--plate); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); box-shadow: 0 0 40px -16px var(--c), 0 20px 50px -24px rgba(0, 0, 0, .9); display: flex; flex-direction: column; gap: 7px; text-align: left; }
+.cy-h { display: flex; align-items: baseline; gap: 10px; }
+.cy-n { font: 700 15px var(--fm); color: var(--c); letter-spacing: .1em; }
+.cy-h b { font: 600 23px/1.15 var(--fd); }
+.cy-ta { font: 600 12px var(--fm); letter-spacing: .08em; text-transform: uppercase; color: #c084fc; margin-top: -4px; }
+.cy-tool { font-size: 18px; color: var(--mute); }
+.cy-ai { font-size: 18px; line-height: 1.3; padding: 7px 11px; border-radius: 12px; background: color-mix(in srgb, var(--l2) 20%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l2) 50%, transparent); }
+.cy-ai i { font: 700 12px var(--fm); font-style: normal; letter-spacing: .14em; color: var(--l2); margin-right: 8px; }
+.cy-ai.cy-none { background: var(--plate); border-style: dashed; border-color: rgba(255, 255, 255, .16); color: var(--dim); }
+.cy-ai.cy-none i { color: var(--dim); }
+.cy-skill { padding: 9px 11px; border-radius: 12px; background: color-mix(in srgb, var(--l4) 16%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l4) 60%, transparent); display: flex; flex-direction: column; gap: 4px; }
+.cy-skill code { font-size: 17px; color: var(--ink); }
+.cy-skill em { font: 700 12px var(--fm); text-transform: uppercase; letter-spacing: .14em; color: var(--l4); background: none; -webkit-text-fill-color: currentColor; }
+.cy-on { border-color: color-mix(in srgb, var(--l4) 70%, transparent); box-shadow: 0 0 46px -12px var(--l4); }
+.cy-on .cy-h b { color: var(--l4); }
+.cy-free { padding: 9px 11px; border-radius: 12px; border: 1.5px dashed rgba(255, 255, 255, .14); color: var(--dim); font-size: 16px; }
+.cyc-loop { translate: -50% -50%; font: 600 14px var(--fm); letter-spacing: .1em; color: var(--mute); white-space: nowrap; padding: 4px 10px; border-radius: 10px; background: var(--plate); }
+.hub-k { translate: -50% -50%; font: 700 15px var(--fm); letter-spacing: .16em; text-transform: uppercase; color: var(--l4); white-space: nowrap; padding: 5px 14px; border-radius: 10px; background: var(--plate); }
+.hub-n { translate: -50% 0; font: 700 22px var(--fd); padding: 5px 16px; border-radius: 12px; background: var(--plate); border: 1px solid color-mix(in srgb, var(--c) 60%, transparent); color: var(--c); }
+.hub-t { translate: -50% 0; width: 600px; text-align: center; font-size: 19px; line-height: 1.35; color: var(--ink2); padding: 8px 14px; border-radius: 14px; background: var(--plate); }
+.hub-t b { color: var(--l4); }
+.hub-big { translate: -50% -50%; font: 700 30px var(--fd); white-space: nowrap; padding: 8px 20px; border-radius: 14px; background: var(--plate); }
+.hub-hand { font-size: 24px; width: 640px; }
+.hub-hand b { color: var(--l1); }
+
+/* ---------- что вас ждёт ---------- */
+.ag2 { position: absolute; left: 300px; right: 300px; top: 560px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.ag { padding: 26px 30px; background: var(--plate); border-color: color-mix(in srgb, var(--c) 50%, transparent); box-shadow: 0 0 60px -24px var(--c); }
+.ag-h { display: flex; align-items: baseline; gap: 14px; }
+.ag-h .num { background: var(--c); color: #0b0c1a; }
+.ag-h b { font: 700 32px var(--fd); }
+.ag p { font-size: 21px; line-height: 1.4; color: var(--ink2); margin: 10px 0 12px; }
+.ag ul { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 20px; }
+.ag li::before { content: '›'; color: var(--c); margin-right: 10px; font-weight: 700; }
+.ag li em { color: var(--c); font-style: normal; background: none; -webkit-text-fill-color: currentColor; }
+.ag-foot { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font: 500 22px var(--fm); letter-spacing: .06em; color: var(--mute); }
+.ag-foot span { color: var(--l4); font-weight: 700; margin-right: 10px; }
+.pk-now { width: 500px; display: flex; flex-direction: column; gap: 10px; padding: 24px 28px; border-radius: 22px; background: color-mix(in srgb, var(--l4) 12%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l4) 50%, transparent); }
+.pk-now code { font-size: 22px; color: var(--ink); }

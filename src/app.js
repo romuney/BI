@@ -30,16 +30,15 @@ const SCENES = {
   title: { shape: 'title', place: { y: .25, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
   who: { shape: 'bridge', place: { y: .4 } },
   useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  flow: { shape: ['flow:all', 'flow:2,5,6', 'flow:all'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  agenda: { shape: 'duo', place: { y: 1.25, s: .7 } },
+  flow: { shape: ['cycle:all', 'cycle:all', 'cycle:all+hub'], morph: [{ dur: 3, sweep: 'r', sweepAmt: .9 }, COLOR_ONLY] },
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
   envs: { shape: 'trio', place: { y: 1.35 } },
-  nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
-  tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
   pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
-  skillflow: { shape: 'flow:1,2,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  skillflow: { shape: 'cycle:1,2,4', morph: { dur: 3, sweep: 'r' } },
   'rq-problem': DIM('knot', .2, { x: 5.6, y: 2.3, s: .42, spin: .08 }),
   'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
   'rq-not': DIM('ring', .2, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
@@ -127,6 +126,8 @@ const SCENES = {
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
         $$('[data-flow]', s.el).forEach(el => { set(el, [SH.FLOW_X[+el.dataset.flow], -.62, 0]); el.style.animationDelay = (.3 + +el.dataset.flow * .1) + 's'; });
+        $$('[data-cyc]', s.el).forEach(el => { set(el, SH.CYC[+el.dataset.cyc]); el.style.animationDelay = (.3 + +el.dataset.cyc * .1) + 's'; });
+        $$('[data-hub]', s.el).forEach(el => set(el, SH.CYC_HUB[+el.dataset.hub]));
         $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });

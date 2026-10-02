@@ -863,6 +863,48 @@ em, .em-no, .div-letter { text-shadow: none !important; }
 .env3 dl { grid-template-columns: 104px 1fr; gap: 8px 12px; font-size: 17px; }
 .env3 dt { font-size: 12px; }
 
+/* ---------- круговой флоу BI ---------- */
+.h-xs { font-size: 46px; }
+.cyc { width: 330px; translate: -50% -50%; padding: 13px 18px 15px; border-radius: 20px; background: var(--plate); border: 1px solid color-mix(in srgb, var(--c) 55%, transparent); box-shadow: 0 0 40px -16px var(--c), 0 20px 50px -24px rgba(0, 0, 0, .9); display: flex; flex-direction: column; gap: 7px; text-align: left; }
+.cy-h { display: flex; align-items: baseline; gap: 10px; }
+.cy-n { font: 700 15px var(--fm); color: var(--c); letter-spacing: .1em; }
+.cy-h b { font: 600 23px/1.15 var(--fd); }
+.cy-ta { font: 600 12px var(--fm); letter-spacing: .08em; text-transform: uppercase; color: #c084fc; margin-top: -4px; }
+.cy-tool { font-size: 18px; color: var(--mute); }
+.cy-ai { font-size: 18px; line-height: 1.3; padding: 7px 11px; border-radius: 12px; background: color-mix(in srgb, var(--l2) 20%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l2) 50%, transparent); }
+.cy-ai i { font: 700 12px var(--fm); font-style: normal; letter-spacing: .14em; color: var(--l2); margin-right: 8px; }
+.cy-ai.cy-none { background: var(--plate); border-style: dashed; border-color: rgba(255, 255, 255, .16); color: var(--dim); }
+.cy-ai.cy-none i { color: var(--dim); }
+.cy-skill { padding: 9px 11px; border-radius: 12px; background: color-mix(in srgb, var(--l4) 16%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l4) 60%, transparent); display: flex; flex-direction: column; gap: 4px; }
+.cy-skill code { font-size: 17px; color: var(--ink); }
+.cy-skill em { font: 700 12px var(--fm); text-transform: uppercase; letter-spacing: .14em; color: var(--l4); background: none; -webkit-text-fill-color: currentColor; }
+.cy-on { border-color: color-mix(in srgb, var(--l4) 70%, transparent); box-shadow: 0 0 46px -12px var(--l4); }
+.cy-on .cy-h b { color: var(--l4); }
+.cy-free { padding: 9px 11px; border-radius: 12px; border: 1.5px dashed rgba(255, 255, 255, .14); color: var(--dim); font-size: 16px; }
+.cyc-loop { translate: -50% -50%; font: 600 14px var(--fm); letter-spacing: .1em; color: var(--mute); white-space: nowrap; padding: 4px 10px; border-radius: 10px; background: var(--plate); }
+.hub-k { translate: -50% -50%; font: 700 15px var(--fm); letter-spacing: .16em; text-transform: uppercase; color: var(--l4); white-space: nowrap; padding: 5px 14px; border-radius: 10px; background: var(--plate); }
+.hub-n { translate: -50% 0; font: 700 22px var(--fd); padding: 5px 16px; border-radius: 12px; background: var(--plate); border: 1px solid color-mix(in srgb, var(--c) 60%, transparent); color: var(--c); }
+.hub-t { translate: -50% 0; width: 600px; text-align: center; font-size: 19px; line-height: 1.35; color: var(--ink2); padding: 8px 14px; border-radius: 14px; background: var(--plate); }
+.hub-t b { color: var(--l4); }
+.hub-big { translate: -50% -50%; font: 700 30px var(--fd); white-space: nowrap; padding: 8px 20px; border-radius: 14px; background: var(--plate); }
+.hub-hand { font-size: 24px; width: 640px; }
+.hub-hand b { color: var(--l1); }
+
+/* ---------- что вас ждёт ---------- */
+.ag2 { position: absolute; left: 300px; right: 300px; top: 560px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.ag { padding: 26px 30px; background: var(--plate); border-color: color-mix(in srgb, var(--c) 50%, transparent); box-shadow: 0 0 60px -24px var(--c); }
+.ag-h { display: flex; align-items: baseline; gap: 14px; }
+.ag-h .num { background: var(--c); color: #0b0c1a; }
+.ag-h b { font: 700 32px var(--fd); }
+.ag p { font-size: 21px; line-height: 1.4; color: var(--ink2); margin: 10px 0 12px; }
+.ag ul { list-style: none; display: flex; flex-direction: column; gap: 6px; font-size: 20px; }
+.ag li::before { content: '›'; color: var(--c); margin-right: 10px; font-weight: 700; }
+.ag li em { color: var(--c); font-style: normal; background: none; -webkit-text-fill-color: currentColor; }
+.ag-foot { position: absolute; left: 0; right: 0; bottom: 70px; text-align: center; font: 500 22px var(--fm); letter-spacing: .06em; color: var(--mute); }
+.ag-foot span { color: var(--l4); font-weight: 700; margin-right: 10px; }
+.pk-now { width: 500px; display: flex; flex-direction: column; gap: 10px; padding: 24px 28px; border-radius: 22px; background: color-mix(in srgb, var(--l4) 12%, var(--plate)); border: 1px solid color-mix(in srgb, var(--l4) 50%, transparent); }
+.pk-now code { font-size: 22px; color: var(--ink); }
+
 </style>
 </head>
 <body>
@@ -892,52 +934,75 @@ em, .em-no, .div-letter { text-shadow: none !important; }
 
 <section class="slide" id="who" data-act="1" data-kicker="Кто мы" data-title="Кто мы: стрим «AI в BI»">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Стрим <em>«AI в BI»</em> — инициативная группа AI-амбассадоров BI</h2>
+  <h2 class="h h-sm r scr">Стрим <em>«AI в BI»</em> — AI-евангелисты, которые используют AI в BI-задачах каждый день</h2>
   <div class="anchor r lab" data-anchor="-4.6,-1.05,0"><b>Команды<br>платформ данных</b></div>
   <div class="anchor r lab lab-main" data-anchor="0,-1.2,0"><b>Стрим «AI в BI»</b><small>собираемся · генерим идеи</small></div>
   <div class="anchor r lab" data-anchor="4.6,-1.05,0"><b>BI-аналитики<br>и владельцы бордов</b><small>бенефициары</small></div>
   <div class="triad">
-    <div class="card r tilt"><span class="num">01</span><p>Работаем с командами платформ</p></div>
-    <div class="card r tilt"><span class="num">02</span><p>Участвуем в проработке фич</p></div>
+    <div class="card r tilt"><span class="num">01</span><p>Приносим платформе данных кейсы, которые <em>уже взлетели</em> в командах</p></div>
+    <div class="card r tilt"><span class="num">02</span><p>Масштабируем их вместе с командами платформ</p></div>
     <div class="card r tilt"><span class="num">03</span><p>Собираемся, генерируем идеи, <em>правим скиллы</em></p></div>
   </div>
-  <aside class="notes">30 сек. Мы — стрим «AI в BI», инициативная группа AI-амбассадоров внутри BI. Работаем с командами платформ, участвуем в проработке фич. Собираемся, генерируем идеи, правим скиллы. Конкретные команды не называем.
-Бенефициары — вы: BI-аналитики и владельцы бордов. Это не история одного человека.</aside>
+  <aside class="notes">45 сек. Стрим «AI в BI» молодой: в основном AI-евангелисты, которые используют AI не по праздникам, а в рабочих задачах.
+Стрим долго формировался: начинали с командой Copilot по вертикальным решениям для профессии, пробовали централизованные подходы. Лучше всего сработало — работать с дата-платформой и приносить ей кейсы, которые уже взлетели внутри команд, чтобы масштабировать.
+Пример: MCP Proteus вырос из библиотеки команды Шопинга — теперь это часть MCP Proteus, который развивает команда Proteus. Спасибо им!
+Бенефициары — BI-аналитики и владельцы бордов.</aside>
+</section>
+
+<section class="slide" id="agenda" data-act="1" data-short data-kicker="Что вас ждёт" data-title="Что вас ждёт">
+  <div class="kicker r" data-auto></div>
+  <h2 class="h h-sm r scr">Что вас <em>ждёт</em></h2>
+  <div class="ag2">
+    <div class="ag card r" style="--c:var(--l2)">
+      <div class="ag-h"><span class="num">01</span><b>Инфраструктура банка</b></div>
+      <p>AI-инструменты, которые уже есть в банке и которыми могут пользоваться BI-аналитики</p>
+      <ul><li>агенты внутри платформ: Helicopter, Proteus AI</li><li>корпоративные MCP</li><li>агентские среды: Nessy, Hermes, tclaude</li><li>автоматизации в n8n</li></ul>
+    </div>
+    <div class="ag card r" style="--c:var(--l1)">
+      <div class="ag-h"><span class="num">02</span><b>BI-пак</b></div>
+      <p>Скиллы конкретно для BI-профессии в Skills Market</p>
+      <ul><li>сбор требований — <em>Степан</em></li><li>HTML-макет → ECharts — <em>Роман</em></li><li>описание отчёта в DD — <em>бонус</em></li></ul>
+    </div>
+  </div>
+  <div class="ag-foot r"><span>03</span> и в конце — горизонт: чего ждём дальше</div>
+  <aside class="notes">20 сек. План: сначала — инфраструктура, то есть AI-инструменты, которые уже есть в банке и доступны BI-аналитикам. Потом — BI-пак: скиллы конкретно для нашей профессии. В конце — что ждём дальше.</aside>
 </section>
 
 <section class="slide" id="useful" data-act="1" data-short data-title="Агенты стали полезнее">
   <div class="kicker r" data-auto></div>
   <h2 class="h r scr">Агенты стали полезнее —<br><em>ими уже закрывают реальные джобы</em></h2>
-  <div class="ms r anchor" data-anchor="-4.8,-.95,0" style="--c:var(--l2)"><span class="ms-k">Nessy</span><b>Qwen ушёл → DeepSeek&nbsp;V4&nbsp;Flash</b><small>новая основная модель Nessy · 31.08</small></div>
-  <div class="ms r anchor" data-anchor="-1.6,-.95,0" style="--c:var(--l3)"><span class="ms-k">BYOK</span><b>Своя подписка в tclaude</b><small>GLM-5.3 · согласовано ИБ</small></div>
-  <div class="ms r anchor" data-anchor="1.6,-.95,0" style="--c:var(--l4)"><span class="ms-k">Skills Market</span><b>Скиллы в одном каталоге</b><small>готовые инструкции для агентов</small></div>
-  <div class="ms r anchor" data-anchor="4.8,-.95,0" style="--c:var(--l1)"><span class="ms-k">MCP</span><b>Корпоративные MCP</b><small>агенты ходят в Proteus, Jira, GitLab, Wiki</small></div>
-  <aside class="notes">1 мин. Не «год назад было так», а просто: агенты стали полезнее — ими уже можно реально закрывать джобы.
-Четыре изменения: Qwen в Nessy ушёл, теперь DeepSeek V4 Flash; к tclaude можно подключить свою подписку (BYOK, GLM согласован ИБ); скиллы собраны в Skills Market; агенты ходят в корпоративные системы через MCP.</aside>
+  <div class="ms r anchor" data-anchor="-4.8,-.95,0" style="--c:var(--l2)"><span class="ms-k">Nessy</span><b>Qwen ушёл → DeepSeek&nbsp;V4&nbsp;Flash</b><small>лучше следует инструкциям — скиллы предсказуемее</small></div>
+  <div class="ms r anchor" data-anchor="-1.6,-.95,0" style="--c:var(--l3)"><span class="ms-k">tclaude</span><b>Доступен любому — за свои деньги</b><small>сейчас GLM-5.3 · Anthropic и OpenAI — в проработке</small></div>
+  <div class="ms r anchor" data-anchor="1.6,-.95,0" style="--c:var(--l4)"><span class="ms-k">Skills Market</span><b>Скиллы в одном месте</b><small>без пересылки в чатах · обновления приезжают сами</small></div>
+  <div class="ms r anchor" data-anchor="4.8,-.95,0" style="--c:var(--l1)"><span class="ms-k">MCP</span><b>Корпоративные MCP</b><small>ручки к Proteus, Jira, Трекеру, GitLab — без них всё остальное бессмысленно</small></div>
+  <aside class="notes">1 мин. Последние события:
+Qwen ушёл, теперь DeepSeek — намного лучше следует инструкциям, скиллы предсказуемее, их не надо так сильно докручивать.
+tclaude: раньше был для избранных, теперь им может пользоваться любой — за свои деньги через LLM Proxy. Пока доступна GLM-5.3; модели Anthropic и OpenAI в проработке.
+Skills Market — централизованное место хранить и обмениваться скиллами, а не пересылать в чатах и почте. Кто установил скилл, получает свежую версию автоматически.
+Корпоративные MCP — ручки до наших инструментов (Proteus, Jira, Трекер, GitLab…). Без них всё предыдущее по факту бессмысленно: агент закрывает джобы прямо в чате.</aside></aside>
 </section>
 
 <section class="slide" id="flow" data-act="1" data-kicker="Флоу BI" data-short data-builds="2" data-title="Флоу BI × инструменты (главный слайд)">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Флоу BI: <em>где инструменты и где в них AI</em></h2>
-  <div class="fcol fc9 anchor r" data-flow="0" style="--c:#f472b6"><span class="fs-n">01</span><b class="fs-t">Возникновение потребности</b><div class="fs-row"><i>инструмент</i>Time · Jira · T-Tracker</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>MCP Time · Jira · T-Tracker</div></div>
-  <div class="fcol fc9 anchor r" data-flow="1" style="--c:#38bdf8"><span class="fs-n">02</span><b class="fs-t">Бизнес-анализ</b><small class="fs-ta">+ целевая аудитория</small><div class="fs-row"><i>инструмент</i>встречи · бриф · Wiki</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>скилл бизнес-анализа · MCP Wiki · MCP Data Detective · AI-макетирование</div></div>
-  <div class="fcol fc9 anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Nessy Data Agent · MCP Proteus</div></div>
-  <div class="fcol fc9 anchor r" data-flow="3" style="--c:#38bdf8"><span class="fs-n">04</span><b class="fs-t">Тестирование</b><div class="fs-row"><i>инструмент</i>Helicopter · Proteus</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
-  <div class="fcol fc9 anchor r" data-flow="4" style="--c:#4ade80"><span class="fs-n">05</span><b class="fs-t">Подготовка к релизу</b><div class="fs-row"><i>инструмент</i>Data Detective · Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>MCP Data Detective: описание отчёта</div></div>
-  <div class="fcol fc9 anchor r" data-flow="5" style="--c:#4ade80"><span class="fs-n">06</span><b class="fs-t">Информирование пользователей</b><div class="fs-row"><i>инструмент</i>Time · рассылки</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>n8n: агентные ноды · MCP Time</div></div>
-  <div class="fcol fc9 anchor r" data-flow="6" style="--c:#4ade80"><span class="fs-n">07</span><b class="fs-t">Демо</b><div class="fs-row"><i>инструмент</i>Proteus</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
-  <div class="fcol fc9 anchor r" data-flow="7" style="--c:#3b82f6"><span class="fs-n">08</span><b class="fs-t">Анализ используемости</b><div class="fs-row"><i>инструмент</i>Proteus Adoption</div><div class="fs-row fs-ai fs-none" data-step="1"><i>AI</i>пока руками</div></div>
-  <div class="fcol fc9 anchor r" data-flow="8" style="--c:#f472b6"><span class="fs-n">09</span><b class="fs-t">Сбор ОС</b><div class="fs-row"><i>инструмент</i>встречи · Time</div><div class="fs-row fs-ai" data-step="1"><i>AI</i>MCP Time · бот транскрибации встреч</div></div>
-  <div class="anchor loop-lab r" data-anchor="0.75,-4.5,0">анализ и сбор ОС → новый цикл бизнес-анализа</div>
-  <div class="envband" data-step="2">
-    <span class="eb-k">На любом этапе</span>
-    <b>Nessy</b><b>Hermes</b><b>tclaude</b>
-    <span class="eb-t">агентские среды: закрывают сколько угодно джоб — всё упирается в доступность MCP и инструментов</span>
-  </div>
-  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Это наш флоу BI — жизнь отчёта: возникновение потребности → бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование пользователей → демо → анализ используемости и сбор ОС → и снова бизнес-анализ.
-Шаг (1) — где этапы уже AI-изированы: через MCP Time, Jira, T-Tracker, Wiki, Data Detective, Proteus; в бизнес-анализе — наш скилл и AI-макетирование; разработка — Nessy Data Agent; информирование — агентные ноды n8n; демо — Proteus AI; сбор ОС — бот транскрибации встреч. Анализ используемости — Proteus Adoption.
-Шаг (2) — агентские среды Nessy, Hermes и tclaude работают на любом этапе; всё упирается в доступность MCP и инструментов.
-«Этот слайд мы вам пришлём — повесьте рядом с рабочим столом».</aside>
+  <h2 class="h h-xs r scr">Флоу BI: <em>где инструменты и где в них AI</em></h2>
+  <div class="cyc anchor r" data-cyc="0" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-tool">Time · Jira · T-Tracker</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · Jira · T-Tracker</div></div>
+  <div class="cyc anchor r" data-cyc="1" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">02</span><b>Бизнес-анализ</b></div><small class="cy-ta">+ целевая аудитория</small><div class="cy-tool">встречи · бриф · Wiki</div><div class="cy-ai" data-step="1"><i>AI</i>наш скилл · MCP Wiki и DD · AI-макеты</div></div>
+  <div class="cyc anchor r" data-cyc="2" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">03</span><b>Разработка</b></div><div class="cy-tool">Helicopter · Proteus</div><div class="cy-ai" data-step="1"><i>AI</i>Nessy Data Agent · MCP Proteus</div></div>
+  <div class="cyc anchor r" data-cyc="3" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">04</span><b>Тестирование</b></div><div class="cy-tool">Helicopter · Proteus</div><div class="cy-ai cy-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="cyc anchor r" data-cyc="4" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">05</span><b>Подготовка к релизу</b></div><div class="cy-tool">Data Detective · Proteus</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Data Detective: описание отчёта</div></div>
+  <div class="cyc anchor r" data-cyc="5" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">06</span><b>Информирование</b></div><div class="cy-tool">Time · рассылки</div><div class="cy-ai" data-step="1"><i>AI</i>n8n с агентом · MCP Time</div></div>
+  <div class="cyc anchor r" data-cyc="6" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">07</span><b>Демо</b></div><div class="cy-tool">Proteus</div><div class="cy-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
+  <div class="cyc anchor r" data-cyc="7" style="--c:#3b82f6"><div class="cy-h"><span class="cy-n">08</span><b>Анализ используемости</b></div><div class="cy-tool">Proteus Adoption</div><div class="cy-ai cy-none" data-step="1"><i>AI</i>пока руками</div></div>
+  <div class="cyc anchor r" data-cyc="8" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-tool">встречи · Time</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · бот транскрибации</div></div>
+  <div class="anchor cyc-loop r" data-anchor="-5.5,-.15,0">↻ новый цикл</div>
+  <div class="anchor hub-k" data-step="2" data-anchor="0,.72,0">На любом этапе — агентские среды</div>
+  <div class="anchor hub-n" data-step="2" data-anchor="-1.45,-.62,0" style="--c:var(--l2)">Nessy</div>
+  <div class="anchor hub-n" data-step="2" data-anchor="0,-.62,0" style="--c:var(--l1)">Hermes</div>
+  <div class="anchor hub-n" data-step="2" data-anchor="1.45,-.62,0" style="--c:var(--l3)">tclaude</div>
+  <div class="anchor hub-t" data-step="2" data-anchor="0,-1.2,0">соединяют этапы через MCP — <b>всё упирается в доступность MCP и инструментов</b></div>
+  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Флоу BI по кругу — жизнь отчёта: потребность → бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование → демо → анализ используемости → сбор ОС → и новый цикл.
+Шаг (1) — где AI уже есть: либо агент внутри инструмента, либо MCP-ручка до инструмента. Пока руками — тестирование и анализ используемости.
+Шаг (2) — в центре агентские среды Nessy, Hermes, tclaude: соединяют всё в один флоу на любом этапе; всё упирается в доступность MCP и инструментов.</aside>
 </section>
 
 <!-- ═══════════════════════════ АКТ II · ИНСТРУМЕНТЫ ПО ФЛОУ ═══════════════════════════ -->
@@ -956,17 +1021,16 @@ em, .em-no, .div-letter { text-shadow: none !important; }
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr" style="max-width:1080px">Helicopter: Nessy Data Agent <em>правит и создаёт ноутбуки</em></h2>
   <ul class="facts">
-    <li class="r"><b>Агент живёт прямо в ноутбуке</b> — Nessy Data Agent в правой панели, в агентском режиме дорабатывает код и пишет новые ноутбуки</li>
-    <li class="r"><b>С 18.09 главная — Nessy Data Workspace:</b> несколько ноутбуков и таблиц в одном контексте, панель «Артефакты»</li>
-    <li class="r"><b>MCP-тулы Data Detective и Proteus</b> в Nessy (релиз 31.08) · MCP для ноутбуков — план Q4</li>
+    <li class="r"><b>Живёт прямо в ноутбуке</b> — знает всё о вашем ноутбуке, дорабатывает код и пишет новые ноутбуки</li>
+    <li class="r"><b>После перехода на DeepSeek</b> дорабатывать ноутбуки стало сильно проще</li>
+    <li class="r"><b>Nessy Data Workspace</b> — несколько ноутбуков и таблиц в одном контексте</li>
   </ul>
   <blockquote class="q r" style="max-width:960px">«Мы хотим, чтобы в компании агентом закрывался е2е процесс работы с данными — от запроса до создания дашборда»<cite>helicopter-users · 10.09 · цель платформы</cite></blockquote>
   <div class="anchor lab-tag r" data-anchor="2.27,2.05,0">Nessy Data Agent</div>
   <div class="anchor lab-tag lab-tag-dim r" data-anchor="-1.05,2.05,0">ноутбук · код</div>
-  <aside class="notes">1 мин. Новости Helicopter: Nessy Data Agent работает в агентском режиме — правит и создаёт ноутбуки; с 18.09 главная — Nessy Data Workspace; в релизе 31.08 в Nessy приехали MCP-тулы Data Detective и Proteus; MCP для ноутбуков — план Q4.
+  <aside class="notes">1 мин. В Helicopter есть Nessy Data Agent — живёт прямо в ноутбуке (думаю, все уже пользовались: он всё время открывается). Уже знает всю информацию о вашем ноутбуке. После переезда с Qwen на DeepSeek дорабатывать ноутбуки сильно проще, можно создавать и полностью новые. С 18.09 — Nessy Data Workspace: несколько ноутбуков и таблиц в одном контексте.
 Цель платформы (helicopter-users, 10.09): «от запроса до создания дашборда».
-В Helicopter работает только Nessy Data Agent — агент, который живёт прямо в ноутбуке. Это не терминальная Nessy CLI.
-Мост: «Но всё упирается в одно — в контекст».</aside>
+Мост: «Но всё упирается в контекст».</aside></aside>
 </section>
 
 <section class="slide" id="ctx" data-act="2" data-level="2" data-short data-builds="1" data-title="Nessy Data Agent: всё упирается в контекст">
@@ -1021,26 +1085,22 @@ Nessy — ассистент: результат проверяет аналит
     <div class="card yes r">
       <div class="yn-h">✅ Уже умеет</div>
       <ul>
-        <li>Отвечает на вопросы по данным дашборда</li>
-        <li>«AI-анализ» графиков с учётом фильтров <small>кнопка на дашбордах с 20.08</small></li>
-        <li>Простые джобы уже закрывает <small>по словам команды Proteus</small></li>
+        <li>Разработчикам уже помогает <small>код для ECharts и Handlebars</small></li>
+        <li>Отвечает пользователям по данным борда <small>«AI-анализ» графиков с учётом фильтров</small></li>
       </ul>
     </div>
     <div class="card no r">
       <div class="yn-h">⚠️ Ограничения</div>
       <ul>
-        <li>Непрозрачно, как управлять логикой агента и настраивать её</li>
-        <li>Хорошо работает на простых бордах <small>один датасет или простые датасеты</small></li>
-        <li>Сложные датасеты — ответ чаще неудовлетворительный</li>
+        <li>Непонятно, как дать инструкцию под конкретный дашборд <small>скиллы есть, но флоу управления ими неясен</small></li>
+        <li>На сложных датасетах ответ чаще неудовлетворительный</li>
       </ul>
     </div>
   </div>
-  <div class="honest r">В работе у команды Proteus: <b>интеграция со Skills Market</b>. <span>Появятся понятные правила игры — как устанавливать скиллы на дашборд.</span></div>
-  <aside class="notes">1,5 мин. Холиварная тема — говорим честно.
-Proteus AI уже есть и может отвечать по борду. Некоторые простые джобы точно закрывает — нам это рассказывала сама команда Proteus.
-Ограничения: довольно непрозрачно, как управлять логикой работы агента и настраивать её. Чаще всего хорошо работает на простых бордах с одним датасетом или простыми датасетами. Если накручены сложные датасеты — ответ чаще неудовлетворительный.
-Про текущие скиллы в Proteus AI пока НЕ рассказываем: сейчас это чёрный ящик.
-В работе: интеграция со Skills Market (RFC «Proteus Agent 🤝 Skills Market», PROTEUS-918) — будут понятны правила игры, как устанавливать скиллы на дашборд.</aside>
+  <div class="honest r">В работе у команды Proteus: <b>интеграция со Skills Market</b>. <span>Разработчик дашборда сможет прописать свой скилл для конкретного борда.</span></div>
+  <aside class="notes">1 мин. Тема холиварная. Для разработчиков, когда делаем чарты, Proteus AI уже неплохо помогает писать код для ECharts или Handlebars.
+Для пользователей путь пока непрозрачный: как ограничить агента или дать инструкцию под конкретный дашборд? Скиллы в Proteus AI есть, но непонятен флоу управления ими.
+У команды Proteus это в работе: ждут доработок Skills Market, чтобы интегрироваться. Тогда каждый разработчик дашборда сможет прописать скилл для своего борда — и дать пользователям понятный флоу работы с Proteus AI.</aside></aside>
 </section>
 
 <section class="slide divider" id="dC" data-act="2" data-level="2" data-stages="1,2,3,4,5,6,7,8,9" data-sec="C" data-short data-title="Раздел C · Агентские среды">
@@ -1060,114 +1120,43 @@ Proteus AI уже есть и может отвечать по борду. Не�
   <div class="anchor env-lab r" data-anchor="0,0,0" style="--c:var(--l1)">Hermes</div>
   <div class="anchor env-lab r" data-anchor="4.6,0,0" style="--c:var(--l3)">tclaude</div>
   <div class="env env3 card r anchor" data-anchor="-4.6,-1.55,0" style="--c:var(--l2)">
-    <div class="env-h">Nessy <small>CLI · Cloud</small></div>
+    <div class="env-h">Nessy <small>CLI</small></div>
     <dl>
-      <dt>Где живёт</dt><dd>терминал на рабочей станции</dd>
-      <dt>Порог</dt><dd>установить CLI</dd>
+      <dt>Где живёт</dt><dd>терминал</dd>
       <dt>Файлы</dt><dd>✅ локальные файлы на ноуте</dd>
       <dt>Хранилище</dt><dd>✅ через Quarium</dd>
-      <dt>Модель</dt><dd>DeepSeek V4 Flash</dd>
+      <dt>Модель</dt><dd>только DeepSeek — другую не выбрать</dd>
     </dl>
   </div>
   <div class="env env3 card r anchor" data-anchor="0,-1.55,0" style="--c:var(--l1)">
     <div class="env-h">Hermes <small>Personal Agent</small></div>
     <dl>
       <dt>Где живёт</dt><dd>облако, чат в браузере — без терминала</dd>
-      <dt>Порог</dt><dd>открыть ссылку</dd>
-      <dt>Файлы</dt><dd>❌ нет доступа к ноуту · сессия ~10 ч</dd>
-      <dt>Хранилище</dt><dd>✅ доступ из коробки</dd>
-      <dt>Скиллы</dt><dd>из Skills Market, профили под задачи</dd>
+      <dt>Файлы</dt><dd>⚠️ только загрузить и скачать вручную</dd>
+      <dt>Хранилище</dt><dd>✅ из коробки</dd>
+      <dt>Модель</dt><dd>базово DeepSeek · скиллы из Skills Market</dd>
     </dl>
   </div>
   <div class="env env3 card r anchor" data-anchor="4.6,-1.55,0" style="--c:var(--l3)">
     <div class="env-h">tclaude <small>T-Claude Code</small></div>
     <dl>
-      <dt>Где живёт</dt><dd>терминал — вызывается как Nessy, только пишем tclaude</dd>
-      <dt>Порог</dt><dd>место в ai-seats или своя подписка</dd>
+      <dt>Где живёт</dt><dd>терминал — как Nessy, только пишем tclaude</dd>
       <dt>Файлы</dt><dd>✅ локальные файлы на ноуте</dd>
-      <dt>Модель</dt><dd>Claude · через BYOK — GLM-5.3</dd>
-      <dt>Ограничение</dt><dd>⚠️ работает только на Mac</dd>
+      <dt>Модель</dt><dd>умнее: GLM-5.3 через свою подписку</dd>
+      <dt>Минусы</dt><dd>⚠️ только Mac · платишь сам</dd>
     </dl>
   </div>
-  <div class="env-thesis r">Работаем с моделями в агентском режиме и закрываем сколько угодно джоб — <b>всё упирается в доступность MCP и инструментов</b></div>
-  <aside class="notes">1,5 мин. Три агентские среды — там, где мы работаем с моделями в агентском режиме и можем закрывать неограниченное количество джоб. Всё упирается в доступность MCP, ручек и инструментов.
-Nessy — терминальная Nessy CLI на рабочей станции, модель DeepSeek V4 Flash, есть доступ к локальным файлам, к хранилищу — через Quarium. (Nessy Data Agent в Helicopter — отдельная история платформы, про неё было раньше.)
-Hermes (Personal Agent, ML Core): облачный агент, чат прямо в браузере — personal-agent.t-tech.team/hermes. Нулевой порог, не нужен терминал. Сессия ~10 часов, нет доступа к локальным файлам, зато доступ к хранилищу — из коробки. Скиллы из Skills Market, профили под задачи.
-tclaude: вызывается так же, как Nessy, только пишем tclaude. Модель — Claude по месту в ai-seats; через BYOK работает на GLM-5.3. Ограничение: работает только на Mac.</aside>
+  <div class="env-thesis r">Главное отличие: <b>Nessy и tclaude — терминал</b>, <b>Hermes — чат в браузере</b> для тех, кто не работает в терминале</div>
+  <aside class="notes">1,5 мин. Три агентские среды в банке.
+Nessy — работает в терминале. Минус: доступен только DeepSeek, другую модель не выбрать. Локальные файлы видит, к хранилищу ходит через Quarium.
+Hermes (ML Core) — работает в облаке, чат в браузере: удобнее тем, кто не в терминале. Порог — открыть ссылку. Прямого доступа к локальным файлам нет — только загрузить или скачать вручную. Хранилище — из коробки. Модель базово тот же DeepSeek.
+tclaude — то же, что Nessy в терминале, если есть место в ai-seats или своя подписка через BYOK. Можно пользоваться более умной моделью GLM-5.3, но платить нужно самому. Работает только на Mac. Основные MCP уже подключены.
+Если спросят про Hermes подробнее: умеет мультиагентный режим (Nessy и tclaude тоже); у него «умная память» — показывает, что запомнил, и сам записывает себе скиллы.</aside>
 </section>
 
-<section class="slide" id="nessy" data-act="2" data-level="2" data-builds="2" data-title="Qwen ушёл → DeepSeek V4 Flash">
-  <div class="kicker r" data-auto></div>
-  <div class="mig">
-    <div class="mig-row" data-step-only="0">
-      <div class="mig-tag no">было</div>
-      <h2 class="h h-sm">Qwen3.5 397b — <em class="em-no">морально устарел</em></h2>
-      <p class="lead">Половина агентных скиллов не отрабатывала: модель не вытягивала сценарии</p>
-    </div>
-    <div class="mig-row" data-step="1">
-      <blockquote class="q q-hero">«Прощай Qwen, привет Deepseek. Мы перевезли Nessy Data Agent на новую основную модель — deepseek-v4-flash-0731. Она новее, выше, сильнее. Иными словами, работает лучше прошлой»<cite>helicopter-announcements · 31.08</cite></blockquote>
-    </div>
-    <div class="mig-grid" data-step="2">
-      <blockquote class="q q-user">«superpowers работают, особенно после заезда на deepseek — когда qwen был, то не работало»<cite>Nessy CLI Discussion · 22.09</cite></blockquote>
-      <div class="retro">
-        <div class="retro-h">Уроки ретро</div>
-        <div>гранулярная перекатка: a2a → nessy-cli</div>
-        <div>бенчмарки ≠ реальность — решает фидбек бета-тестеров</div>
-      </div>
-    </div>
-  </div>
-  <div class="cta cta-center" data-step="2">Пробовали скиллы в Nessy и не работало? <b>Попробуйте ещё раз — это не те скиллы и не та модель.</b></div>
-  <aside class="notes">1 мин. Клики: (0) частицы «Qwen» — хаос → (1) пересборка в «DeepSeek» + цитата анонса → (2) голос пользователя + уроки ретро.
-Источники: ретро перехода (wiki 9242349163), Time-каналы.
-Для Q&amp;A: квоты суточные, при исчерпании — очередь.
-Мост: «Nessy — общая среда. А если нужны свои ресурсы — tclaude».</aside>
-</section>
-
-<section class="slide divider" id="dD" data-act="2" data-level="3" data-stages="1,2,3,4,5,6,7,8,9" data-sec="D" data-short data-title="Раздел D · tclaude">
+<section class="slide divider" id="dE" data-act="2" data-level="4" data-stages="6" data-sec="D" data-title="Раздел D · n8n">
   <div class="div-wrap">
     <div class="div-letter r">D</div>
-    <div class="div-meta r">Флоу · любой этап</div>
-    <h2 class="div-title r scr">tclaude</h2>
-    <p class="div-sub r">Твои личные ресурсы — без очередей</p>
-  </div>
-  <aside class="notes">Разделитель.</aside>
-</section>
-
-<section class="slide" id="tclaude" data-act="2" data-level="3" data-short data-title="tclaude: твои личные ресурсы">
-  <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">tclaude — <em>твои личные ресурсы</em></h2>
-  <div class="anchor core-lab r" data-anchor="0,0,0">tclaude</div>
-  <div class="anchor orb r" data-orb="0">Proteus</div>
-  <div class="anchor orb r" data-orb="1">Jira</div>
-  <div class="anchor orb r" data-orb="2">GitLab</div>
-  <div class="anchor orb r" data-orb="3">Sage</div>
-  <div class="anchor orb r" data-orb="4">Wiki</div>
-  <div class="anchor orb r" data-orb="5">T-Tracker</div>
-  <div class="right-col">
-    <div class="byok-call r"><b>Выделенные ресурсы — только твои.</b> Не стоишь в общих очередях: ограничен только своим бюджетом<div class="chips"><span>песочница</span><span>LLM Proxy</span><span>Анон</span><span>MCP из dp cli</span></div></div>
-    <div class="card term-mini r">
-      <div class="code-h"><span></span><span></span><span></span><b>tclaude</b></div>
-<pre class="mono" data-type><span class="p">$</span> tclaude
-<span class="u">› что считается в этом графике?</span>
-<span class="t">⏺ MCP Proteus</span> → состав дашборда, SQL графика, фильтры
-<span class="t">⏺ Читаю SQL</span> …
-<span class="a">✓ Объясняю, что считает график и какие фильтры на него влияют</span></pre>
-      <small class="illu">иллюстрация сценария</small>
-    </div>
-    <ul class="facts facts-sm">
-      <li class="r"><b>Доступы уже есть:</b> место в ai-seats — или своя подписка через BYOK, она работает на GLM-5.3</li>
-      <li class="r"><b>Вызывается как Nessy</b> — в терминале, только пишем tclaude · <b>работает только на Mac</b></li>
-      <li class="r"><b>Основные MCP уже подключены:</b> Proteus, Jira, GitLab, Sage, Wiki, T-Tracker</li>
-    </ul>
-  </div>
-  <aside class="notes">1 мин. Про tclaude: доступы уже есть — можно заплатить денежки и использовать. Преимущество: это выделенные ресурсы, твои личные. Не стоишь в очередях — ты ограничен только долларами, которые потратил. И к основным MCP доступ уже есть.
-Подробности про тарифы и подписки не рассказываем — только если спросят (инструкция: wiki 9112708455).
-Пример: «спрашиваешь агента “что считается в этом графике” — он читает SQL графика и объясняет».</aside>
-</section>
-
-<section class="slide divider" id="dE" data-act="2" data-level="4" data-stages="6" data-sec="E" data-title="Раздел E · n8n">
-  <div class="div-wrap">
-    <div class="div-letter r">E</div>
     <div class="div-meta r">Флоу · информирование пользователей</div>
     <h2 class="div-title r scr">n8n</h2>
     <p class="div-sub r">Флоу, которые работают сами</p>
@@ -1179,36 +1168,36 @@ tclaude: вызывается так же, как Nessy, только пишем
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr">n8n: <em>от ботов поддержки до командных автоматизаций</em></h2>
   <div class="wf r">
-    <div class="wf-n"><span>⇄</span><b>Источники</b><small>Time · T-Tracker · Jira · DWH · расписание</small></div>
+    <div class="wf-n"><span>⇄</span><b>Источники</b><small>Time · триггеры Трекера и Jira · данные DWH</small></div>
     <div class="wf-e"><i></i></div>
-    <div class="wf-n wf-hot"><span>✦</span><b>Обработка LLM</b><small>агентная нода · DeepSeek</small></div>
+    <div class="wf-n wf-hot"><span>✦</span><b>Обработка LLM</b><small>тот же DeepSeek</small></div>
     <div class="wf-e"><i></i></div>
-    <div class="wf-n"><span>✉</span><b>Результат</b><small>ответ в Time · рассылка · отчёт</small></div>
+    <div class="wf-n"><span>✉</span><b>Результат</b><small>ответ в Time · рассылка · табличка в DWH</small></div>
   </div>
   <div class="n8n-grid">
     <div class="card r">
-      <div class="case-k">Что можно делать</div>
+      <div class="case-k">Что уже сделали у себя</div>
       <ul class="dl">
-        <li><b>бот поддержки</b> — собирает информацию из разных источников и обрабатывает её через LLM</li>
-        <li><b>рассылки</b> — отчёты и сводки уходят сами по расписанию</li>
-        <li><b>автоматизации</b> — любые командные флоу между системами</li>
+        <li><b>бот поддержки</b> в канале</li>
+        <li><b>персональный помощник</b> — расширение системы отчётности по конкретному отчёту</li>
+        <li><b>«контекстный патруль»</b> — ходит по задачам Трекера и помогает описывать их</li>
       </ul>
     </div>
     <div class="stack">
-      <div class="punch r">Автоматизации <em>подросли</em>: в флоу теперь можно звать агента на DeepSeek</div>
+      <div class="punch r">Автоматизации <em>подросли</em>: DeepSeek теперь есть и в n8n</div>
       <div class="mini r"><b>Nessy Cloud</b> работает по расписанию — не нужно держать ноутбук открытым</div>
     </div>
   </div>
-  <aside class="notes">45 сек. Долго не останавливаемся — про n8n много рассказывали на митапах.
-Главное: разные автоматизации с применением агента подросли, потому что там теперь тоже можно использовать DeepSeek (агентная нода — Nessy Cloud, работает по расписанию, ноутбук держать открытым не нужно).
-Что можно делать: бот поддержки, который собирает информацию из разных источников и обрабатывает её через LLM; рассылки; различные командные автоматизации.</aside>
+  <aside class="notes">45 сек. Про n8n уже много рассказывали на митапах — как сделать бота.
+Схема: на вход — сообщение в Time, триггер в Трекере или Jira, данные из DWH; обработка через LLM — тот же DeepSeek теперь доступен и в n8n; на выход — ответ в Time, рассылка или запись в табличку DWH.
+Что сделали у себя в команде: бот поддержки в канале; персональный помощник как расширение системы отчётности по конкретному отчёту; «контекстный патруль» — ходит по задачам Трекера, обрабатывает через LLM и помогает ребятам описывать задачи.</aside></aside>
 </section>
 
 <!-- ═══════════════════════════ АКТ III · НАШИ СКИЛЛЫ ═══════════════════════════ -->
 
-<section class="slide divider" id="dF" data-act="3" data-level="4" data-stages="2,3,5" data-sec="F" data-short data-title="Раздел F · BI-пак">
+<section class="slide divider" id="dF" data-act="3" data-level="4" data-stages="2,3,5" data-sec="E" data-short data-title="Раздел E · BI-пак">
   <div class="div-wrap">
-    <div class="div-letter r">F</div>
+    <div class="div-letter r">E</div>
     <div class="div-meta r">Наши скиллы</div>
     <h2 class="div-title r scr">BI-пак</h2>
     <p class="div-sub r">Скиллы, которые мы собрали для BI</p>
@@ -1218,7 +1207,7 @@ tclaude: вызывается так же, как Nessy, только пишем
 
 <section class="slide" id="pack" data-act="3" data-level="4" data-short data-title="Как скилл попадает в BI-пак">
   <div class="kicker r" data-auto></div>
-  <h2 class="h r scr" style="max-width:1150px">Как скилл попадает <em>в BI-пак</em></h2>
+  <h2 class="h h-sm r scr" style="max-width:1300px">BI-пак — <em>папка в Skills Market</em> со скиллами для профессии</h2>
   <div class="pk">
     <div class="pk-s r"><span class="num">1</span><b>GitLab</b><small>залили скилл (SKILL.md) в репозиторий</small></div>
     <i class="pk-a r">→</i>
@@ -1229,35 +1218,38 @@ tclaude: вызывается так же, как Nessy, только пишем
     <div class="pk-s r"><span class="num">4</span><b>BI-пак</b><small>одно место с проверенным для BI</small></div>
   </div>
   <div class="pack-row">
-    <div class="principle r"><b>Пока — вручную, через стрим.</b> Процесс продумаем, когда в нём появится смысл.<small>в паке BI-профессии нет дублирующих джоб</small></div>
-    <div class="ph r" style="width:560px;height:190px">[СОБРАТЬ] текущий состав BI-пака — список скиллов</div>
+    <div class="principle r"><b>1 скилл = 1 джоба.</b> Если на одну джобу претендуют два скилла — берём лучшее из обоих и обновляем существующий.<small>пока — вручную, через стрим</small></div>
+    <div class="pk-now r"><div class="case-k">Сейчас в BI-паке — 3 скилла</div><code>bi-requirements-gather</code><code>proteus-echarts-builder</code><code>dd-report-skill</code></div>
   </div>
-  <aside class="notes">1 мин. Все скиллы автоматически появляются в Skills Market, если их залить в GitLab. В BI-пак они попадают, если уже есть в Skills Market — через валидацию стрима «AI в BI».
-Пока — вручную, через стрим. Сложного процесса нет, и это нормально. Не зазываем всех приходить.</aside>
+  <aside class="notes">1 мин. BI-пак — по факту папка в Skills Market, где мы собираем скиллы, которые рекомендуем профессии. Сейчас в нём всего 3 скилла — надеюсь, после встречи появятся желающие добавить свои.
+Путь: залили SKILL.md в GitLab → скилл автоматически в Skills Market → валидация стрима → BI-пак.
+Идеология: 1 скилл закрывает 1 джобу (джоба — например, собрать график или собрать бизнес-требования). Если на одну джобу претендуют несколько скиллов — собираем лучшее из двух и обновляем существующий.</aside></aside>
 </section>
 
 <section class="slide" id="skillflow" data-act="3" data-level="4" data-short data-builds="1" data-title="Флоу BI × наши скиллы">
   <div class="kicker r" data-auto></div>
-  <h2 class="h h-sm r scr">Какие этапы флоу <em>уже закрывают наши скиллы</em></h2>
-  <div class="fcol fc9 anchor r" data-flow="0" style="--c:#f472b6"><span class="fs-n">01</span><b class="fs-t">Возникновение потребности</b><div class="fs-free">пока без скилла</div></div>
-  <div class="fcol fc9 fc-on anchor r fc-ta" data-flow="1" style="--c:#38bdf8"><span class="fs-n">02</span><b class="fs-t">Бизнес-анализ</b><small class="fs-ta">+ целевая аудитория</small><div class="fs-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
-  <div class="fcol fc9 fc-on anchor r" data-flow="2" style="--c:#38bdf8"><span class="fs-n">03</span><b class="fs-t">Разработка</b><div class="fs-skill"><code>proteus-echarts-builder</code><em>сегодня · Роман</em></div></div>
-  <div class="fcol fc9 anchor r" data-flow="3" style="--c:#38bdf8"><span class="fs-n">04</span><b class="fs-t">Тестирование</b><div class="fs-free">пока без скилла</div></div>
-  <div class="fcol fc9 fc-on anchor r" data-flow="4" style="--c:#4ade80"><span class="fs-n">05</span><b class="fs-t">Подготовка к релизу</b><div class="fs-skill"><code>dd-report-skill</code><em>бонус · Роман</em></div></div>
-  <div class="fcol fc9 anchor r" data-flow="5" style="--c:#4ade80"><span class="fs-n">06</span><b class="fs-t">Информирование пользователей</b><div class="fs-free">пока без скилла</div></div>
-  <div class="fcol fc9 anchor r" data-flow="6" style="--c:#4ade80"><span class="fs-n">07</span><b class="fs-t">Демо</b><div class="fs-free">пока без скилла</div></div>
-  <div class="fcol fc9 anchor r" data-flow="7" style="--c:#3b82f6"><span class="fs-n">08</span><b class="fs-t">Анализ используемости</b><div class="fs-free">пока без скилла</div></div>
-  <div class="fcol fc9 anchor r" data-flow="8" style="--c:#f472b6"><span class="fs-n">09</span><b class="fs-t">Сбор ОС</b><div class="fs-free">пока без скилла</div></div>
-  <div class="anchor loop-lab r" data-anchor="0.75,-4.5,0">анализ и сбор ОС → новый цикл бизнес-анализа</div>
-  <div class="handoff" data-step="1">Начнём с бизнес-анализа — <b>передаю слово Степану</b> →</div>
+  <h2 class="h h-xs r scr">Какие этапы флоу <em>уже закрывают наши скиллы</em></h2>
+  <div class="cyc anchor r" data-cyc="0" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc cy-on anchor r" data-cyc="1" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">02</span><b>Бизнес-анализ</b></div><small class="cy-ta">+ целевая аудитория</small><div class="cy-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
+  <div class="cyc cy-on anchor r" data-cyc="2" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">03</span><b>Разработка</b></div><div class="cy-skill"><code>proteus-echarts-builder</code><em>сегодня · Роман</em></div></div>
+  <div class="cyc anchor r" data-cyc="3" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">04</span><b>Тестирование</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc cy-on anchor r" data-cyc="4" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">05</span><b>Подготовка к релизу</b></div><div class="cy-skill"><code>dd-report-skill</code><em>бонус · Роман</em></div></div>
+  <div class="cyc anchor r" data-cyc="5" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">06</span><b>Информирование</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc anchor r" data-cyc="6" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">07</span><b>Демо</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc anchor r" data-cyc="7" style="--c:#3b82f6"><div class="cy-h"><span class="cy-n">08</span><b>Анализ используемости</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc anchor r" data-cyc="8" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="anchor cyc-loop r" data-anchor="-5.5,-.15,0">↻ новый цикл</div>
+  <div class="anchor hub-k r" data-anchor="0,.45,0">BI-пак сегодня</div>
+  <div class="anchor hub-big r" data-anchor="0,.05,0">3 скилла · 1 скилл = 1 джоба</div>
+  <div class="anchor hub-t hub-hand" data-step="1" data-anchor="0,-1.05,0">Начнём с бизнес-анализа — <b>передаю слово Степану</b> →</div>
   <aside class="notes">45 сек. Возвращаемся во флоу BI, но теперь смотрим не на инструменты, а на наши скиллы: какие этапы они уже покрывают.
 Бизнес-анализ — сбор требований (рассказывает Степан), разработка — proteus-echarts-builder (Роман), подготовка к релизу — бонусом dd-report-skill (Роман).
 Клик (1): «Передаю слово Степану».</aside>
 </section>
 
-<section class="slide divider" id="dG" data-act="3" data-level="1" data-stages="2" data-sec="G" data-short data-title="Раздел G · Сбор требований (Степан)">
+<section class="slide divider" id="dG" data-act="3" data-level="1" data-stages="2" data-sec="F" data-short data-title="Раздел F · Сбор требований (Степан)">
   <div class="div-wrap">
-    <div class="div-letter r">G</div>
+    <div class="div-letter r">F</div>
     <div class="div-meta r">Флоу · бизнес-анализ · говорит <span data-cfg="cospeaker"></span></div>
     <h2 class="div-title r scr">Сбор требований за 6 шагов</h2>
     <p class="div-sub r">Скилл <code>bi-requirements-gather</code> — одинаковый процесс у всех и проверяемый артефакт на выходе</p>
@@ -1429,9 +1421,9 @@ tclaude: вызывается так же, как Nessy, только пишем
 Передать слово обратно Роману: proteus-echarts-builder.</aside>
 </section>
 
-<section class="slide divider" id="dH" data-act="3" data-level="4" data-stages="3" data-sec="H" data-short data-title="Раздел H · proteus-echarts-builder">
+<section class="slide divider" id="dH" data-act="3" data-level="4" data-stages="3" data-sec="G" data-short data-title="Раздел G · proteus-echarts-builder">
   <div class="div-wrap">
-    <div class="div-letter r">H</div>
+    <div class="div-letter r">G</div>
     <div class="div-meta r">Флоу · разработка</div>
     <h2 class="div-title r scr">proteus-echarts-builder</h2>
     <p class="div-sub r">Любой HTML-макет → интерактивный виджет</p>
@@ -1443,14 +1435,15 @@ tclaude: вызывается так же, как Nessy, только пишем
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr" style="max-width:1100px">Любой HTML-макет → <em>интерактивный виджет в Proteus</em></h2>
   <div class="steps3">
-    <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>эталон вёрстки — его можно сгенерировать</small></div></div>
-    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>SQL</b><small>собирается из query-логики чарта через MCP</small></div></div>
-    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS-виджет</b><small>единственный файл-результат; что настроить руками — в FIELDS.md</small></div></div>
+    <div class="st3 r" data-stp="0"><span class="num">1</span><div><b>HTML-макет</b><small>кладём в папку проекта в Nessy или tclaude</small></div></div>
+    <div class="st3 r" data-stp="1"><span class="num">2</span><div><b>Ссылка на график Proteus</b><small>SQL скилл прочитает сам через MCP</small></div></div>
+    <div class="st3 r" data-stp="2"><span class="num">3</span><div><b>JS-виджет</b><small>копируем и вставляем в Proteus</small></div></div>
   </div>
   <blockquote class="q q-sm r" style="max-width:880px">«Через Claude генерим макеты, а потом скиллом в несси конвертим в echarts»<cite>proteus-creators · 31.07 · воркфлоу уже повторяют команды</cite></blockquote>
   <div class="link r">skills-market.t-tech.team/skills/cross/proteus-echarts-builder</div>
-  <aside class="notes">Говорит: Роман. 45 сек. Всю механику не рассказываем — она безумная. Суть: любой HTML-макет с помощью этого скилла превращается в интерактивный виджет в Proteus.
-Клики: частицы пересобираются HTML-макет → SQL → виджет. Дальше — демо в терминале и живой пример.</aside>
+  <aside class="notes">45 сек. Скилл перегоняет любой HTML-макет в JS-виджет чарта Proteus.
+Что нужно: создать проект в Nessy или tclaude — неважно где; дать ссылку на график Proteus (лучше, чем SQL-файл: скилл через MCP сам прочитает SQL графика); положить макет в ту же папку.
+Если полей в SQL не хватает — скилл спросит; в приоритете считать на JS. Делает долго, потому что много проверок. На выходе — JS, который нужно просто скопировать и вставить в Proteus.</aside></aside>
 </section>
 
 <section class="slide slide-term" id="ech-demo" data-act="3" data-level="4" data-short data-title="Демо: proteus-echarts-builder в терминале">
@@ -1491,17 +1484,16 @@ tclaude: вызывается так же, как Nessy, только пишем
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr">Бонус: <em>описать отчёт в Data Detective</em> быстро</h2>
   <div class="pk pk-sm">
-    <div class="pk-s r"><span class="num">1</span><b>Дашборд в Proteus</b><small>готовый отчёт</small></div>
+    <div class="pk-s r"><span class="num">1</span><b>Две ссылки</b><small>карточка в DD и дашборд в Proteus</small></div>
     <i class="pk-a r">→</i>
-    <div class="pk-s r"><span class="num">2</span><b>MCP Proteus</b><small>скилл читает состав, SQL и фильтры</small></div>
+    <div class="pk-s r"><span class="num">2</span><b>Скилл читает</b><small>метаданные дашборда через MCP Proteus и что уже есть в карточке</small></div>
     <i class="pk-a r">→</i>
-    <div class="pk-s pk-hot r"><span class="num">3</span><b><code>dd-report-skill</code></b><small>готовит описание отчёта</small></div>
+    <div class="pk-s pk-hot r"><span class="num">3</span><b><code>dd-report-skill</code></b><small>предлагает описание в Markdown</small></div>
     <i class="pk-a r">→</i>
-    <div class="pk-s r"><span class="num">4</span><b>Карточка в DD</b><small>описание, которое видят все</small></div>
+    <div class="pk-s r"><span class="num">4</span><b>Карточка в DD</b><small>пока — копипаст; автообновление в проработке</small></div>
   </div>
   <div class="dd-why r"><b>Почему DD:</b> мы все рекомендуем вести описание в Data Detective — оно интегрировано с инструментами дата-платформы и становится контекстом для агентов.</div>
-  <aside class="notes">Говорит: Роман. 30 сек. Бонус-фича для команд, которые уже ведут описание в Data Detective. А мы все рекомендуем его вести: DD интегрирован с разными инструментами дата-платформы — это контекст.
-Скилл помогает быстро описывать отчёты, анализируя дашборд в Proteus.</aside>
+  <aside class="notes">30 сек. Бонус: в BI-паке есть скилл, который полуавтоматически описывает карточки в Data Detective. Нужно дать ссылку на карточку в DD и ссылку на дашборд в Proteus. Скилл сам прочитает метаданные дашборда, посмотрит, что уже есть в карточке, и предложит Markdown — пока его нужно скопировать и вставить. С DD идёт активная проработка, чтобы копипаст был не нужен и скилл сам обновлял карточку.</aside></aside>
 </section>
 
 <!-- ═══════════════════════════ АКТ IV · ЧТО ДЕЛАТЬ ВАМ ═══════════════════════════ -->
@@ -1510,12 +1502,12 @@ tclaude: вызывается так же, как Nessy, только пишем
   <div class="kicker r" data-auto></div>
   <h2 class="h h-sm r scr glow-t">Горизонт: <em>экосистема сходится</em></h2>
   <div class="road">
-    <div class="rd r"><i></i><b>MCP для Helicopter</b><small>ноутбуки через MCP · план Q4</small></div>
-    <div class="rd r"><i></i><b>Proteus AI ↔ Skills Market</b><small>правила установки скиллов на дашборд</small></div>
-    <div class="rd r"><i></i><b>Личные ключи Anthropic в tclaude</b><small>BYOK не только на GLM</small></div>
+    <div class="rd r"><i></i><b>MCP и API Helicopter</b><small>создавать и править ноутбуки из агентских сред — закроется вся джоба разработки</small></div>
+    <div class="rd r"><i></i><b>Proteus AI ↔ Skills Market</b><small>свой скилл для конкретного борда</small></div>
+    <div class="rd r"><i></i><b>Личные ключи в tclaude</b><small>больше умных моделей, не только GLM</small></div>
   </div>
   <div class="road-note r">сроки не обещаем — всё «в проработке»</div>
-  <aside class="notes">45 сек. Что планируется: MCP для Helicopter, интеграция Proteus AI со Skills Market, личные ключи Anthropic в tclaude. Сроки не обещаем.</aside>
+  <aside class="notes">45 сек. Каких апдейтов ждём: MCP и API Helicopter — чтобы из агентских сред создавать и редактировать ноутбуки. Тогда закроется полноценная джоба разработки: из агентской среды дорабатываем и ноутбук, и Proteus. Proteus AI ↔ Skills Market. Личные ключи в tclaude — для разных умных моделей. Сроки не обещаем.</aside></aside>
 </section>
 
 <section class="slide" id="final" data-act="4" data-short data-title="Спасибо за внимание">
@@ -4635,6 +4627,54 @@ void main(){
   const toSet = list => new Set(String(list).split(',').filter(x => x !== '').map(Number));
   // 'flow:all' — все этапы; 'flow:2,5,6' — горят только перечисленные (с нуля)
   const flowLit = list => { if (list === 'all') return litVariant('flowBase', () => true); const on = toSet(list); return litVariant('flowBase', i => on.has(i)); };
+  // круговой флоу BI: 9 этапов по эллипсу по часовой стрелке, в центре — агентские среды со «спицами» ко всем этапам.
+  // карточки этапов привязаны к точкам CYC (data-cyc); tag = этап + 16 * вид (0 — орбита, 1 — стрелка, 2 — шар среды, 3 — спица)
+  const CYC_E = { cx: 0, cy: -.6, rx: 5.58, ry: 2.6 };
+  const cycAng = i => (-150 + 40 * i) * Math.PI / 180;
+  const cycPt = a => [CYC_E.cx + CYC_E.rx * Math.cos(a), CYC_E.cy - CYC_E.ry * Math.sin(a), 0];
+  const CYC = Array.from({ length: 9 }, (_, i) => cycPt(cycAng(i)));
+  const CYC_HUB = [-1.45, 0, 1.45].map(x => [x, CYC_E.cy + .55, 0]);
+  function cycleBase() {
+    const b = new B(), step = 40 * Math.PI / 180;
+    for (let n = 0; n < N * .34; n++) {
+      const t = rn() * 9, i = Math.floor(t), a = cycAng(0) + t * step, p = cycPt(a);
+      b.add(p[0] + gauss() * .022, p[1] + gauss() * .022, gauss() * .04, mix(FLOW_C[i], FLOW_C[(i + 1) % 9], t - i), i);
+    }
+    // стрелка-шеврон посередине между этапами — направление цикла
+    for (let i = 0; i < 9; i++) {
+      const am = cycAng(i) + step / 2, p = cycPt(am), q = cycPt(am + .01);
+      const tx = q[0] - p[0], ty = q[1] - p[1], l = Math.hypot(tx, ty), ux = tx / l, uy = ty / l;
+      for (let n = 0; n < N * .012; n++) {
+        const s = rn() * .32, sd = rn() < .5 ? -1 : 1;
+        b.add(p[0] - ux * s + sd * -uy * s * .8 + gauss() * .012, p[1] - uy * s + sd * ux * s * .8 + gauss() * .012, 0, mix(FLOW_C[i], C.white, .35), i + 16);
+      }
+    }
+    const HC = [C.l2, C.l1, C.l3];
+    CYC_HUB.forEach((h, j) => {
+      for (let n = 0; n < N * .07; n++) { const p = spherePt(.42 + gauss() * .015); b.add(h[0] + p[0], h[1] + p[1], p[2], jit(HC[j], .25), 32 + j); }
+      for (let n = 0; n < N * .025; n++) { const p = ballPt(.3); b.add(h[0] + p[0], h[1] + p[1], p[2], mix(HC[j], C.white, .5), 32 + j); }
+    });
+    CYC.forEach((c, i) => {
+      const o = [0, CYC_E.cy + .55];
+      for (let n = 0; n < N * .012; n++) {
+        const t = .12 + rn() * .62;
+        b.add(o[0] + (c[0] - o[0]) * t + gauss() * .012, o[1] + (c[1] - o[1]) * t + gauss() * .012, gauss() * .02, mix(C.l2, FLOW_C[i], t), i + 48);
+      }
+    });
+    return b.done({ dim: .16 });
+  }
+  // 'cycle:all' · 'cycle:1,2,4' — горят перечисленные этапы; суффикс '+hub' зажигает среды и спицы
+  function cycleLit(arg = 'all') {
+    const hub = arg.includes('+hub'), list = arg.replace('+hub', ''), on = list === 'all' ? null : toSet(list);
+    const isOn = i => !on || on.has(i);
+    return variant(SH.get('cycleBase'), (t, c) => {
+      const i = t % 16, kind = t >> 4;
+      if (kind === 0) return isOn(i) || isOn((i + 1) % 9) ? mul(c, .95) : mul(mix(C.dim, c, .15), .55);
+      if (kind === 1) return isOn(i) && isOn((i + 1) % 9) ? mul(c, 1.25) : mul(C.dim, .6);
+      if (kind === 2) return hub ? mul(c, 1.35) : mul(c, .3);
+      return hub ? mul(c, .75) : [0, 0, 0];
+    });
+  }
   const pipeline = lit => pipeLit(i => i < lit);
   // горят только перечисленные кольца: 'pset:0,3,4'
   const pipeSet = list => { const on = toSet(list); return pipeLit(i => on.has(i)); };
@@ -4736,7 +4776,7 @@ void main(){
     num: () => text('11 563', { w: 10.2, colors: [C.l4, C.l3, C.l2] }),
     qwen: () => text('Qwen', { w: 6.2, colors: [C.coral, C.no, mul(C.coral, .6)], chaos: .45, depth: .6, frac: .8 }),
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
-    ladderBase, pipeBase, flowBase, flow: flowLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
+    ladderBase, pipeBase, flowBase, flow: flowLit, cycleBase, cycle: cycleLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
     pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
@@ -4747,7 +4787,7 @@ void main(){
       const [name, arg] = key.split(':');
       return (cache[key] = GEN[name](arg));
     },
-    orbitNode, PIPE_X, FLOW_X
+    orbitNode, PIPE_X, FLOW_X, CYC, CYC_HUB
   };
 })();
 
@@ -5182,16 +5222,15 @@ const SCENES = {
   title: { shape: 'title', place: { y: .25, sway: .1 }, morph: { dur: 3.4, sweep: 'r', turb: 1.3 } },
   who: { shape: 'bridge', place: { y: .4 } },
   useful: { shape: 'helix', place: { y: -.35 }, morph: { dur: 2.8 } },
-  flow: { shape: ['flow:all', 'flow:2,5,6', 'flow:all'], place: FLOW_PLACE, morph: [{ dur: 3, sweep: 'x', sweepAmt: .95 }, COLOR_ONLY] },
+  agenda: { shape: 'duo', place: { y: 1.25, s: .7 } },
+  flow: { shape: ['cycle:all', 'cycle:all', 'cycle:all+hub'], morph: [{ dur: 3, sweep: 'r', sweepAmt: .9 }, COLOR_ONLY] },
   heli: { shape: 'ide', place: { x: 3.9, y: -.45, s: .74, ry: -.22, sway: .04 } },
   ctx: DIM('wave', .5, { y: -3.1, rx: .42 }),
   proteus: { shape: 'split', place: { y: -.1, s: .72, sway: .12 }, bright: .5 },
   envs: { shape: 'trio', place: { y: 1.35 } },
-  nessy: { shape: ['qwen', 'deepseek'], place: { y: 1.45, sway: .08 }, morph: [{}, { dur: 3.2, turb: 1.8, sweep: 'x' }] },
-  tclaude: { shape: 'orbit', place: { x: -3.75, y: -.5, s: .86 } },
   n8n: DIM('network', .22, { y: -.2, s: 1.3, spin: .05 }),
   pack: { shape: 'voxels', place: { x: 5.4, y: -2.2, s: .55, rx: .4, ry: -.7, sway: .08 }, bright: .8 },
-  skillflow: { shape: 'flow:1,2,4', place: FLOW_PLACE, morph: { dur: 3, sweep: 'x' } },
+  skillflow: { shape: 'cycle:1,2,4', morph: { dur: 3, sweep: 'r' } },
   'rq-problem': DIM('knot', .2, { x: 5.6, y: 2.3, s: .42, spin: .08 }),
   'rq-jobs': DIM('wave', .28, { y: -3.4, rx: .42 }),
   'rq-not': DIM('ring', .2, { y: -.2, s: 1.3, rx: .95, spin: .1 }),
@@ -5279,6 +5318,8 @@ const SCENES = {
         $$('[data-anchor]', s.el).forEach(el => set(el, el.dataset.anchor.split(',').map(Number)));
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
         $$('[data-flow]', s.el).forEach(el => { set(el, [SH.FLOW_X[+el.dataset.flow], -.62, 0]); el.style.animationDelay = (.3 + +el.dataset.flow * .1) + 's'; });
+        $$('[data-cyc]', s.el).forEach(el => { set(el, SH.CYC[+el.dataset.cyc]); el.style.animationDelay = (.3 + +el.dataset.cyc * .1) + 's'; });
+        $$('[data-hub]', s.el).forEach(el => set(el, SH.CYC_HUB[+el.dataset.hub]));
         $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }
     });

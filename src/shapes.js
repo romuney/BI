@@ -396,6 +396,54 @@
   const toSet = list => new Set(String(list).split(',').filter(x => x !== '').map(Number));
   // 'flow:all' — все этапы; 'flow:2,5,6' — горят только перечисленные (с нуля)
   const flowLit = list => { if (list === 'all') return litVariant('flowBase', () => true); const on = toSet(list); return litVariant('flowBase', i => on.has(i)); };
+  // круговой флоу BI: 9 этапов по эллипсу по часовой стрелке, в центре — агентские среды со «спицами» ко всем этапам.
+  // карточки этапов привязаны к точкам CYC (data-cyc); tag = этап + 16 * вид (0 — орбита, 1 — стрелка, 2 — шар среды, 3 — спица)
+  const CYC_E = { cx: 0, cy: -.6, rx: 5.58, ry: 2.6 };
+  const cycAng = i => (-150 + 40 * i) * Math.PI / 180;
+  const cycPt = a => [CYC_E.cx + CYC_E.rx * Math.cos(a), CYC_E.cy - CYC_E.ry * Math.sin(a), 0];
+  const CYC = Array.from({ length: 9 }, (_, i) => cycPt(cycAng(i)));
+  const CYC_HUB = [-1.45, 0, 1.45].map(x => [x, CYC_E.cy + .55, 0]);
+  function cycleBase() {
+    const b = new B(), step = 40 * Math.PI / 180;
+    for (let n = 0; n < N * .34; n++) {
+      const t = rn() * 9, i = Math.floor(t), a = cycAng(0) + t * step, p = cycPt(a);
+      b.add(p[0] + gauss() * .022, p[1] + gauss() * .022, gauss() * .04, mix(FLOW_C[i], FLOW_C[(i + 1) % 9], t - i), i);
+    }
+    // стрелка-шеврон посередине между этапами — направление цикла
+    for (let i = 0; i < 9; i++) {
+      const am = cycAng(i) + step / 2, p = cycPt(am), q = cycPt(am + .01);
+      const tx = q[0] - p[0], ty = q[1] - p[1], l = Math.hypot(tx, ty), ux = tx / l, uy = ty / l;
+      for (let n = 0; n < N * .012; n++) {
+        const s = rn() * .32, sd = rn() < .5 ? -1 : 1;
+        b.add(p[0] - ux * s + sd * -uy * s * .8 + gauss() * .012, p[1] - uy * s + sd * ux * s * .8 + gauss() * .012, 0, mix(FLOW_C[i], C.white, .35), i + 16);
+      }
+    }
+    const HC = [C.l2, C.l1, C.l3];
+    CYC_HUB.forEach((h, j) => {
+      for (let n = 0; n < N * .07; n++) { const p = spherePt(.42 + gauss() * .015); b.add(h[0] + p[0], h[1] + p[1], p[2], jit(HC[j], .25), 32 + j); }
+      for (let n = 0; n < N * .025; n++) { const p = ballPt(.3); b.add(h[0] + p[0], h[1] + p[1], p[2], mix(HC[j], C.white, .5), 32 + j); }
+    });
+    CYC.forEach((c, i) => {
+      const o = [0, CYC_E.cy + .55];
+      for (let n = 0; n < N * .012; n++) {
+        const t = .12 + rn() * .62;
+        b.add(o[0] + (c[0] - o[0]) * t + gauss() * .012, o[1] + (c[1] - o[1]) * t + gauss() * .012, gauss() * .02, mix(C.l2, FLOW_C[i], t), i + 48);
+      }
+    });
+    return b.done({ dim: .16 });
+  }
+  // 'cycle:all' · 'cycle:1,2,4' — горят перечисленные этапы; суффикс '+hub' зажигает среды и спицы
+  function cycleLit(arg = 'all') {
+    const hub = arg.includes('+hub'), list = arg.replace('+hub', ''), on = list === 'all' ? null : toSet(list);
+    const isOn = i => !on || on.has(i);
+    return variant(SH.get('cycleBase'), (t, c) => {
+      const i = t % 16, kind = t >> 4;
+      if (kind === 0) return isOn(i) || isOn((i + 1) % 9) ? mul(c, .95) : mul(mix(C.dim, c, .15), .55);
+      if (kind === 1) return isOn(i) && isOn((i + 1) % 9) ? mul(c, 1.25) : mul(C.dim, .6);
+      if (kind === 2) return hub ? mul(c, 1.35) : mul(c, .3);
+      return hub ? mul(c, .75) : [0, 0, 0];
+    });
+  }
   const pipeline = lit => pipeLit(i => i < lit);
   // горят только перечисленные кольца: 'pset:0,3,4'
   const pipeSet = list => { const on = toSet(list); return pipeLit(i => on.has(i)); };
@@ -497,7 +545,7 @@
     num: () => text('11 563', { w: 10.2, colors: [C.l4, C.l3, C.l2] }),
     qwen: () => text('Qwen', { w: 6.2, colors: [C.coral, C.no, mul(C.coral, .6)], chaos: .45, depth: .6, frac: .8 }),
     deepseek: () => text('DeepSeek', { w: 9.8, colors: [C.l1, C.blue, C.l2] }),
-    ladderBase, pipeBase, flowBase, flow: flowLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
+    ladderBase, pipeBase, flowBase, flow: flowLit, cycleBase, cycle: cycleLit, ladder: a => ladder(+a), bridge, helix, ide, wave, galaxy, split, orbit, tube, trio, network, voxels, core,
     bars: () => bars(), widget: () => bars([C.l3, C.l4, C.l1], 29),
     pipe: a => pipeline(+a), pset: pipeSet, duo, html: htmlFrame, db, horizon, ring, knot
   };
@@ -508,6 +556,6 @@
       const [name, arg] = key.split(':');
       return (cache[key] = GEN[name](arg));
     },
-    orbitNode, PIPE_X, FLOW_X
+    orbitNode, PIPE_X, FLOW_X, CYC, CYC_HUB
   };
 })();
