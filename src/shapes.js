@@ -396,35 +396,45 @@
   const toSet = list => new Set(String(list).split(',').filter(x => x !== '').map(Number));
   // 'flow:all' — все этапы; 'flow:2,5,6' — горят только перечисленные (с нуля)
   const flowLit = list => { if (list === 'all') return litVariant('flowBase', () => true); const on = toSet(list); return litVariant('flowBase', i => on.has(i)); };
-  // круговой флоу BI: 9 этапов по эллипсу по часовой стрелке, в центре — агентские среды со «спицами» ко всем этапам.
-  // карточки этапов привязаны к точкам CYC (data-cyc); tag = этап + 16 * вид (0 — орбита, 1 — стрелка, 2 — шар среды, 3 — спица)
-  const CYC_E = { cx: 0, cy: -.6, rx: 5.58, ry: 2.6 };
-  const cycAng = i => (-150 + 40 * i) * Math.PI / 180;
+  // круговой флоу BI: 9 этапов по эллипсу по часовой стрелке. Цикл разомкнут: слева разрыв между «Сбором ОС» (финиш)
+  // и «Возникновением потребности» (старт), через него — пунктирная петля «новый цикл». В центре — агентские среды со спицами.
+  // карточки этапов привязаны к точкам CYC (data-cyc); tag = этап + 16 * вид (0 — орбита, 1 — стрелка, 2 — шар среды, 3 — спица, 4 — петля)
+  const CYC_E = { cx: 0, cy: -.55, rx: 5.75, ry: 2.55 }, CYC_STEP = 35, CYC_A0 = -140;
+  const cycAng = i => (CYC_A0 + CYC_STEP * i) * Math.PI / 180;
   const cycPt = a => [CYC_E.cx + CYC_E.rx * Math.cos(a), CYC_E.cy - CYC_E.ry * Math.sin(a), 0];
   const CYC = Array.from({ length: 9 }, (_, i) => cycPt(cycAng(i)));
-  const CYC_HUB = [-1.45, 0, 1.45].map(x => [x, CYC_E.cy + .55, 0]);
+  const CYC_HUB = [-1.45, 0, 1.45].map(x => [x, CYC_E.cy + .5, 0]);
+  const CYC_GAP = cycPt(Math.PI);                 // середина разрыва — подпись «новый цикл»
+  function chevron(b, a, col, tag, size = .32) {
+    const p = cycPt(a), q = cycPt(a + .01), tx = q[0] - p[0], ty = q[1] - p[1], l = Math.hypot(tx, ty), ux = tx / l, uy = ty / l;
+    for (let n = 0; n < N * .012; n++) {
+      const s = rn() * size, sd = rn() < .5 ? -1 : 1;
+      b.add(p[0] - ux * s + sd * -uy * s * .8 + gauss() * .012, p[1] - uy * s + sd * ux * s * .8 + gauss() * .012, 0, col, tag);
+    }
+  }
   function cycleBase() {
-    const b = new B(), step = 40 * Math.PI / 180;
-    for (let n = 0; n < N * .34; n++) {
-      const t = rn() * 9, i = Math.floor(t), a = cycAng(0) + t * step, p = cycPt(a);
-      b.add(p[0] + gauss() * .022, p[1] + gauss() * .022, gauss() * .04, mix(FLOW_C[i], FLOW_C[(i + 1) % 9], t - i), i);
+    const b = new B(), step = CYC_STEP * Math.PI / 180;
+    // основной путь: от старта (этап 0) до финиша (этап 8)
+    for (let n = 0; n < N * .32; n++) {
+      const t = rn() * 8, i = Math.floor(t), a = cycAng(0) + t * step, p = cycPt(a);
+      b.add(p[0] + gauss() * .022, p[1] + gauss() * .022, gauss() * .04, mix(FLOW_C[i], FLOW_C[i + 1], t - i), i);
     }
-    // стрелка-шеврон посередине между этапами — направление цикла
-    for (let i = 0; i < 9; i++) {
-      const am = cycAng(i) + step / 2, p = cycPt(am), q = cycPt(am + .01);
-      const tx = q[0] - p[0], ty = q[1] - p[1], l = Math.hypot(tx, ty), ux = tx / l, uy = ty / l;
-      for (let n = 0; n < N * .012; n++) {
-        const s = rn() * .32, sd = rn() < .5 ? -1 : 1;
-        b.add(p[0] - ux * s + sd * -uy * s * .8 + gauss() * .012, p[1] - uy * s + sd * ux * s * .8 + gauss() * .012, 0, mix(FLOW_C[i], C.white, .35), i + 16);
-      }
+    for (let i = 0; i < 8; i++) chevron(b, cycAng(i) + step / 2, mix(FLOW_C[i], C.white, .35), i + 16);
+    // петля «новый цикл» через разрыв: редкий пунктир и стрелка в старт
+    const a8 = cycAng(8), a0 = cycAng(0) + Math.PI * 2;
+    for (let n = 0; n < N * .05; n++) {
+      const t = rn(); if ((t * 7) % 1 > .55) continue;
+      const p = cycPt(a8 + (a0 - a8) * (.12 + t * .76));
+      b.add(p[0] + gauss() * .015, p[1] + gauss() * .015, gauss() * .02, mix(FLOW_C[8], FLOW_C[0], t), 64);
     }
+    chevron(b, a8 + (a0 - a8) * .86, mix(FLOW_C[0], C.white, .3), 64, .26);
     const HC = [C.l2, C.l1, C.l3];
     CYC_HUB.forEach((h, j) => {
       for (let n = 0; n < N * .07; n++) { const p = spherePt(.42 + gauss() * .015); b.add(h[0] + p[0], h[1] + p[1], p[2], jit(HC[j], .25), 32 + j); }
       for (let n = 0; n < N * .025; n++) { const p = ballPt(.3); b.add(h[0] + p[0], h[1] + p[1], p[2], mix(HC[j], C.white, .5), 32 + j); }
     });
     CYC.forEach((c, i) => {
-      const o = [0, CYC_E.cy + .55];
+      const o = [0, CYC_E.cy + .5];
       for (let n = 0; n < N * .012; n++) {
         const t = .12 + rn() * .62;
         b.add(o[0] + (c[0] - o[0]) * t + gauss() * .012, o[1] + (c[1] - o[1]) * t + gauss() * .012, gauss() * .02, mix(C.l2, FLOW_C[i], t), i + 48);
@@ -438,9 +448,10 @@
     const isOn = i => !on || on.has(i);
     return variant(SH.get('cycleBase'), (t, c) => {
       const i = t % 16, kind = t >> 4;
-      if (kind === 0) return isOn(i) || isOn((i + 1) % 9) ? mul(c, .95) : mul(mix(C.dim, c, .15), .55);
-      if (kind === 1) return isOn(i) && isOn((i + 1) % 9) ? mul(c, 1.25) : mul(C.dim, .6);
+      if (kind === 0) return isOn(i) || isOn(i + 1) ? mul(c, .95) : mul(mix(C.dim, c, .15), .55);
+      if (kind === 1) return isOn(i) && isOn(i + 1) ? mul(c, 1.25) : mul(C.dim, .6);
       if (kind === 2) return hub ? mul(c, 1.35) : mul(c, .3);
+      if (kind === 4) return mul(c, .6);
       return hub ? mul(c, .75) : [0, 0, 0];
     });
   }
@@ -556,6 +567,6 @@
       const [name, arg] = key.split(':');
       return (cache[key] = GEN[name](arg));
     },
-    orbitNode, PIPE_X, FLOW_X, CYC, CYC_HUB
+    orbitNode, PIPE_X, FLOW_X, CYC, CYC_HUB, CYC_GAP
   };
 })();

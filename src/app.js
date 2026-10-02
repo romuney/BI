@@ -127,6 +127,7 @@ const SCENES = {
         $$('[data-orb]', s.el).forEach(el => set(el, SH.orbitNode(+el.dataset.orb)));
         $$('[data-flow]', s.el).forEach(el => { set(el, [SH.FLOW_X[+el.dataset.flow], -.62, 0]); el.style.animationDelay = (.3 + +el.dataset.flow * .1) + 's'; });
         $$('[data-cyc]', s.el).forEach(el => { set(el, SH.CYC[+el.dataset.cyc]); el.style.animationDelay = (.3 + +el.dataset.cyc * .1) + 's'; });
+        $$('[data-gap]', s.el).forEach(el => set(el, SH.CYC_GAP));
         $$('[data-hub]', s.el).forEach(el => set(el, SH.CYC_HUB[+el.dataset.hub]));
         $$('[data-pipe]', s.el).forEach(el => { set(el, [SH.PIPE_X[+el.dataset.pipe], -.75, 0]); el.style.animationDelay = (.3 + +el.dataset.pipe * .15) + 's'; });
       }

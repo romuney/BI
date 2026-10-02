@@ -85,7 +85,7 @@ Skills Market — централизованное место хранить и 
 <section class="slide" id="flow" data-act="1" data-kicker="Флоу BI" data-short data-builds="2" data-title="Флоу BI × инструменты (главный слайд)">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-xs r scr">Флоу BI: <em>где инструменты и где в них AI</em></h2>
-  <div class="cyc anchor r" data-cyc="0" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-tool">Time · Jira · T-Tracker</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · Jira · T-Tracker</div></div>
+  <div class="cyc cy-start anchor r" data-cyc="0" style="--c:#f472b6"><span class="cy-badge">▶ старт</span><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-tool">Time · Jira · T-Tracker</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · Jira · T-Tracker</div></div>
   <div class="cyc anchor r" data-cyc="1" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">02</span><b>Бизнес-анализ</b></div><small class="cy-ta">+ целевая аудитория</small><div class="cy-tool">встречи · бриф · Wiki</div><div class="cy-ai" data-step="1"><i>AI</i>наш скилл · MCP Wiki и DD · AI-макеты</div></div>
   <div class="cyc anchor r" data-cyc="2" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">03</span><b>Разработка</b></div><div class="cy-tool">Helicopter · Proteus</div><div class="cy-ai" data-step="1"><i>AI</i>Nessy Data Agent · MCP Proteus</div></div>
   <div class="cyc anchor r" data-cyc="3" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">04</span><b>Тестирование</b></div><div class="cy-tool">Helicopter · Proteus</div><div class="cy-ai cy-none" data-step="1"><i>AI</i>пока руками</div></div>
@@ -93,14 +93,14 @@ Skills Market — централизованное место хранить и 
   <div class="cyc anchor r" data-cyc="5" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">06</span><b>Информирование</b></div><div class="cy-tool">Time · рассылки</div><div class="cy-ai" data-step="1"><i>AI</i>n8n с агентом · MCP Time</div></div>
   <div class="cyc anchor r" data-cyc="6" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">07</span><b>Демо</b></div><div class="cy-tool">Proteus</div><div class="cy-ai" data-step="1"><i>AI</i>Proteus AI: ответы по борду</div></div>
   <div class="cyc anchor r" data-cyc="7" style="--c:#3b82f6"><div class="cy-h"><span class="cy-n">08</span><b>Анализ используемости</b></div><div class="cy-tool">Proteus Adoption</div><div class="cy-ai cy-none" data-step="1"><i>AI</i>пока руками</div></div>
-  <div class="cyc anchor r" data-cyc="8" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-tool">встречи · Time</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · бот транскрибации</div></div>
-  <div class="anchor cyc-loop r" data-anchor="-5.5,-.15,0">↻ новый цикл</div>
+  <div class="cyc cy-end anchor r" data-cyc="8" style="--c:#f472b6"><span class="cy-badge">■ финиш</span><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-tool">встречи · Time</div><div class="cy-ai" data-step="1"><i>AI</i>MCP Time · бот транскрибации</div></div>
+  <div class="anchor cyc-loop r" data-gap>↻ новый цикл<small>после сбора ОС</small></div>
   <div class="anchor hub-k" data-step="2" data-anchor="0,.72,0">На любом этапе — агентские среды</div>
   <div class="anchor hub-n" data-step="2" data-anchor="-1.45,-.62,0" style="--c:var(--l2)">Nessy</div>
   <div class="anchor hub-n" data-step="2" data-anchor="0,-.62,0" style="--c:var(--l1)">Hermes</div>
   <div class="anchor hub-n" data-step="2" data-anchor="1.45,-.62,0" style="--c:var(--l3)">tclaude</div>
   <div class="anchor hub-t" data-step="2" data-anchor="0,-1.2,0">соединяют этапы через MCP — <b>всё упирается в доступность MCP и инструментов</b></div>
-  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Флоу BI по кругу — жизнь отчёта: потребность → бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование → демо → анализ используемости → сбор ОС → и новый цикл.
+  <aside class="notes">1,5 мин. ГЛАВНЫЙ СЛАЙД. Флоу BI — жизнь отчёта. Старт — возникновение потребности (слева сверху), дальше по часовой: бизнес-анализ (и целевая аудитория) → разработка → тестирование → подготовка к релизу → информирование → демо → анализ используемости → финиш — сбор ОС. Через разрыв слева — петля «новый цикл».
 Шаг (1) — где AI уже есть: либо агент внутри инструмента, либо MCP-ручка до инструмента. Пока руками — тестирование и анализ используемости.
 Шаг (2) — в центре агентские среды Nessy, Hermes, tclaude: соединяют всё в один флоу на любом этапе; всё упирается в доступность MCP и инструментов.</aside>
 </section>
@@ -329,7 +329,7 @@ tclaude — то же, что Nessy в терминале, если есть м�
 <section class="slide" id="skillflow" data-act="3" data-level="4" data-short data-builds="1" data-title="Флоу BI × наши скиллы">
   <div class="kicker r" data-auto></div>
   <h2 class="h h-xs r scr">Какие этапы флоу <em>уже закрывают наши скиллы</em></h2>
-  <div class="cyc anchor r" data-cyc="0" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="cyc cy-start anchor r" data-cyc="0" style="--c:#f472b6"><span class="cy-badge">▶ старт</span><div class="cy-h"><span class="cy-n">01</span><b>Возникновение потребности</b></div><div class="cy-free">пока без скилла</div></div>
   <div class="cyc cy-on anchor r" data-cyc="1" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">02</span><b>Бизнес-анализ</b></div><small class="cy-ta">+ целевая аудитория</small><div class="cy-skill"><code>bi-requirements-gather</code><em>сегодня · Степан</em></div></div>
   <div class="cyc cy-on anchor r" data-cyc="2" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">03</span><b>Разработка</b></div><div class="cy-skill"><code>proteus-echarts-builder</code><em>сегодня · Роман</em></div></div>
   <div class="cyc anchor r" data-cyc="3" style="--c:#38bdf8"><div class="cy-h"><span class="cy-n">04</span><b>Тестирование</b></div><div class="cy-free">пока без скилла</div></div>
@@ -337,8 +337,8 @@ tclaude — то же, что Nessy в терминале, если есть м�
   <div class="cyc anchor r" data-cyc="5" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">06</span><b>Информирование</b></div><div class="cy-free">пока без скилла</div></div>
   <div class="cyc anchor r" data-cyc="6" style="--c:#4ade80"><div class="cy-h"><span class="cy-n">07</span><b>Демо</b></div><div class="cy-free">пока без скилла</div></div>
   <div class="cyc anchor r" data-cyc="7" style="--c:#3b82f6"><div class="cy-h"><span class="cy-n">08</span><b>Анализ используемости</b></div><div class="cy-free">пока без скилла</div></div>
-  <div class="cyc anchor r" data-cyc="8" style="--c:#f472b6"><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-free">пока без скилла</div></div>
-  <div class="anchor cyc-loop r" data-anchor="-5.5,-.15,0">↻ новый цикл</div>
+  <div class="cyc cy-end anchor r" data-cyc="8" style="--c:#f472b6"><span class="cy-badge">■ финиш</span><div class="cy-h"><span class="cy-n">09</span><b>Сбор ОС</b></div><div class="cy-free">пока без скилла</div></div>
+  <div class="anchor cyc-loop r" data-gap>↻ новый цикл<small>после сбора ОС</small></div>
   <div class="anchor hub-k r" data-anchor="0,.45,0">BI-пак сегодня</div>
   <div class="anchor hub-big r" data-anchor="0,.05,0">3 скилла · 1 скилл = 1 джоба</div>
   <div class="anchor hub-t hub-hand" data-step="1" data-anchor="0,-1.05,0">Начнём с бизнес-анализа — <b>передаю слово Степану</b> →</div>
